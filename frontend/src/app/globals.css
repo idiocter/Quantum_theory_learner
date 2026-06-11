@@ -4,76 +4,95 @@
 
 @plugin '@tailwindcss/typography';
 
-/* ── Tailwind v4 theme (CSS-first config) ─────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════════
+   THEME — "Galaxies & Quartz"
+   Deep-space cosmos backgrounds + crystalline quartz-mineral palette:
+   amethyst (primary), rose-quartz/nebula magenta, stardust cyan, citrine gold.
+   ════════════════════════════════════════════════════════════════════════════ */
 @theme {
-  /* Quantum dark palette */
-  --color-void-950: #020408;
-  --color-void-900: #040810;
-  --color-void-800: #080f1c;
-  --color-void-700: #0d1826;
+  /* Cosmos — deep space, violet-black (token: void) */
+  --color-void-950: #060414;
+  --color-void-900: #0b0820;
+  --color-void-800: #15102f;
+  --color-void-700: #211a45;
 
-  --color-quantum-50: #e8f4ff;
-  --color-quantum-100: #c3e0ff;
-  --color-quantum-200: #85c2ff;
-  --color-quantum-300: #47a3ff;
-  --color-quantum-400: #1a85ff;
-  --color-quantum-500: #0066ff;
-  --color-quantum-600: #0052cc;
-  --color-quantum-700: #003d99;
-  --color-quantum-800: #002966;
-  --color-quantum-900: #001433;
+  /* Amethyst — primary galactic violet (token: quantum) */
+  --color-quantum-50:  #f6efff;
+  --color-quantum-100: #ebdcff;
+  --color-quantum-200: #d9beff;
+  --color-quantum-300: #c098ff;
+  --color-quantum-400: #a259ff;
+  --color-quantum-500: #8b2fe6;
+  --color-quantum-600: #7522c9;
+  --color-quantum-700: #5b1aa0;
+  --color-quantum-800: #421475;
+  --color-quantum-900: #2b0d4d;
 
-  --color-plasma-400: #a78bfa;
-  --color-plasma-500: #8b5cf6;
-  --color-plasma-600: #7c3aed;
+  /* Rose quartz / nebula magenta (token: plasma) */
+  --color-plasma-400: #ff8fd4;
+  --color-plasma-500: #ff5ec4;
+  --color-plasma-600: #d83fa3;
 
-  --color-wave-400: #34d399;
-  --color-wave-500: #10b981;
-  --color-wave-600: #059669;
+  /* Stardust cyan (token: wave) */
+  --color-wave-400: #6ee7e0;
+  --color-wave-500: #38c6e8;
+  --color-wave-600: #2599c0;
 
-  --color-photon-400: #fbbf24;
-  --color-photon-500: #f59e0b;
+  /* Citrine starlight gold (token: photon) */
+  --color-photon-400: #ffe066;
+  --color-photon-500: #ffc83d;
 
-  --color-particle-400: #f472b6;
-  --color-particle-500: #ec4899;
+  /* Cosmic rose (token: particle) */
+  --color-particle-400: #ff7aa8;
+  --color-particle-500: #f7416c;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
-  /* Quantum glow shadows */
-  --shadow-quantum-glow: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.1);
-  --shadow-plasma-glow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
-  --shadow-wave-glow: 0 0 20px rgba(16, 185, 129, 0.4);
+  /* Nebula glow shadows — soft, large, multi-color */
+  --shadow-quantum-glow: 0 0 24px rgba(162, 89, 255, 0.35), 0 0 60px rgba(162, 89, 255, 0.12);
+  --shadow-plasma-glow: 0 0 24px rgba(255, 94, 196, 0.35), 0 0 60px rgba(255, 94, 196, 0.12);
+  --shadow-wave-glow: 0 0 24px rgba(56, 198, 232, 0.35), 0 0 56px rgba(56, 198, 232, 0.1);
 
   /* Animations */
-  --animate-quantum-pulse: quantumPulse 2s ease-in-out infinite;
+  --animate-quantum-pulse: quartzPulse 2.4s ease-in-out infinite;
 
-  @keyframes quantumPulse {
+  @keyframes quartzPulse {
     0%, 100% {
-      box-shadow: 0 0 8px rgba(0, 102, 255, 0.4);
+      box-shadow: 0 0 10px rgba(162, 89, 255, 0.4);
     }
     50% {
-      box-shadow: 0 0 24px rgba(0, 102, 255, 0.8), 0 0 48px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 0 28px rgba(162, 89, 255, 0.85), 0 0 60px rgba(255, 94, 196, 0.35);
     }
   }
 }
 
-/* ── CSS Custom Properties (golden ratio palette) ─────────────────────────── */
+/* ── Shared custom properties ─────────────────────────────────────────────── */
 :root {
   --phi: 1.618;
   --phi-inv: 0.618;
 
-  --color-void-950-raw: #020408;
-  --glow-quantum: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.1);
-  --glow-plasma: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
-  --glow-wave: 0 0 20px rgba(16, 185, 129, 0.4);
+  --glow-quantum: 0 0 24px rgba(162, 89, 255, 0.35), 0 0 60px rgba(162, 89, 255, 0.12);
+  --glow-plasma: 0 0 24px rgba(255, 94, 196, 0.35), 0 0 60px rgba(255, 94, 196, 0.12);
+  --glow-wave: 0 0 24px rgba(56, 198, 232, 0.35), 0 0 56px rgba(56, 198, 232, 0.1);
 
-  --border-quantum: 1px solid rgba(0, 102, 255, 0.2);
-  --border-plasma: 1px solid rgba(139, 92, 246, 0.2);
+  /* Prismatic quartz edge — refraction spectrum */
+  --prism: linear-gradient(
+    90deg,
+    transparent,
+    rgba(162, 89, 255, 0.55),
+    rgba(255, 94, 196, 0.55),
+    rgba(255, 200, 61, 0.4),
+    rgba(56, 198, 232, 0.55),
+    transparent
+  );
+
+  --border-quantum: 1px solid rgba(162, 89, 255, 0.2);
+  --border-plasma: 1px solid rgba(255, 94, 196, 0.2);
 }
 
-/* ── Base Reset ───────────────────────────────────────────────────────────── */
+/* ── Base reset ───────────────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
 }
@@ -84,68 +103,122 @@ html {
 }
 
 body {
-  background-color: #020408;
-  color: #e2e8f0;
+  background-color: #060414;
+  color: #e7e2f5;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ── Quantum Background Mesh ─────────────────────────────────────────────── */
+/* ── Cosmic nebula backdrop (applied to <body>) ───────────────────────────── */
 .quantum-mesh {
-  background-color: #020408;
+  background-color: #060414;
   background-image:
-    linear-gradient(rgba(0, 102, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 102, 255, 0.04) 1px, transparent 1px);
-  background-size: 61.8px 61.8px;
+    radial-gradient(ellipse 80% 55% at 12% -5%, rgba(139, 47, 230, 0.20), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 88% 12%, rgba(255, 94, 196, 0.13), transparent 55%),
+    radial-gradient(ellipse 95% 70% at 50% 108%, rgba(56, 198, 232, 0.10), transparent 60%),
+    radial-gradient(circle at 50% 40%, #0c0922 0%, #060414 70%);
+  background-attachment: fixed;
 }
 
-/* ── Fibonacci Spiral Decorators ─────────────────────────────────────────── */
+/* ── Cosmic vignette overlay (depth) — replaces the old CRT scanline ──────── */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(ellipse at 50% 45%, transparent 52%, rgba(4, 2, 14, 0.6) 100%);
+}
+
+/* ── Crystal decorators ──────────────────────────────────────────────────── */
 .fibonacci-ring {
   border-radius: 50%;
-  border: 1px solid rgba(0, 102, 255, 0.12);
+  border: 1px solid rgba(162, 89, 255, 0.12);
   position: absolute;
   pointer-events: none;
 }
 
-/* ── Quantum Cards ───────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════════
+   QUARTZ CRYSTAL CARDS — frosted translucent facets with prismatic edges
+   ════════════════════════════════════════════════════════════════════════════ */
 .card-quantum {
-  background: linear-gradient(135deg, rgba(8, 15, 28, 0.9) 0%, rgba(4, 8, 16, 0.95) 100%);
-  border: var(--border-quantum);
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  background: linear-gradient(152deg, rgba(33, 26, 69, 0.55) 0%, rgba(11, 8, 32, 0.66) 100%);
+  border: 1px solid rgba(162, 89, 255, 0.18);
+  border-radius: 10px;
+  backdrop-filter: blur(14px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 34px -14px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+
+.card-quantum::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: var(--prism);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .card-quantum:hover {
-  box-shadow: var(--glow-quantum);
-  border-color: rgba(0, 102, 255, 0.4);
+  border-color: rgba(162, 89, 255, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--glow-quantum);
+  transform: translateY(-2px);
 }
 
 .card-plasma {
-  background: linear-gradient(135deg, rgba(8, 15, 28, 0.9) 0%, rgba(4, 8, 16, 0.95) 100%);
-  border: var(--border-plasma);
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  background: linear-gradient(152deg, rgba(58, 22, 64, 0.5) 0%, rgba(11, 8, 32, 0.66) 100%);
+  border: 1px solid rgba(255, 94, 196, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(14px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 34px -14px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+
+.card-plasma::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: var(--prism);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .card-plasma:hover {
-  box-shadow: var(--glow-plasma);
-  border-color: rgba(139, 92, 246, 0.4);
+  border-color: rgba(255, 94, 196, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--glow-plasma);
+  transform: translateY(-2px);
 }
 
-/* ── Quantum Buttons ─────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════════
+   CRYSTALLINE BUTTONS — faceted gradient with inner light refraction
+   ════════════════════════════════════════════════════════════════════════════ */
 .btn-quantum {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500/50;
-  background: linear-gradient(135deg, #0052cc 0%, #0066ff 61.8%, #1a7aff 100%);
+  @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500/50;
+  background: linear-gradient(135deg, #5b1aa0 0%, #8b2fe6 55%, #a259ff 100%);
   color: #ffffff;
-  border: 1px solid rgba(0, 102, 255, 0.5);
-  box-shadow: 0 0 12px rgba(0, 102, 255, 0.3);
+  border: 1px solid rgba(162, 89, 255, 0.55);
+  box-shadow: 0 0 14px rgba(162, 89, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.btn-quantum::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, transparent 60%);
+  pointer-events: none;
 }
 
 .btn-quantum:hover {
-  box-shadow: var(--glow-quantum);
+  box-shadow: var(--glow-quantum), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
 }
 
@@ -154,65 +227,55 @@ body {
 }
 
 .btn-plasma {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500/50;
-  background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 61.8%, #a78bfa 100%);
+  @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500/50;
+  background: linear-gradient(135deg, #a01f73 0%, #ff5ec4 55%, #ff8fd4 100%);
   color: #ffffff;
-  border: 1px solid rgba(139, 92, 246, 0.5);
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(255, 94, 196, 0.55);
+  box-shadow: 0 0 14px rgba(255, 94, 196, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.btn-plasma::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, transparent 60%);
+  pointer-events: none;
 }
 
 .btn-plasma:hover {
-  box-shadow: var(--glow-plasma);
+  box-shadow: var(--glow-plasma), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
 }
 
 .btn-ghost {
   @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-sm rounded-lg transition-all duration-200 text-slate-300 hover:text-white;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(162, 89, 255, 0.04);
+  border: 1px solid rgba(162, 89, 255, 0.14);
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(162, 89, 255, 0.1);
+  border-color: rgba(162, 89, 255, 0.32);
 }
 
-/* ── Quantum Inputs ──────────────────────────────────────────────────────── */
+/* ── Crystal inputs ──────────────────────────────────────────────────────── */
 .input-quantum {
   @apply w-full px-4 py-3 rounded-lg text-white text-sm transition-all duration-200 focus:outline-none;
-  background: rgba(8, 15, 28, 0.8);
-  border: 1px solid rgba(0, 102, 255, 0.2);
+  background: rgba(21, 16, 47, 0.6);
+  border: 1px solid rgba(162, 89, 255, 0.2);
+  backdrop-filter: blur(6px);
 }
 
 .input-quantum::placeholder {
-  color: #64748b;
+  color: #8b80b3;
 }
 
 .input-quantum:focus {
-  border-color: rgba(0, 102, 255, 0.6);
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+  border-color: rgba(162, 89, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(162, 89, 255, 0.12);
 }
 
-/* ── Scan-line CRT effect (subtle) ──────────────────────────────────────── */
-.scanlines::after {
-  content: '';
-  position: fixed;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(transparent, rgba(0, 102, 255, 0.06), transparent);
-  animation: scanLine 6s linear infinite;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-@keyframes scanLine {
-  0%   { top: -2px; }
-  100% { top: 100vh; }
-}
-
-/* ── Wave Animation (used in simulations) ────────────────────────────────── */
+/* ── Wave draw animation (simulation SVGs) ──────────────────────────────── */
 .wave-path {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
@@ -220,54 +283,56 @@ body {
 }
 
 @keyframes drawWave {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-/* ── KaTeX overrides for dark theme ─────────────────────────────────────── */
+/* ── KaTeX — dark cosmic theme ───────────────────────────────────────────── */
 .katex {
-  color: #c4d4ff;
+  color: #d9c2ff;
   font-size: 1.05em;
 }
 
 .katex-display {
-  background: rgba(0, 102, 255, 0.05);
-  border-left: 3px solid rgba(0, 102, 255, 0.4);
+  background: rgba(162, 89, 255, 0.06);
+  border-left: 3px solid rgba(162, 89, 255, 0.45);
   border-radius: 0 8px 8px 0;
   padding: 1rem 1.5rem;
   margin: 1.25rem 0;
   overflow-x: auto;
 }
 
-/* ── Prose overrides (AI tutor content) ─────────────────────────────────── */
+/* ── Prose (AI tutor content) ────────────────────────────────────────────── */
 .prose-quantum {
   @apply prose prose-invert max-w-none;
-  --tw-prose-body: #cbd5e1;
-  --tw-prose-headings: #e2e8f0;
-  --tw-prose-code: #93c5fd;
-  --tw-prose-pre-bg: rgba(8, 15, 28, 0.9);
-  --tw-prose-pre-code: #e2e8f0;
+  --tw-prose-body: #cdc6e6;
+  --tw-prose-headings: #ece7fb;
+  --tw-prose-code: #c098ff;
+  --tw-prose-pre-bg: rgba(21, 16, 47, 0.85);
+  --tw-prose-pre-code: #e7e2f5;
 }
 
-/* ── Scrollbar styling ───────────────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #040810;
+  background: #0b0820;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 102, 255, 0.3);
+  background: rgba(162, 89, 255, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 102, 255, 0.5);
+  background: rgba(162, 89, 255, 0.55);
 }
 
-/* ── Difficulty badge colors ─────────────────────────────────────────────── */
+/* ── Difficulty badges ───────────────────────────────────────────────────── */
 .badge-beginner     { @apply bg-wave-500/20 text-wave-400 border border-wave-500/30; }
 .badge-intermediate { @apply bg-photon-500/20 text-photon-400 border border-photon-500/30; }
 .badge-advanced     { @apply bg-particle-500/20 text-particle-400 border border-particle-500/30; }

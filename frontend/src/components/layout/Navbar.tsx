@@ -23,17 +23,40 @@ export default function Navbar() {
         <Link href="/dashboard" className="flex items-center gap-3 group">
           <div className="relative w-8 h-8">
             <svg viewBox="0 0 32 32" className="w-8 h-8" fill="none">
-              <circle cx="16" cy="16" r="15" stroke="rgba(0,102,255,0.4)" strokeWidth="0.5" />
-              <circle cx="16" cy="16" r="9.7" stroke="rgba(0,102,255,0.3)" strokeWidth="0.5" />
-              <circle cx="16" cy="16" r="6" stroke="rgba(0,102,255,0.2)" strokeWidth="0.5" />
+              <defs>
+                <linearGradient id="galaxyArm" x1="0" y1="0" x2="32" y2="32">
+                  <stop offset="0" stopColor="#ffe6a8" />
+                  <stop offset="0.5" stopColor="#a259ff" />
+                  <stop offset="1" stopColor="#ff8fd4" />
+                </linearGradient>
+                <radialGradient id="galaxyCore" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0" stopColor="#fff4d6" />
+                  <stop offset="1" stopColor="#a259ff" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              {/* Orbital disc rings */}
+              <ellipse cx="16" cy="16" rx="15" ry="8.7" stroke="rgba(162,89,255,0.35)" strokeWidth="0.5" />
+              <ellipse cx="16" cy="16" rx="9.5" ry="5.5" stroke="rgba(255,143,212,0.3)" strokeWidth="0.5" />
+              {/* Spiral galaxy arms (golden-angle wind) */}
               <path
-                d="M16 6 Q22 10 22 16 Q22 22 16 25 Q10 22 10 16 Q10 10 16 6"
-                stroke="#0066ff"
-                strokeWidth="1.5"
+                d="M16 8 Q23 11 23 16 Q23 21 16 24"
+                stroke="url(#galaxyArm)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
                 fill="none"
-                className="group-hover:drop-shadow-[0_0_4px_rgba(0,102,255,0.8)] transition-all"
+                className="group-hover:drop-shadow-[0_0_5px_rgba(162,89,255,0.9)] transition-all"
               />
-              <circle cx="16" cy="16" r="2" fill="#0066ff" />
+              <path
+                d="M16 24 Q9 21 9 16 Q9 11 16 8"
+                stroke="url(#galaxyArm)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                fill="none"
+                opacity="0.8"
+              />
+              {/* Bright core */}
+              <circle cx="16" cy="16" r="6" fill="url(#galaxyCore)" />
+              <circle cx="16" cy="16" r="1.8" fill="#fff4d6" />
             </svg>
           </div>
           <span className="font-mono font-semibold text-white tracking-tight group-hover:text-quantum-300 transition-colors">

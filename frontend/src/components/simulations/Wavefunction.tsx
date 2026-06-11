@@ -81,7 +81,7 @@ export default function Wavefunction() {
 
       const { re, im } = stateRef.current
 
-      ctx.fillStyle = 'rgba(2, 4, 8, 0.4)'
+      ctx.fillStyle = 'rgba(6, 4, 20, 0.4)'
       ctx.fillRect(0, 0, W, H)
 
       // Axis
@@ -129,8 +129,8 @@ export default function Wavefunction() {
         ctx.lineTo(W, midY)
         ctx.closePath()
         const grad = ctx.createLinearGradient(0, midY - scale, 0, midY)
-        grad.addColorStop(0, 'rgba(0, 102, 255, 0.5)')
-        grad.addColorStop(1, 'rgba(0, 102, 255, 0.03)')
+        grad.addColorStop(0, 'rgba(162, 89, 255, 0.5)')
+        grad.addColorStop(1, 'rgba(162, 89, 255, 0.03)')
         ctx.fillStyle = grad
         ctx.fill()
 
@@ -141,7 +141,7 @@ export default function Wavefunction() {
           if (i === 0) ctx.moveTo(0, y)
           else ctx.lineTo(i * xScale, y)
         }
-        ctx.strokeStyle = 'rgba(0, 102, 255, 0.85)'
+        ctx.strokeStyle = 'rgba(162, 89, 255, 0.85)'
         ctx.lineWidth = 1.5
         ctx.stroke()
 
@@ -152,7 +152,7 @@ export default function Wavefunction() {
           if (i === 0) ctx.moveTo(0, y)
           else ctx.lineTo(i * xScale, y)
         }
-        ctx.strokeStyle = 'rgba(139, 92, 246, 0.6)'
+        ctx.strokeStyle = 'rgba(255, 94, 196, 0.6)'
         ctx.lineWidth = 1
         ctx.stroke()
       }
@@ -165,7 +165,7 @@ export default function Wavefunction() {
       animRef.current = requestAnimationFrame(render)
     }
 
-    ctx.fillStyle = '#020408'
+    ctx.fillStyle = '#060414'
     ctx.fillRect(0, 0, W, H)
     render()
     return () => cancelAnimationFrame(animRef.current)
@@ -173,7 +173,7 @@ export default function Wavefunction() {
 
   return (
     <div className="space-y-4">
-      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#020408' }} />
+      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#060414' }} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
         <div className="flex flex-col gap-1">

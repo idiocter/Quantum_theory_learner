@@ -93,23 +93,23 @@ export default function DoubleSlit() {
     const render = () => {
       if (!runningRef.current) { animRef.current = requestAnimationFrame(render); return }
 
-      ctx.fillStyle = 'rgba(2, 4, 8, 0.15)'
+      ctx.fillStyle = 'rgba(6, 4, 20, 0.15)'
       ctx.fillRect(0, 0, W, H)
 
       // Draw barrier
-      ctx.fillStyle = 'rgba(0, 102, 255, 0.15)'
+      ctx.fillStyle = 'rgba(162, 89, 255, 0.15)'
       ctx.fillRect(slitX - 3, 0, 6, H)
 
       const sy1 = H / 2 - params.slitSeparation / 2
       const sy2 = H / 2 + params.slitSeparation / 2
 
-      ctx.fillStyle = '#020408'
+      ctx.fillStyle = '#060414'
       ctx.fillRect(slitX - 3, 0, 6, sy1 - params.slitWidth / 2)
       ctx.fillRect(slitX - 3, sy1 + params.slitWidth / 2, 6, sy2 - sy1 - params.slitWidth)
       ctx.fillRect(slitX - 3, sy2 + params.slitWidth / 2, 6, H - sy2 - params.slitWidth / 2)
 
       // Detection screen
-      ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)'
+      ctx.strokeStyle = 'rgba(255, 94, 196, 0.3)'
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(screenX, 0)
@@ -140,7 +140,7 @@ export default function DoubleSlit() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0, 102, 255, ${p.alpha})`
+        ctx.fillStyle = `rgba(162, 89, 255, ${p.alpha})`
         ctx.fill()
 
         return p.alpha > 0 && p.x < W
@@ -153,7 +153,8 @@ export default function DoubleSlit() {
         if (hits === 0) continue
         const intensity = hits / maxHit
         const alpha = Math.min(1, intensity * 3)
-        ctx.fillStyle = `rgba(0, ${Math.round(102 + 153 * intensity)}, 255, ${alpha})`
+        // Amethyst → rose-quartz fringe glow with accumulation
+        ctx.fillStyle = `rgba(${Math.round(162 + 70 * intensity)}, ${Math.round(89 + 30 * intensity)}, ${Math.round(230 - 20 * intensity)}, ${alpha})`
         ctx.fillRect(screenX + 2, y, 8, 1)
       }
 
@@ -169,7 +170,7 @@ export default function DoubleSlit() {
     }
 
     // Fade-in initial background
-    ctx.fillStyle = '#020408'
+    ctx.fillStyle = '#060414'
     ctx.fillRect(0, 0, W, H)
 
     render()
@@ -204,7 +205,7 @@ export default function DoubleSlit() {
 
   return (
     <div className="space-y-4">
-      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#020408' }} />
+      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#060414' }} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
         {P('Wavelength (nm)', 'wavelength', 200, 900, 10)}

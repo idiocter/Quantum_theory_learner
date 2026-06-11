@@ -47,7 +47,7 @@ export default function QuantumTunneling() {
     const render = () => {
       if (runRef.current) tRef.current += 0.06
 
-      ctx.fillStyle = '#020408'
+      ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 
       const T = computeT(energy, V0, barrierW)
@@ -56,7 +56,7 @@ export default function QuantumTunneling() {
 
       // ── Potential well ────────────────────────────────────────────────────
       const barrierH = Math.min((V0 / 100) * potScale, potScale * 0.95)
-      ctx.strokeStyle = 'rgba(245, 158, 11, 0.7)'
+      ctx.strokeStyle = 'rgba(255, 200, 61, 0.7)'
       ctx.lineWidth = 1.5
       ctx.beginPath()
       ctx.moveTo(0, midY)
@@ -69,15 +69,15 @@ export default function QuantumTunneling() {
 
       // Barrier fill
       const grad = ctx.createLinearGradient(barrierX, midY - barrierH, barrierX + barrierW, midY)
-      grad.addColorStop(0, 'rgba(245, 158, 11, 0.15)')
-      grad.addColorStop(1, 'rgba(245, 158, 11, 0.03)')
+      grad.addColorStop(0, 'rgba(255, 200, 61, 0.15)')
+      grad.addColorStop(1, 'rgba(255, 200, 61, 0.03)')
       ctx.fillStyle = grad
       ctx.fillRect(barrierX, midY - barrierH, barrierW, barrierH)
 
       // Energy level
       const energyY = midY - (energy / 100) * potScale
       ctx.setLineDash([5, 5])
-      ctx.strokeStyle = energy < V0 ? 'rgba(0, 102, 255, 0.6)' : 'rgba(16, 185, 129, 0.6)'
+      ctx.strokeStyle = energy < V0 ? 'rgba(162, 89, 255, 0.6)' : 'rgba(56, 198, 232, 0.6)'
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(0, energyY)
@@ -97,7 +97,7 @@ export default function QuantumTunneling() {
         if (x === 0) ctx.moveTo(x, y)
         else ctx.lineTo(x, y)
       }
-      ctx.strokeStyle = 'rgba(0, 102, 255, 0.85)'
+      ctx.strokeStyle = 'rgba(162, 89, 255, 0.85)'
       ctx.lineWidth = 2
       ctx.stroke()
 
@@ -112,7 +112,7 @@ export default function QuantumTunneling() {
           if (x === 0) ctx.moveTo(barrierX + x, y)
           else ctx.lineTo(barrierX + x, y)
         }
-        ctx.strokeStyle = `rgba(245, 158, 11, 0.5)`
+        ctx.strokeStyle = `rgba(255, 200, 61, 0.5)`
         ctx.lineWidth = 1.5
         ctx.stroke()
       } else {
@@ -123,7 +123,7 @@ export default function QuantumTunneling() {
           if (x === 0) ctx.moveTo(barrierX + x, y)
           else ctx.lineTo(barrierX + x, y)
         }
-        ctx.strokeStyle = 'rgba(16, 185, 129, 0.7)'
+        ctx.strokeStyle = 'rgba(56, 198, 232, 0.7)'
         ctx.lineWidth = 1.5
         ctx.stroke()
       }
@@ -138,7 +138,7 @@ export default function QuantumTunneling() {
         if (xr === 0) ctx.moveTo(x, y)
         else ctx.lineTo(x, y)
       }
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.9)'
+      ctx.strokeStyle = 'rgba(56, 198, 232, 0.9)'
       ctx.lineWidth = 2
       ctx.stroke()
       ctx.globalAlpha = 1
@@ -148,14 +148,14 @@ export default function QuantumTunneling() {
       ctx.fillStyle = '#94a3b8'
 
       ctx.fillText('V₀', barrierX + barrierW / 2 - 8, midY - barrierH - 6)
-      ctx.fillStyle = energy < V0 ? '#60a5fa' : '#34d399'
+      ctx.fillStyle = energy < V0 ? '#c098ff' : '#6ee7e0'
       ctx.fillText(`E = ${energy}`, 8, energyY - 6)
 
       // T / R coefficients
       ctx.font = 'bold 13px monospace'
-      ctx.fillStyle = '#34d399'
+      ctx.fillStyle = '#6ee7e0'
       ctx.fillText(`T = ${(T * 100).toFixed(1)}%`, W - 100, 20)
-      ctx.fillStyle = '#60a5fa'
+      ctx.fillStyle = '#c098ff'
       ctx.fillText(`R = ${(R * 100).toFixed(1)}%`, W - 100, 36)
 
       ctx.font = '9px monospace'
@@ -183,7 +183,7 @@ export default function QuantumTunneling() {
 
   return (
     <div className="space-y-4">
-      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#020408' }} />
+      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#060414' }} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
         <Slider label="Particle Energy E" value={energy} min={5} max={95} step={1} onChange={setEnergy} color="quantum" />

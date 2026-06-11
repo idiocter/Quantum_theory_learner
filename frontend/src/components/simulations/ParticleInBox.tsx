@@ -29,11 +29,11 @@ export default function ParticleInBox() {
     const psiScale = H * 0.32
 
     const render = () => {
-      ctx.fillStyle = '#020408'
+      ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 
       // Box walls
-      const wallColor = 'rgba(0, 102, 255, 0.4)'
+      const wallColor = 'rgba(162, 89, 255, 0.4)'
       ctx.fillStyle = wallColor
       ctx.fillRect(padX - 4, midY - psiScale - 20, 4, psiScale * 2 + 40)
       ctx.fillRect(padX + boxW, midY - psiScale - 20, 4, psiScale * 2 + 40)
@@ -53,7 +53,7 @@ export default function ParticleInBox() {
       for (let en = 1; en <= 5; en++) {
         const E = (en * en) * hbar2_over_2mL2
         const yE = midY - (E / 25) * psiScale * 0.9
-        ctx.strokeStyle = en === n ? 'rgba(0, 102, 255, 0.5)' : 'rgba(100, 116, 139, 0.12)'
+        ctx.strokeStyle = en === n ? 'rgba(162, 89, 255, 0.5)' : 'rgba(100, 116, 139, 0.12)'
         ctx.lineWidth = en === n ? 1.5 : 0.5
         ctx.setLineDash([3, 3])
         ctx.beginPath()
@@ -63,7 +63,7 @@ export default function ParticleInBox() {
         ctx.setLineDash([])
 
         ctx.font = `${en === n ? 'bold ' : ''}10px monospace`
-        ctx.fillStyle = en === n ? '#60a5fa' : '#334155'
+        ctx.fillStyle = en === n ? '#c098ff' : '#334155'
         ctx.fillText(`n=${en}`, padX - 48, yE + 3)
       }
 
@@ -98,19 +98,19 @@ export default function ParticleInBox() {
         ctx.lineTo(padX + boxW, midY)
         ctx.closePath()
         const grad = ctx.createLinearGradient(0, midY - psiScale, 0, midY)
-        grad.addColorStop(0, 'rgba(0, 102, 255, 0.25)')
-        grad.addColorStop(1, 'rgba(0, 102, 255, 0.02)')
+        grad.addColorStop(0, 'rgba(162, 89, 255, 0.25)')
+        grad.addColorStop(1, 'rgba(162, 89, 255, 0.02)')
         ctx.fillStyle = grad
         ctx.fill()
 
-        drawWave('rgba(0, 153, 255, 0.8)', (x) => Math.sqrt(2) * Math.sin(n * Math.PI * x) ** 2 * 0.9)
+        drawWave('rgba(162, 89, 255, 0.8)', (x) => Math.sqrt(2) * Math.sin(n * Math.PI * x) ** 2 * 0.9)
       } else {
         // Real part of time-dependent ψ
-        drawWave('rgba(0, 102, 255, 0.9)', (x) =>
+        drawWave('rgba(162, 89, 255, 0.9)', (x) =>
           Math.sqrt(2) * Math.sin(n * Math.PI * x) * Math.cos(phase)
         )
         // Imaginary part
-        drawWave('rgba(139, 92, 246, 0.5)', (x) =>
+        drawWave('rgba(255, 94, 196, 0.5)', (x) =>
           Math.sqrt(2) * Math.sin(n * Math.PI * x) * Math.sin(phase)
         )
       }
@@ -120,13 +120,13 @@ export default function ParticleInBox() {
         const x = padX + (node / n) * boxW
         ctx.beginPath()
         ctx.arc(x, midY, 3, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(0, 102, 255, 0.5)'
+        ctx.fillStyle = 'rgba(162, 89, 255, 0.5)'
         ctx.fill()
       }
 
       // Labels
       ctx.font = '11px Inter, monospace'
-      ctx.fillStyle = '#60a5fa'
+      ctx.fillStyle = '#c098ff'
       ctx.textAlign = 'center'
       ctx.fillText(`n = ${n}`, W / 2, 24)
       const E_n = n * n
@@ -136,7 +136,7 @@ export default function ParticleInBox() {
 
       // Fibonacci spiral marker at golden-ratio position
       const phiX = padX + boxW / PHI
-      ctx.strokeStyle = 'rgba(245, 158, 11, 0.2)'
+      ctx.strokeStyle = 'rgba(255, 200, 61, 0.2)'
       ctx.lineWidth = 0.5
       ctx.setLineDash([2, 4])
       ctx.beginPath()
@@ -145,7 +145,7 @@ export default function ParticleInBox() {
       ctx.stroke()
       ctx.setLineDash([])
       ctx.font = '8px monospace'
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.3)'
+      ctx.fillStyle = 'rgba(255, 200, 61, 0.3)'
       ctx.fillText('φ', phiX + 3, midY + 32)
 
       animRef.current = requestAnimationFrame(render)
@@ -157,7 +157,7 @@ export default function ParticleInBox() {
 
   return (
     <div className="space-y-4">
-      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#020408' }} />
+      <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#060414' }} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center pt-2">
         <div className="flex flex-col gap-1">

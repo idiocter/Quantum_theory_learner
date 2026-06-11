@@ -8,9 +8,9 @@ interface Props {
 }
 
 const DIFF_COLORS: Record<string, string> = {
-  beginner: '#10b981',
-  intermediate: '#f59e0b',
-  advanced: '#ec4899',
+  beginner: '#38c6e8',
+  intermediate: '#ffc83d',
+  advanced: '#f7416c',
 }
 
 interface NodeState {
@@ -144,7 +144,7 @@ export default function KnowledgeGraphCanvas({ graph }: Props) {
         const endY = t.y - uy * (t.r + 4)
 
         ctx.lineTo(endX, endY)
-        ctx.strokeStyle = 'rgba(0, 102, 255, 0.2)'
+        ctx.strokeStyle = 'rgba(162, 89, 255, 0.2)'
         ctx.lineWidth = 1
         ctx.stroke()
 
@@ -158,14 +158,14 @@ export default function KnowledgeGraphCanvas({ graph }: Props) {
         ctx.lineTo(-10, -4)
         ctx.lineTo(-10, 4)
         ctx.closePath()
-        ctx.fillStyle = 'rgba(0, 102, 255, 0.3)'
+        ctx.fillStyle = 'rgba(162, 89, 255, 0.3)'
         ctx.fill()
         ctx.restore()
       })
 
       // Draw nodes
       nodes.forEach((n) => {
-        const color = DIFF_COLORS[n.difficulty] ?? '#0066ff'
+        const color = DIFF_COLORS[n.difficulty] ?? '#a259ff'
 
         // Glow
         const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 2)
@@ -179,7 +179,7 @@ export default function KnowledgeGraphCanvas({ graph }: Props) {
         // Circle
         ctx.beginPath()
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
-        ctx.fillStyle = '#080f1c'
+        ctx.fillStyle = '#15102f'
         ctx.fill()
         ctx.strokeStyle = color
         ctx.lineWidth = 1.5
