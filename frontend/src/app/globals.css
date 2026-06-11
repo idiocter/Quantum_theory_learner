@@ -1,28 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import 'katex/dist/katex.min.css';
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin '@tailwindcss/typography';
+
+/* ── Tailwind v4 theme (CSS-first config) ─────────────────────────────────── */
+@theme {
+  /* Quantum dark palette */
+  --color-void-950: #020408;
+  --color-void-900: #040810;
+  --color-void-800: #080f1c;
+  --color-void-700: #0d1826;
+
+  --color-quantum-50: #e8f4ff;
+  --color-quantum-100: #c3e0ff;
+  --color-quantum-200: #85c2ff;
+  --color-quantum-300: #47a3ff;
+  --color-quantum-400: #1a85ff;
+  --color-quantum-500: #0066ff;
+  --color-quantum-600: #0052cc;
+  --color-quantum-700: #003d99;
+  --color-quantum-800: #002966;
+  --color-quantum-900: #001433;
+
+  --color-plasma-400: #a78bfa;
+  --color-plasma-500: #8b5cf6;
+  --color-plasma-600: #7c3aed;
+
+  --color-wave-400: #34d399;
+  --color-wave-500: #10b981;
+  --color-wave-600: #059669;
+
+  --color-photon-400: #fbbf24;
+  --color-photon-500: #f59e0b;
+
+  --color-particle-400: #f472b6;
+  --color-particle-500: #ec4899;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Quantum glow shadows */
+  --shadow-quantum-glow: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.1);
+  --shadow-plasma-glow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
+  --shadow-wave-glow: 0 0 20px rgba(16, 185, 129, 0.4);
+
+  /* Animations */
+  --animate-quantum-pulse: quantumPulse 2s ease-in-out infinite;
+
+  @keyframes quantumPulse {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(0, 102, 255, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 24px rgba(0, 102, 255, 0.8), 0 0 48px rgba(139, 92, 246, 0.3);
+    }
+  }
+}
 
 /* ── CSS Custom Properties (golden ratio palette) ─────────────────────────── */
 :root {
   --phi: 1.618;
   --phi-inv: 0.618;
 
-  --color-void-950: #020408;
-  --color-void-900: #040810;
-  --color-void-800: #080f1c;
-  --color-void-700: #0d1826;
-
-  --color-quantum: #0066ff;
-  --color-quantum-dim: rgba(0, 102, 255, 0.15);
-  --color-plasma: #8b5cf6;
-  --color-plasma-dim: rgba(139, 92, 246, 0.15);
-  --color-wave: #10b981;
-  --color-photon: #f59e0b;
-  --color-particle: #ec4899;
-
+  --color-void-950-raw: #020408;
   --glow-quantum: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.1);
   --glow-plasma: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
   --glow-wave: 0 0 20px rgba(16, 185, 129, 0.4);
@@ -42,7 +84,7 @@ html {
 }
 
 body {
-  background-color: var(--color-void-950);
+  background-color: #020408;
   color: #e2e8f0;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
@@ -51,7 +93,7 @@ body {
 
 /* ── Quantum Background Mesh ─────────────────────────────────────────────── */
 .quantum-mesh {
-  background-color: var(--color-void-950);
+  background-color: #020408;
   background-image:
     linear-gradient(rgba(0, 102, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 102, 255, 0.04) 1px, transparent 1px);
@@ -95,7 +137,7 @@ body {
 
 /* ── Quantum Buttons ─────────────────────────────────────────────────────── */
 .btn-quantum {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500 focus:ring-offset-2 focus:ring-offset-void-950;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500/50;
   background: linear-gradient(135deg, #0052cc 0%, #0066ff 61.8%, #1a7aff 100%);
   color: #ffffff;
   border: 1px solid rgba(0, 102, 255, 0.5);
@@ -112,7 +154,7 @@ body {
 }
 
 .btn-plasma {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500 focus:ring-offset-2 focus:ring-offset-void-950;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500/50;
   background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 61.8%, #a78bfa 100%);
   color: #ffffff;
   border: 1px solid rgba(139, 92, 246, 0.5);
@@ -137,9 +179,13 @@ body {
 
 /* ── Quantum Inputs ──────────────────────────────────────────────────────── */
 .input-quantum {
-  @apply w-full px-4 py-3 rounded-lg text-white placeholder-slate-500 text-sm transition-all duration-200 focus:outline-none;
+  @apply w-full px-4 py-3 rounded-lg text-white text-sm transition-all duration-200 focus:outline-none;
   background: rgba(8, 15, 28, 0.8);
   border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.input-quantum::placeholder {
+  color: #64748b;
 }
 
 .input-quantum:focus {
@@ -209,7 +255,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-void-900);
+  background: #040810;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -20,9 +20,6 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  experimental: {
-    optimizePackageImports: ['three', 'd3', 'framer-motion'],
-  },
 }
 
 export default nextConfig

@@ -205,17 +205,4 @@ export default function QuantumTunneling() {
       </p>
     </div>
   )
-
-  function computeT(E: number, V: number, a: number): number {
-    if (E >= V) {
-      const q = Math.sqrt(E - V)
-      const k = Math.sqrt(E)
-      const qa = q * a * 0.05
-      const denom = 1 + ((k * k - q * q) ** 2 * Math.sin(qa) ** 2) / (4 * k * k * q * q)
-      return 1 / denom
-    }
-    const kappa = Math.sqrt(V - E)
-    const ka2 = kappa * a * 0.05
-    return 1 / (1 + (V * V * Math.sinh(ka2) ** 2) / (4 * E * (V - E)))
-  }
 }
