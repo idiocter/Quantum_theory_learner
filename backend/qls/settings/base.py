@@ -67,21 +67,36 @@ TEMPLATES = [
 WSGI_APPLICATION = "qls.wsgi.application"
 
 # ── Database ─────────────────────────────────────────────────────────────────
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"),
-        "USER": config("POSTGRES_USER"),
-        "PASSWORD": config("POSTGRES_PASSWORD"),
-        "HOST": config("POSTGRES_HOST", default="db"),
-        "PORT": config("POSTGRES_PORT", default="5432"),
-        "CONN_MAX_AGE": 60,
-        "OPTIONS": {
-            "connect_timeout": 10,
-            "options": "-c default_transaction_isolation=read committed",
-        },
+# Supports either DATABASE_URL (e.g. NeonDB connection string) or individual vars.
+_db_url = config("DATABASE_URL", default="")
+if _db_url:
+    import dj_database_url
+    _parsed = dj_database_url.parse(
+        _db_url,
+        conn_max_age=60,
+        conn_health_checks=True,
+    )
+    # Neon requires SSL — ensure it is enforced even if the URL omits it
+    _parsed.setdefault("OPTIONS", {})
+    _parsed["OPTIONS"].setdefault("sslmode", "require")
+    _parsed["OPTIONS"]["connect_timeout"] = 10
+    DATABASES = {"default": _parsed}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": config("POSTGRES_DB"),
+            "USER": config("POSTGRES_USER"),
+            "PASSWORD": config("POSTGRES_PASSWORD"),
+            "HOST": config("POSTGRES_HOST", default="db"),
+            "PORT": config("POSTGRES_PORT", default="5432"),
+            "CONN_MAX_AGE": 60,
+            "OPTIONS": {
+                "connect_timeout": 10,
+                "options": "-c default_transaction_isolation=read committed",
+            },
+        }
     }
-}
 
 # ── Cache (Redis) ─────────────────────────────────────────────────────────────
 CACHES = {
