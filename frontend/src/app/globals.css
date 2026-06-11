@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties (golden ratio palette) ─────────────────────────── */
+:root {
+  --phi: 1.618;
+  --phi-inv: 0.618;
+
+  --color-void-950: #020408;
+  --color-void-900: #040810;
+  --color-void-800: #080f1c;
+  --color-void-700: #0d1826;
+
+  --color-quantum: #0066ff;
+  --color-quantum-dim: rgba(0, 102, 255, 0.15);
+  --color-plasma: #8b5cf6;
+  --color-plasma-dim: rgba(139, 92, 246, 0.15);
+  --color-wave: #10b981;
+  --color-photon: #f59e0b;
+  --color-particle: #ec4899;
+
+  --glow-quantum: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.1);
+  --glow-plasma: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
+  --glow-wave: 0 0 20px rgba(16, 185, 129, 0.4);
+
+  --border-quantum: 1px solid rgba(0, 102, 255, 0.2);
+  --border-plasma: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* ── Base Reset ───────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-void-950);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Quantum Background Mesh ─────────────────────────────────────────────── */
+.quantum-mesh {
+  background-color: var(--color-void-950);
+  background-image:
+    linear-gradient(rgba(0, 102, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 102, 255, 0.04) 1px, transparent 1px);
+  background-size: 61.8px 61.8px;
+}
+
+/* ── Fibonacci Spiral Decorators ─────────────────────────────────────────── */
+.fibonacci-ring {
+  border-radius: 50%;
+  border: 1px solid rgba(0, 102, 255, 0.12);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ── Quantum Cards ───────────────────────────────────────────────────────── */
+.card-quantum {
+  background: linear-gradient(135deg, rgba(8, 15, 28, 0.9) 0%, rgba(4, 8, 16, 0.95) 100%);
+  border: var(--border-quantum);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-quantum:hover {
+  box-shadow: var(--glow-quantum);
+  border-color: rgba(0, 102, 255, 0.4);
+}
+
+.card-plasma {
+  background: linear-gradient(135deg, rgba(8, 15, 28, 0.9) 0%, rgba(4, 8, 16, 0.95) 100%);
+  border: var(--border-plasma);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-plasma:hover {
+  box-shadow: var(--glow-plasma);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+/* ── Quantum Buttons ─────────────────────────────────────────────────────── */
+.btn-quantum {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500 focus:ring-offset-2 focus:ring-offset-void-950;
+  background: linear-gradient(135deg, #0052cc 0%, #0066ff 61.8%, #1a7aff 100%);
+  color: #ffffff;
+  border: 1px solid rgba(0, 102, 255, 0.5);
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.3);
+}
+
+.btn-quantum:hover {
+  box-shadow: var(--glow-quantum);
+  transform: translateY(-1px);
+}
+
+.btn-quantum:active {
+  transform: translateY(0);
+}
+
+.btn-plasma {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500 focus:ring-offset-2 focus:ring-offset-void-950;
+  background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 61.8%, #a78bfa 100%);
+  color: #ffffff;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-plasma:hover {
+  box-shadow: var(--glow-plasma);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-sm rounded-lg transition-all duration-200 text-slate-300 hover:text-white;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Quantum Inputs ──────────────────────────────────────────────────────── */
+.input-quantum {
+  @apply w-full px-4 py-3 rounded-lg text-white placeholder-slate-500 text-sm transition-all duration-200 focus:outline-none;
+  background: rgba(8, 15, 28, 0.8);
+  border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.input-quantum:focus {
+  border-color: rgba(0, 102, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* ── Scan-line CRT effect (subtle) ──────────────────────────────────────── */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(transparent, rgba(0, 102, 255, 0.06), transparent);
+  animation: scanLine 6s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes scanLine {
+  0%   { top: -2px; }
+  100% { top: 100vh; }
+}
+
+/* ── Wave Animation (used in simulations) ────────────────────────────────── */
+.wave-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawWave 2s ease forwards;
+}
+
+@keyframes drawWave {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── KaTeX overrides for dark theme ─────────────────────────────────────── */
+.katex {
+  color: #c4d4ff;
+  font-size: 1.05em;
+}
+
+.katex-display {
+  background: rgba(0, 102, 255, 0.05);
+  border-left: 3px solid rgba(0, 102, 255, 0.4);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.5rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+/* ── Prose overrides (AI tutor content) ─────────────────────────────────── */
+.prose-quantum {
+  @apply prose prose-invert max-w-none;
+  --tw-prose-body: #cbd5e1;
+  --tw-prose-headings: #e2e8f0;
+  --tw-prose-code: #93c5fd;
+  --tw-prose-pre-bg: rgba(8, 15, 28, 0.9);
+  --tw-prose-pre-code: #e2e8f0;
+}
+
+/* ── Scrollbar styling ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void-900);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 102, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 102, 255, 0.5);
+}
+
+/* ── Difficulty badge colors ─────────────────────────────────────────────── */
+.badge-beginner     { @apply bg-wave-500/20 text-wave-400 border border-wave-500/30; }
+.badge-intermediate { @apply bg-photon-500/20 text-photon-400 border border-photon-500/30; }
+.badge-advanced     { @apply bg-particle-500/20 text-particle-400 border border-particle-500/30; }
