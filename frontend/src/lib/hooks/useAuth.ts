@@ -23,18 +23,9 @@ export function useAuth() {
     }
   }, [setUser, setProgress, setLoading])
 
-  const login = useCallback(
-    async (username: string, password: string) => {
-      const res = await authApi.login({ username, password })
-      setUser(res.data.user)
-      router.push('/dashboard')
-    },
-    [setUser, router]
-  )
-
-  const register = useCallback(
-    async (data: { username: string; email: string; password: string; password_confirm: string }) => {
-      const res = await authApi.register(data)
+  const loginWithGoogle = useCallback(
+    async (credential: string) => {
+      const res = await authApi.google(credential)
       setUser(res.data.user)
       router.push('/dashboard')
     },
@@ -63,5 +54,5 @@ export function useAuth() {
     return () => window.removeEventListener('qls:session-expired', handler)
   }, [clearAuth, router])
 
-  return { user, progress, isLoading, login, register, logout, fetchUser, extractErrorMessage }
+  return { user, progress, isLoading, loginWithGoogle, logout, fetchUser, extractErrorMessage }
 }

@@ -1,9 +1,12 @@
 import logging
+import uuid
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.middleware.csrf import get_token
-from django_ratelimit.decorators import ratelimit
+from django.utils.text import slugify
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,8 +15,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import UserProgress
 from .serializers import (
-    PasswordChangeSerializer,
-    RegisterSerializer,
     UserProgressSerializer,
     UserSerializer,
     UserUpdateSerializer,
@@ -23,6 +24,15 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 JWT_SETTINGS = settings.SIMPLE_JWT
+
+
+def _unique_username(base: str) -> str:
+    """Derive a unique, URL-safe username from a Google display name or email."""
+    candidate = slugify(base).replace("-", "_")[:20] or "user"
+    username = candidate
+    while User.objects.filter(username=username).exists():
+        username = f"{candidate}_{uuid.uuid4().hex[:6]}"
+    return username
 
 
 def _set_auth_cookies(response: Response, access: str, refresh: str) -> None:
@@ -48,54 +58,72 @@ def _set_auth_cookies(response: Response, access: str, refresh: str) -> None:
     )
 
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = [permissions.AllowAny]
-    serializer_class = RegisterSerializer
+class GoogleAuthView(APIView):
+    """Authenticate via a Google ID token (Google Identity Services credential).
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        UserProgress.objects.create(user=user)
+    The frontend obtains the ID token from Google's Sign-In button and POSTs it
+    here. We verify it against our OAuth client ID, then get-or-create the user
+    and issue the same httpOnly JWT cookies used elsewhere. There is no
+    email/password path — Google is the only identity provider.
+    """
 
-        refresh = RefreshToken.for_user(user)
-        response = Response(
-            {"user": UserSerializer(user).data, "message": "Registration successful."},
-            status=status.HTTP_201_CREATED,
-        )
-        _set_auth_cookies(response, str(refresh.access_token), str(refresh))
-        logger.info("New user registered: %s", user.email)
-        return response
-
-
-class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        email = request.data.get("email", "").lower().strip()
-        password = request.data.get("password", "")
+        if not settings.GOOGLE_CLIENT_ID:
+            logger.error("Google auth attempted but GOOGLE_CLIENT_ID is not configured.")
+            return Response(
+                {"detail": "Google sign-in is not configured on the server."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
 
-        if not email or not password:
-            return Response({"detail": "Email and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        credential = request.data.get("credential", "")
+        if not credential:
+            return Response({"detail": "Missing Google credential."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            logger.warning("Failed login attempt for email: %s", email)
-            return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+            idinfo = id_token.verify_oauth2_token(
+                credential, google_requests.Request(), settings.GOOGLE_CLIENT_ID
+            )
+        except ValueError:
+            logger.warning("Rejected invalid Google credential.")
+            return Response({"detail": "Invalid Google credential."}, status=status.HTTP_401_UNAUTHORIZED)
 
-        if not user.check_password(password):
-            logger.warning("Invalid password for user: %s", email)
-            return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+        if not idinfo.get("email_verified"):
+            return Response(
+                {"detail": "Your Google email is not verified."}, status=status.HTTP_403_FORBIDDEN
+            )
 
-        if not user.is_active:
+        email = idinfo["email"].lower().strip()
+        display_name = idinfo.get("name") or email.split("@")[0]
+
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={
+                "username": _unique_username(display_name),
+                "is_verified": True,
+                "oauth_provider": "google",
+            },
+        )
+        if created:
+            user.set_unusable_password()
+            user.save(update_fields=["password"])
+            UserProgress.objects.create(user=user)
+            logger.info("New user created via Google: %s", user.email)
+        elif not user.is_active:
             return Response({"detail": "Account is disabled."}, status=status.HTTP_403_FORBIDDEN)
 
         refresh = RefreshToken.for_user(user)
-        response = Response({"user": UserSerializer(user).data, "message": "Login successful."})
+        response = Response(
+            {
+                "user": UserSerializer(user).data,
+                "message": "Login successful.",
+                "created": created,
+            },
+            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
+        )
         _set_auth_cookies(response, str(refresh.access_token), str(refresh))
-        logger.info("User logged in: %s", user.email)
+        logger.info("Google auth succeeded for %s (created=%s)", user.email, created)
         return response
 
 
@@ -147,23 +175,6 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-
-
-class PasswordChangeView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        serializer = PasswordChangeSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        user = request.user
-        if not user.check_password(serializer.validated_data["old_password"]):
-            return Response({"detail": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
-
-        user.set_password(serializer.validated_data["new_password"])
-        user.save(update_fields=["password"])
-        logger.info("Password changed for user: %s", user.email)
-        return Response({"message": "Password changed successfully."})
 
 
 class UserProgressView(generics.RetrieveAPIView):

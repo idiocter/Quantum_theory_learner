@@ -106,10 +106,7 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            <>
-              <Link href="/login" className="btn-ghost text-sm px-4 py-2">Log in</Link>
-              <Link href="/register" className="btn-quantum text-sm px-4 py-2">Register</Link>
-            </>
+            <Link href="/login" className="btn-quantum text-sm px-4 py-2">Sign in</Link>
           )}
         </div>
       </nav>

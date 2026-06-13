@@ -26,7 +26,7 @@ export default function LandingPage() {
         </p>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/register" className="btn-quantum text-base px-8 py-4">
+          <Link href="/login" className="btn-quantum text-base px-8 py-4">
             Begin Your Journey
           </Link>
           <Link href="/concepts" className="btn-ghost text-base px-8 py-4">

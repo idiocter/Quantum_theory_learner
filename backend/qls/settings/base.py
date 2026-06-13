@@ -118,6 +118,11 @@ SESSION_CACHE_ALIAS = "default"
 # ── Custom User Model ─────────────────────────────────────────────────────────
 AUTH_USER_MODEL = "users.User"
 
+# ── Google OAuth ──────────────────────────────────────────────────────────────
+# OAuth 2.0 Web client ID from Google Cloud Console. The frontend uses the same
+# value (exposed as NEXT_PUBLIC_GOOGLE_CLIENT_ID) to render the Sign in button.
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", default="")
+
 # ── Password Validation ───────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
