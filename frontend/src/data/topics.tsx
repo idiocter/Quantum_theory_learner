@@ -11,6 +11,7 @@ const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty')
 const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach'), { ssr: false })
 const HarmonicOscillator = dynamic(() => import('@/components/simulations/HarmonicOscillator'), { ssr: false })
 const BlochSphere = dynamic(() => import('@/components/simulations/BlochSphere'), { ssr: false })
+const Photoelectric = dynamic(() => import('@/components/simulations/Photoelectric'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -271,5 +272,26 @@ export const TOPICS: Topic[] = [
       'The hidden phase φ drives quantum interference.',
     ],
     render: () => <BlochSphere />,
+  },
+  {
+    id: 'photoelectric',
+    label: 'The Photoelectric Effect',
+    tagline: 'The experiment that proved light is quantised.',
+    icon: '☀',
+    difficulty: 'beginner',
+    category: 'light-and-matter',
+    equation: 'KEmax = hf − φ',
+    explanation: [
+      'Shine light on a metal and electrons can be knocked loose. Classically, brighter light carries more energy, so it should always eventually free electrons. Experiment said otherwise: below a threshold frequency, no electrons emerge no matter how intense the beam.',
+      'Einstein\'s 1905 explanation — which won him the Nobel Prize — was that light arrives as discrete packets, photons, each with energy hf. One photon ejects at most one electron. Only if hf exceeds the metal\'s work function φ does the electron escape, carrying the surplus as kinetic energy.',
+      'So frequency, not brightness, sets whether and how energetically electrons fly off; intensity only sets how many. This particle-like behaviour of light, alongside its wave-like interference, is the heart of wave–particle duality and launched quantum theory.',
+    ],
+    keyPoints: [
+      'Light comes in photons of energy E = hf.',
+      'No emission below the threshold frequency f₀ = φ/h.',
+      'Electron kinetic energy depends on frequency, not intensity.',
+      'Intensity controls the number of ejected electrons only.',
+    ],
+    render: () => <Photoelectric />,
   },
 ]
