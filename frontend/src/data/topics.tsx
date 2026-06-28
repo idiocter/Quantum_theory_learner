@@ -5,6 +5,7 @@ const DoubleSlit = dynamic(() => import('@/components/simulations/DoubleSlit'), 
 const ParticleInBox = dynamic(() => import('@/components/simulations/ParticleInBox'), { ssr: false })
 const Wavefunction = dynamic(() => import('@/components/simulations/Wavefunction'), { ssr: false })
 const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumTunneling'), { ssr: false })
+const Superposition = dynamic(() => import('@/components/simulations/Superposition'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -139,5 +140,26 @@ export const TOPICS: Topic[] = [
       'Real-world payoff: alpha decay, STM imaging, stellar fusion.',
     ],
     render: () => <QuantumTunneling />,
+  },
+  {
+    id: 'superposition',
+    label: 'Quantum Superposition',
+    tagline: 'Being in many states at once — until you look.',
+    icon: '⊕',
+    difficulty: 'beginner',
+    category: 'information',
+    equation: '|ψ⟩ = α|0⟩ + β|1⟩,  |α|² + |β|² = 1',
+    explanation: [
+      'A quantum system need not be in just one state. It can occupy a weighted sum — a superposition — of several at once. A qubit, the quantum bit, lives as α|0⟩ + β|1⟩, simultaneously a bit of zero and a bit of one.',
+      'The complex weights α and β are amplitudes, not probabilities. You never observe the superposition directly: when measured, the state collapses to a single outcome, with probability |α|² for 0 and |β|² for 1. The two must sum to one because something definite always happens.',
+      'Superposition is not ignorance about a hidden true value — the interference of the double-slit proves both branches are physically real before measurement. It is the resource that lets a quantum computer explore many possibilities in a single coherent state.',
+    ],
+    keyPoints: [
+      'Amplitudes α, β are complex; probabilities are |α|² and |β|².',
+      'Normalisation |α|² + |β|² = 1 — one definite outcome on measurement.',
+      'Measurement collapses the superposition to a single basis state.',
+      'It is a physical state, not mere lack of knowledge.',
+    ],
+    render: () => <Superposition />,
   },
 ]
