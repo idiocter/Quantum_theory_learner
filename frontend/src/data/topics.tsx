@@ -9,6 +9,7 @@ const Superposition = dynamic(() => import('@/components/simulations/Superpositi
 const Entanglement = dynamic(() => import('@/components/simulations/Entanglement'), { ssr: false })
 const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty'), { ssr: false })
 const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach'), { ssr: false })
+const HarmonicOscillator = dynamic(() => import('@/components/simulations/HarmonicOscillator'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -227,5 +228,26 @@ export const TOPICS: Topic[] = [
       'Spin components along different axes are incompatible.',
     ],
     render: () => <SternGerlach />,
+  },
+  {
+    id: 'harmonic_oscillator',
+    label: 'Quantum Harmonic Oscillator',
+    tagline: 'The most reused model in all of physics.',
+    icon: '⌣',
+    difficulty: 'advanced',
+    category: 'dynamics',
+    equation: 'Eₙ = (n + ½) ℏω',
+    explanation: [
+      'Put a particle in a parabolic potential — a spring — and quantum mechanics delivers a perfectly even ladder of energy levels spaced by ℏω. Unlike the box, the spacing is uniform, which is exactly why the oscillator describes vibrating molecules, phonons in solids, and modes of the electromagnetic field.',
+      'The eigenstates are Hermite polynomials times a Gaussian. The ground state (n=0) is a simple bell curve sitting at energy ½ℏω — the zero-point energy that never vanishes. Higher states gain more wiggles and push probability out toward the classical turning points.',
+      'Because every smooth potential looks parabolic near its minimum, the harmonic oscillator is the universal first approximation for any bound system. Quantising it is also the gateway to quantum field theory, where each field mode is its own oscillator.',
+    ],
+    keyPoints: [
+      'Energy levels are evenly spaced by ℏω.',
+      'Ground-state zero-point energy ½ℏω is irreducible.',
+      'Eigenstates are Hermite polynomials × a Gaussian envelope.',
+      'It approximates any potential near a stable minimum.',
+    ],
+    render: () => <HarmonicOscillator />,
   },
 ]
