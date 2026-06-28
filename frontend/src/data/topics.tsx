@@ -8,6 +8,7 @@ const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumT
 const Superposition = dynamic(() => import('@/components/simulations/Superposition'), { ssr: false })
 const Entanglement = dynamic(() => import('@/components/simulations/Entanglement'), { ssr: false })
 const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty'), { ssr: false })
+const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -205,5 +206,26 @@ export const TOPICS: Topic[] = [
       'It stabilises atoms against collapse into the nucleus.',
     ],
     render: () => <Uncertainty />,
+  },
+  {
+    id: 'spin',
+    label: 'Quantum Spin & Stern–Gerlach',
+    tagline: 'Intrinsic angular momentum that comes in steps.',
+    icon: '⇅',
+    difficulty: 'intermediate',
+    category: 'foundations',
+    equation: 'Sz = ±½ ℏ',
+    explanation: [
+      'Spin is an intrinsic angular momentum carried by particles like electrons — not a literal spinning ball, but a genuine quantum degree of freedom with no classical counterpart. For a spin-½ particle, measuring spin along any axis yields only two values: up or down.',
+      'The 1922 Stern–Gerlach experiment sent silver atoms through a non-uniform magnetic field. Classically their random magnetic orientations should smear into one continuous band. Instead the beam split cleanly into two — direct proof that the projection of spin is quantised.',
+      'Chain two analysers and it gets stranger: measuring spin along x scrambles a previously definite z-spin, because those components are incompatible observables. Spin underpins the Pauli exclusion principle, magnetism, MRI, and most qubit hardware.',
+    ],
+    keyPoints: [
+      'Spin is intrinsic angular momentum with no classical analogue.',
+      'A spin-½ measurement gives only two outcomes: ↑ or ↓.',
+      'The beam splits in two — orientation is quantised, not continuous.',
+      'Spin components along different axes are incompatible.',
+    ],
+    render: () => <SternGerlach />,
   },
 ]
