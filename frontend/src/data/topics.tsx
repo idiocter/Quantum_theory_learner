@@ -13,6 +13,7 @@ const HarmonicOscillator = dynamic(() => import('@/components/simulations/Harmon
 const BlochSphere = dynamic(() => import('@/components/simulations/BlochSphere'), { ssr: false })
 const Photoelectric = dynamic(() => import('@/components/simulations/Photoelectric'), { ssr: false })
 const Blackbody = dynamic(() => import('@/components/simulations/Blackbody'), { ssr: false })
+const Measurement = dynamic(() => import('@/components/simulations/Measurement'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -315,5 +316,26 @@ export const TOPICS: Topic[] = [
       'Total power scales as T⁴ (Stefan–Boltzmann).',
     ],
     render: () => <Blackbody />,
+  },
+  {
+    id: 'measurement',
+    label: 'Measurement & Collapse',
+    tagline: 'How the spread of possibility becomes one fact.',
+    icon: '◎',
+    difficulty: 'advanced',
+    category: 'foundations',
+    equation: 'P(x) = |ψ(x)|²   (Born rule)',
+    explanation: [
+      'Between observations a quantum system evolves smoothly and deterministically through the Schrödinger equation, spread across many possibilities at once. Measurement is the abrupt exception: the wavefunction "collapses" to a single eigenstate, and the spread of amplitude becomes one definite, random outcome.',
+      'The Born rule fixes the odds: the probability of an outcome is the squared magnitude of its amplitude, |ψ|². Any one result is unpredictable, but repeat the experiment on identically prepared systems and the tally of outcomes reconstructs |ψ|² exactly.',
+      'Why and how collapse happens — or whether it "really" happens at all — is the measurement problem, the field\'s deepest open question. Interpretations differ: Copenhagen takes collapse as primitive, many-worlds denies it, and decoherence explains why we never see superpositions of everyday objects.',
+    ],
+    keyPoints: [
+      'Unitary evolution between measurements; abrupt collapse upon one.',
+      'Outcomes are random, weighted by the Born rule |ψ|².',
+      'Repeated trials rebuild the full probability distribution.',
+      'The "why" of collapse is the unresolved measurement problem.',
+    ],
+    render: () => <Measurement />,
   },
 ]
