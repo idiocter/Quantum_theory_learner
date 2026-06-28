@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { TOPICS } from '@/data/topics'
 
 export default function LandingPage() {
   return (
@@ -37,7 +38,7 @@ export default function LandingPage() {
         {/* Stats */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl w-full">
           {[
-            { value: '4', label: 'Simulations', color: 'text-quantum-400' },
+            { value: String(TOPICS.length), label: 'Simulations', color: 'text-quantum-400' },
             { value: 'φ', label: 'Fibonacci UI', color: 'text-plasma-400' },
             { value: '∞', label: 'AI Conversations', color: 'text-wave-400' },
             { value: '3', label: 'Difficulty Levels', color: 'text-photon-400' },
@@ -57,7 +58,7 @@ export default function LandingPage() {
             {
               icon: '◈',
               title: 'Live Simulations',
-              desc: 'Visualize double-slit interference, particle-in-a-box wavefunctions, and quantum tunneling with Three.js.',
+              desc: 'Work through a serial tour of quantum topics — double-slit, superposition, entanglement, the Bloch sphere and more — each with an interactive animation.',
               color: 'border-quantum-500/30 hover:border-quantum-500/60',
               glow: 'hover:shadow-quantum-glow',
             },
