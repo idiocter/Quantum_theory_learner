@@ -6,6 +6,7 @@ const ParticleInBox = dynamic(() => import('@/components/simulations/ParticleInB
 const Wavefunction = dynamic(() => import('@/components/simulations/Wavefunction'), { ssr: false })
 const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumTunneling'), { ssr: false })
 const Superposition = dynamic(() => import('@/components/simulations/Superposition'), { ssr: false })
+const Entanglement = dynamic(() => import('@/components/simulations/Entanglement'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -161,5 +162,26 @@ export const TOPICS: Topic[] = [
       'It is a physical state, not mere lack of knowledge.',
     ],
     render: () => <Superposition />,
+  },
+  {
+    id: 'entanglement',
+    label: 'Quantum Entanglement',
+    tagline: 'Correlations no classical signal can explain.',
+    icon: '∞',
+    difficulty: 'intermediate',
+    category: 'information',
+    equation: '|Ψ⁻⟩ = (|01⟩ − |10⟩) / √2',
+    explanation: [
+      'Two particles can share a single joint state that cannot be written as "particle A is here" and "particle B is there" separately. In the singlet state, neither qubit has a definite spin, yet they are guaranteed to be opposite whenever measured along the same axis.',
+      'Measure one and you instantly know the other — even light-years away. Einstein called it "spooky action at a distance", but no usable signal travels: each side alone sees pure randomness, and only by comparing notes through a classical channel do the correlations appear.',
+      'Bell\'s theorem turns this into a testable inequality. Real experiments violate it, ruling out any local hidden-variable explanation. Entanglement is the backbone of quantum teleportation, superdense coding, and the speed-ups of quantum computing.',
+    ],
+    keyPoints: [
+      'The joint state cannot be factored into independent parts.',
+      'Outcomes are perfectly correlated but individually random.',
+      'No faster-than-light signalling — only shared randomness.',
+      'Bell-inequality violations rule out local hidden variables.',
+    ],
+    render: () => <Entanglement />,
   },
 ]
