@@ -1,19 +1,19 @@
-import dynamic from 'next/dynamic'
 import type { ReactNode } from 'react'
-
-const DoubleSlit = dynamic(() => import('@/components/simulations/DoubleSlit'), { ssr: false })
-const ParticleInBox = dynamic(() => import('@/components/simulations/ParticleInBox'), { ssr: false })
-const Wavefunction = dynamic(() => import('@/components/simulations/Wavefunction'), { ssr: false })
-const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumTunneling'), { ssr: false })
-const Superposition = dynamic(() => import('@/components/simulations/Superposition'), { ssr: false })
-const Entanglement = dynamic(() => import('@/components/simulations/Entanglement'), { ssr: false })
-const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty'), { ssr: false })
-const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach'), { ssr: false })
-const HarmonicOscillator = dynamic(() => import('@/components/simulations/HarmonicOscillator'), { ssr: false })
-const BlochSphere = dynamic(() => import('@/components/simulations/BlochSphere'), { ssr: false })
-const Photoelectric = dynamic(() => import('@/components/simulations/Photoelectric'), { ssr: false })
-const Blackbody = dynamic(() => import('@/components/simulations/Blackbody'), { ssr: false })
-const Measurement = dynamic(() => import('@/components/simulations/Measurement'), { ssr: false })
+import {
+  DoubleSlit,
+  ParticleInBox,
+  Wavefunction,
+  QuantumTunneling,
+  Superposition,
+  Entanglement,
+  Uncertainty,
+  SternGerlach,
+  HarmonicOscillator,
+  BlochSphere,
+  Photoelectric,
+  Blackbody,
+  Measurement,
+} from '@/components/simulations/registry'
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
