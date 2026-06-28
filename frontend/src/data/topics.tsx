@@ -12,6 +12,7 @@ const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach
 const HarmonicOscillator = dynamic(() => import('@/components/simulations/HarmonicOscillator'), { ssr: false })
 const BlochSphere = dynamic(() => import('@/components/simulations/BlochSphere'), { ssr: false })
 const Photoelectric = dynamic(() => import('@/components/simulations/Photoelectric'), { ssr: false })
+const Blackbody = dynamic(() => import('@/components/simulations/Blackbody'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -293,5 +294,26 @@ export const TOPICS: Topic[] = [
       'Intensity controls the number of ejected electrons only.',
     ],
     render: () => <Photoelectric />,
+  },
+  {
+    id: 'blackbody',
+    label: 'Blackbody Radiation',
+    tagline: 'The catastrophe that started it all, in 1900.',
+    icon: '◐',
+    difficulty: 'intermediate',
+    category: 'light-and-matter',
+    equation: 'B(λ,T) ∝ 1 / [λ⁵ (e^{hc/λkT} − 1)]',
+    explanation: [
+      'Any warm object glows with a characteristic spectrum that depends only on its temperature. Classical physics (the Rayleigh–Jeans law) predicted the intensity should grow without bound at short wavelengths — the absurd "ultraviolet catastrophe" where a fireplace would emit infinite energy.',
+      'In 1900 Max Planck fixed it with a radical assumption: energy is exchanged only in discrete bundles of size E = hf. That quantisation suppresses the high-frequency modes and bends the curve back to zero, matching experiment perfectly. It was the first appearance of the quantum.',
+      'The spectrum\'s peak shifts to shorter wavelengths as temperature rises (Wien\'s law), which is why a heated metal glows red, then white, then bluish. The total radiated power climbs as T⁴ (Stefan–Boltzmann). This is how we read the temperatures of stars.',
+    ],
+    keyPoints: [
+      'Classical theory diverges at short λ — the ultraviolet catastrophe.',
+      'Planck quantised energy as E = hf to tame the spectrum.',
+      'Peak wavelength shifts as 1/T (Wien\'s displacement law).',
+      'Total power scales as T⁴ (Stefan–Boltzmann).',
+    ],
+    render: () => <Blackbody />,
   },
 ]
