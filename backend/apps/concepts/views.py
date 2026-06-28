@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from apps.core.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
-from .models import Category, Concept, ConceptLink
+from .models import Category, Concept
 from .serializers import (
     CategorySerializer,
     ConceptDetailSerializer,
@@ -51,13 +51,16 @@ class KnowledgeGraphView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        cache_key = "knowledge_graph_v1"
+        cache_key = "knowledge_graph_v2"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)
 
-        concepts = Concept.objects.filter(is_published=True).select_related("category")
-        links = ConceptLink.objects.select_related("source", "target")
-        data = KnowledgeGraphSerializer(None).to_representation({"concepts": concepts, "links": links})
+        concepts = (
+            Concept.objects.filter(is_published=True)
+            .select_related("category")
+            .prefetch_related("prerequisites")
+        )
+        data = KnowledgeGraphSerializer(None).to_representation({"concepts": concepts})
         cache.set(cache_key, data, timeout=300)
         return Response(data)

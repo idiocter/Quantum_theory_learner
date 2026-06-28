@@ -10,7 +10,7 @@ const DIFFICULTIES = ['', 'beginner', 'intermediate', 'advanced'] as const
 
 function ConceptCard({ c }: { c: Concept }) {
   return (
-    <Link href={`/concepts/${c.id}`} className="card-quantum p-6 group flex flex-col gap-3 h-full">
+    <Link href={`/concepts/${c.slug}`} className="card-quantum p-6 group flex flex-col gap-3 h-full">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-base font-semibold text-white group-hover:text-quantum-300 transition-colors">
           {c.title}
