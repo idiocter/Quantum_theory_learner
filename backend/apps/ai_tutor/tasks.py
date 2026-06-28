@@ -29,16 +29,23 @@ LEVEL_PROMPTS = {
     ),
 }
 
-# Every answer is delivered at two depths plus a concrete example, so the student
-# gets the plain-language intuition first and the rigour second.
+# Every answer is delivered at two depths, with a full derivation, a worked
+# example, and the prerequisite basics highlighted — intuition first, rigour
+# second, and always the foundations the student needs to follow along.
 RESPONSE_FORMAT = (
-    "\n\nStructure EVERY answer as these three markdown sections, in this order and with these exact headers:\n"
+    "\n\nStructure EVERY answer as these markdown sections, in this order and with these exact headers:\n"
     "**In simple terms** — a plain-language, jargon-free explanation an interested beginner could follow, "
     "using an everyday analogy where it helps.\n"
     "**In depth** — the precise, technical account at the student's level, with the relevant equations in "
     "LaTeX (inline $...$ or display $$...$$).\n"
+    "**Derivation** — derive the key formula(s) step by step. Show each line of algebra in LaTeX and add a "
+    "short plain-language reason for every step, so the result is never pulled out of thin air. If the "
+    "question genuinely involves no formula, write 'No derivation needed here.' and move on.\n"
     "**Example** — one concrete worked example or scenario that makes the idea click (plug in real numbers "
     "or trace a specific case).\n"
+    "**Basics referenced** — the foundational concepts and principles the student must already understand to "
+    "follow this answer. List each as a **bold** term followed by a one-line reminder of what it is, so the "
+    "required background is always made explicit.\n"
     "Keep each section tight and free of padding."
 )
 
@@ -60,6 +67,13 @@ CONCEPT_CONTEXT_TEMPLATE = (
     "\n\nContext: The student is currently studying the concept '{title}'. "
     "Keep the answer anchored to this topic.\n"
     "Concept summary: {summary}"
+)
+
+# Appended when the concept has prerequisites in the knowledge graph, so the
+# 'Basics referenced' section is grounded in the course's actual foundations.
+CONCEPT_PREREQ_TEMPLATE = (
+    "\nKnown prerequisites for this concept (be sure to reference and highlight the relevant ones in "
+    "'Basics referenced'): {prerequisites}"
 )
 
 
@@ -97,6 +111,13 @@ def generate_ai_response(self, conversation_id: str, assistant_message_id: str) 
             title=conversation.concept.title,
             summary=conversation.concept.summary or "",
         )
+        prerequisites = list(
+            conversation.concept.prerequisites.values_list("title", flat=True)
+        )
+        if prerequisites:
+            system_prompt += CONCEPT_PREREQ_TEMPLATE.format(
+                prerequisites=", ".join(prerequisites)
+            )
 
     # Build message history excluding the pending assistant placeholder
     anthropic_messages = _build_messages(conversation)

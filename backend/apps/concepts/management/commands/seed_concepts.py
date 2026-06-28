@@ -141,6 +141,22 @@ CONCEPTS = [
 ]
 
 
+# slug -> prerequisite slugs, the directed edges of the learning path. Used both
+# for the knowledge graph and to ground the AI tutor's "Basics referenced".
+PREREQUISITES = {
+    "particle_in_box": ["wavefunction"],
+    "wavefunction": ["double_slit"],
+    "quantum_tunneling": ["wavefunction", "particle_in_box"],
+    "superposition": ["double_slit"],
+    "entanglement": ["superposition"],
+    "uncertainty": ["wavefunction"],
+    "spin": ["superposition"],
+    "harmonic_oscillator": ["particle_in_box", "wavefunction"],
+    "qubit": ["superposition"],
+    "measurement": ["superposition", "double_slit"],
+}
+
+
 class Command(BaseCommand):
     help = "Seed the database with the core quantum concepts and their content."
 
@@ -179,6 +195,16 @@ class Command(BaseCommand):
             )
             created += was_created
             updated += not was_created
+
+        # Wire up prerequisites once every concept exists (M2M needs both ends).
+        by_slug = {c.slug: c for c in Concept.objects.all()}
+        for slug, prereq_slugs in PREREQUISITES.items():
+            concept = by_slug.get(slug)
+            if not concept:
+                continue
+            concept.prerequisites.set(
+                [by_slug[p] for p in prereq_slugs if p in by_slug]
+            )
 
         self.stdout.write(
             self.style.SUCCESS(
