@@ -14,5 +14,5 @@ export const authApi = {
   updateProfile: (data: Partial<Pick<User, 'first_name' | 'last_name' | 'bio'>>) =>
     apiClient.patch<User>('/auth/me/', data),
 
-  myProgress: () => apiClient.get<UserProgress>('/auth/progress/'),
+  myProgress: () => apiClient.get<UserProgress>('/auth/me/progress/'),
 }
