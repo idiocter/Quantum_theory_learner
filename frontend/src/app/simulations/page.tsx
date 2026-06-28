@@ -1,100 +1,7 @@
 'use client'
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
 import { cn } from '@/lib/utils'
-import type { SimulationType } from '@/types'
-
-const DoubleSlit = dynamic(() => import('@/components/simulations/DoubleSlit'), { ssr: false })
-const ParticleInBox = dynamic(() => import('@/components/simulations/ParticleInBox'), { ssr: false })
-const Wavefunction = dynamic(() => import('@/components/simulations/Wavefunction'), { ssr: false })
-const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumTunneling'), { ssr: false })
-
-type Difficulty = 'beginner' | 'intermediate' | 'advanced'
-
-interface Topic {
-  id: SimulationType
-  label: string
-  tagline: string
-  icon: string
-  difficulty: Difficulty
-  /** Short narrative explanation, rendered above the live animation. */
-  explanation: string[]
-  /** Bullet takeaways highlighted beside the explanation. */
-  keyPoints: string[]
-  render: () => React.ReactNode
-}
-
-// Quantum topics presented serially — each unlocks an explanation + live animation on click.
-const TOPICS: Topic[] = [
-  {
-    id: 'double_slit',
-    label: 'The Double-Slit Experiment',
-    tagline: 'Why a single particle interferes with itself.',
-    icon: '◈',
-    difficulty: 'beginner',
-    explanation: [
-      'Fire particles one at a time at a barrier with two narrow openings. Classically you would expect two bright bands behind the slits. Instead, an interference pattern of many fringes builds up — even though particles arrive one by one and never meet.',
-      'Each particle travels as a probability wave that passes through both slits at once. The two paths interfere, and the squared amplitude of the combined wave sets the odds of where the particle lands. Where the waves add you get bright fringes; where they cancel, dark gaps.',
-    ],
-    keyPoints: [
-      'A particle behaves like a wave until it is detected.',
-      'Probability = |ψ|² of the combined two-path amplitude.',
-      'Fringe spacing grows with wavelength and shrinks with slit separation.',
-    ],
-    render: () => <DoubleSlit />,
-  },
-  {
-    id: 'particle_in_box',
-    label: 'Particle in a Box',
-    tagline: 'How confinement quantises energy.',
-    icon: '⊞',
-    difficulty: 'beginner',
-    explanation: [
-      'Trap a particle between two infinitely high walls. Its wavefunction must vanish at both walls, so only standing waves with a whole number of half-wavelengths fit — exactly like the harmonics of a guitar string.',
-      'Because only certain wavelengths are allowed, only certain energies are allowed: E ∝ n². Energy becomes discrete, or "quantised", purely as a consequence of confining the particle. The lowest state still carries non-zero zero-point energy.',
-    ],
-    keyPoints: [
-      'Boundary conditions force ψ = 0 at the walls.',
-      'Allowed energies are discrete: Eₙ ∝ n².',
-      'There is no zero-energy state — confinement guarantees motion.',
-    ],
-    render: () => <ParticleInBox />,
-  },
-  {
-    id: 'wavefunction',
-    label: 'Wavefunction Evolution',
-    tagline: 'How a wave packet spreads through time.',
-    icon: '∿',
-    difficulty: 'intermediate',
-    explanation: [
-      'A free particle can be described by a Gaussian wave packet — a localised bump of probability. The Schrödinger equation tells that packet how to evolve, and the result is that it inevitably spreads out as time passes.',
-      'Spreading is the price of localisation: a tightly-pinned position requires a wide spread of momenta, and those momentum components travel at different speeds, smearing the packet. Position and momentum cannot both be sharp — the uncertainty principle in motion.',
-    ],
-    keyPoints: [
-      'The Schrödinger equation drives the time evolution of ψ.',
-      'A localised packet necessarily disperses over time.',
-      'Δx · Δp ≥ ℏ/2 — sharper position means fuzzier momentum.',
-    ],
-    render: () => <Wavefunction />,
-  },
-  {
-    id: 'quantum_tunneling',
-    label: 'Quantum Tunneling',
-    tagline: 'Passing through walls that should stop you.',
-    icon: '→',
-    difficulty: 'advanced',
-    explanation: [
-      'Send a particle at a potential barrier taller than its energy. Classically it must bounce back. Quantum mechanically its wavefunction decays inside the barrier rather than stopping dead — and if the barrier is thin enough, a small amplitude survives on the far side.',
-      'That surviving amplitude means a real, non-zero chance of finding the particle beyond a wall it could never climb. Tunneling powers radioactive alpha decay, the scanning tunneling microscope, and fusion in the core of the Sun.',
-    ],
-    keyPoints: [
-      'ψ decays exponentially inside a classically forbidden barrier.',
-      'Thinner, lower barriers give exponentially higher transmission.',
-      'Real-world payoff: alpha decay, STM imaging, stellar fusion.',
-    ],
-    render: () => <QuantumTunneling />,
-  },
-]
+import { TOPICS, type Difficulty } from '@/data/topics'
 
 const DIFF_LABEL: Record<Difficulty, string> = {
   beginner: 'Beginner',
@@ -104,7 +11,7 @@ const DIFF_LABEL: Record<Difficulty, string> = {
 
 export default function SimulationsPage() {
   // Serial walkthrough: one topic expanded at a time. First topic open by default.
-  const [openId, setOpenId] = useState<SimulationType | null>(TOPICS[0].id)
+  const [openId, setOpenId] = useState<string | null>(TOPICS[0].id)
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
@@ -177,6 +84,14 @@ export default function SimulationsPage() {
                 {/* Expanded panel: explanation + live animation */}
                 {isOpen && (
                   <div className="px-5 pb-6 border-t border-white/5">
+                    {topic.equation && (
+                      <div className="pt-4">
+                        <code className="inline-block text-sm font-mono text-quantum-300 bg-quantum-500/5 border border-quantum-500/20 rounded-lg px-3 py-1.5">
+                          {topic.equation}
+                        </code>
+                      </div>
+                    )}
+
                     <div className="grid md:grid-cols-[1.1fr_1fr] gap-6 pt-5">
                       <div className="space-y-3">
                         {topic.explanation.map((para, p) => (
