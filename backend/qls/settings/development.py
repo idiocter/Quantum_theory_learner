@@ -4,8 +4,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-# Relax CORS in development
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS for local frontend dev (Next on :3000 → Django on :8000).
+# NOTE: credentialed requests (withCredentials/cookies) are incompatible with
+# CORS_ALLOW_ALL_ORIGINS=True — the spec forbids the "*" origin when credentials
+# are sent, so the browser drops the response. Use an explicit origin list so
+# django-cors-headers echoes the request origin instead.
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 CORS_ALLOW_CREDENTIALS = True
 
 # Override cookie security for HTTP dev

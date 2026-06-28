@@ -50,20 +50,20 @@
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
-  /* Nebula glow shadows — soft, large, multi-color */
-  --shadow-quantum-glow: 0 0 24px rgba(162, 89, 255, 0.35), 0 0 60px rgba(162, 89, 255, 0.12);
-  --shadow-plasma-glow: 0 0 24px rgba(255, 94, 196, 0.35), 0 0 60px rgba(255, 94, 196, 0.12);
-  --shadow-wave-glow: 0 0 24px rgba(56, 198, 232, 0.35), 0 0 56px rgba(56, 198, 232, 0.1);
+  /* Nebula glow shadows — soft, large, multi-color (dimmed) */
+  --shadow-quantum-glow: 0 0 18px rgba(162, 89, 255, 0.20), 0 0 48px rgba(162, 89, 255, 0.07);
+  --shadow-plasma-glow: 0 0 18px rgba(255, 94, 196, 0.20), 0 0 48px rgba(255, 94, 196, 0.07);
+  --shadow-wave-glow: 0 0 18px rgba(56, 198, 232, 0.20), 0 0 44px rgba(56, 198, 232, 0.06);
 
   /* Animations */
   --animate-quantum-pulse: quartzPulse 2.4s ease-in-out infinite;
 
   @keyframes quartzPulse {
     0%, 100% {
-      box-shadow: 0 0 10px rgba(162, 89, 255, 0.4);
+      box-shadow: 0 0 8px rgba(162, 89, 255, 0.22);
     }
     50% {
-      box-shadow: 0 0 28px rgba(162, 89, 255, 0.85), 0 0 60px rgba(255, 94, 196, 0.35);
+      box-shadow: 0 0 20px rgba(162, 89, 255, 0.5), 0 0 44px rgba(255, 94, 196, 0.18);
     }
   }
 }
@@ -73,9 +73,9 @@
   --phi: 1.618;
   --phi-inv: 0.618;
 
-  --glow-quantum: 0 0 24px rgba(162, 89, 255, 0.35), 0 0 60px rgba(162, 89, 255, 0.12);
-  --glow-plasma: 0 0 24px rgba(255, 94, 196, 0.35), 0 0 60px rgba(255, 94, 196, 0.12);
-  --glow-wave: 0 0 24px rgba(56, 198, 232, 0.35), 0 0 56px rgba(56, 198, 232, 0.1);
+  --glow-quantum: 0 0 18px rgba(162, 89, 255, 0.20), 0 0 48px rgba(162, 89, 255, 0.07);
+  --glow-plasma: 0 0 18px rgba(255, 94, 196, 0.20), 0 0 48px rgba(255, 94, 196, 0.07);
+  --glow-wave: 0 0 18px rgba(56, 198, 232, 0.20), 0 0 44px rgba(56, 198, 232, 0.06);
 
   /* Prismatic quartz edge — refraction spectrum */
   --prism: linear-gradient(
@@ -103,8 +103,8 @@ html {
 }
 
 body {
-  background-color: #060414;
-  color: #e7e2f5;
+  background-color: #040310;
+  color: #b9b2d0;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
@@ -112,12 +112,12 @@ body {
 
 /* ── Cosmic nebula backdrop (applied to <body>) ───────────────────────────── */
 .quantum-mesh {
-  background-color: #060414;
+  background-color: #040310;
   background-image:
-    radial-gradient(ellipse 80% 55% at 12% -5%, rgba(139, 47, 230, 0.20), transparent 60%),
-    radial-gradient(ellipse 70% 55% at 88% 12%, rgba(255, 94, 196, 0.13), transparent 55%),
-    radial-gradient(ellipse 95% 70% at 50% 108%, rgba(56, 198, 232, 0.10), transparent 60%),
-    radial-gradient(circle at 50% 40%, #0c0922 0%, #060414 70%);
+    radial-gradient(ellipse 80% 55% at 12% -5%, rgba(139, 47, 230, 0.10), transparent 62%),
+    radial-gradient(ellipse 70% 55% at 88% 12%, rgba(255, 94, 196, 0.06), transparent 58%),
+    radial-gradient(ellipse 95% 70% at 50% 108%, rgba(56, 198, 232, 0.05), transparent 62%),
+    radial-gradient(circle at 50% 40%, #0a0719 0%, #040310 72%);
   background-attachment: fixed;
 }
 
@@ -128,7 +128,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 5;
-  background: radial-gradient(ellipse at 50% 45%, transparent 52%, rgba(4, 2, 14, 0.6) 100%);
+  background: radial-gradient(ellipse at 50% 45%, transparent 46%, rgba(2, 1, 9, 0.78) 100%);
 }
 
 /* ── Crystal decorators ──────────────────────────────────────────────────── */
@@ -160,7 +160,7 @@ body {
   right: 12%;
   height: 1px;
   background: var(--prism);
-  opacity: 0.55;
+  opacity: 0.3;
   pointer-events: none;
 }
 
@@ -188,7 +188,7 @@ body {
   right: 12%;
   height: 1px;
   background: var(--prism);
-  opacity: 0.55;
+  opacity: 0.3;
   pointer-events: none;
 }
 
@@ -203,17 +203,17 @@ body {
    ════════════════════════════════════════════════════════════════════════════ */
 .btn-quantum {
   @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-quantum-500/50;
-  background: linear-gradient(135deg, #5b1aa0 0%, #8b2fe6 55%, #a259ff 100%);
-  color: #ffffff;
-  border: 1px solid rgba(162, 89, 255, 0.55);
-  box-shadow: 0 0 14px rgba(162, 89, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, #3a1268 0%, #5b1aa0 55%, #7522c9 100%);
+  color: #f0eafc;
+  border: 1px solid rgba(162, 89, 255, 0.4);
+  box-shadow: 0 0 10px rgba(162, 89, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-quantum::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, transparent 60%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 48%, transparent 60%);
   pointer-events: none;
 }
 
@@ -228,17 +228,17 @@ body {
 
 .btn-plasma {
   @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-plasma-500/50;
-  background: linear-gradient(135deg, #a01f73 0%, #ff5ec4 55%, #ff8fd4 100%);
-  color: #ffffff;
-  border: 1px solid rgba(255, 94, 196, 0.55);
-  box-shadow: 0 0 14px rgba(255, 94, 196, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, #6e1550 0%, #b53d8a 55%, #d83fa3 100%);
+  color: #f6e9f3;
+  border: 1px solid rgba(255, 94, 196, 0.4);
+  box-shadow: 0 0 10px rgba(255, 94, 196, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-plasma::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, transparent 60%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 48%, transparent 60%);
   pointer-events: none;
 }
 
@@ -306,8 +306,8 @@ body {
 /* ── Prose (AI tutor content) ────────────────────────────────────────────── */
 .prose-quantum {
   @apply prose prose-invert max-w-none;
-  --tw-prose-body: #cdc6e6;
-  --tw-prose-headings: #ece7fb;
+  --tw-prose-body: #b3acca;
+  --tw-prose-headings: #d4cdeb;
   --tw-prose-code: #c098ff;
   --tw-prose-pre-bg: rgba(21, 16, 47, 0.85);
   --tw-prose-pre-code: #e7e2f5;
