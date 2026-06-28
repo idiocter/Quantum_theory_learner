@@ -10,6 +10,7 @@ const Entanglement = dynamic(() => import('@/components/simulations/Entanglement
 const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty'), { ssr: false })
 const SternGerlach = dynamic(() => import('@/components/simulations/SternGerlach'), { ssr: false })
 const HarmonicOscillator = dynamic(() => import('@/components/simulations/HarmonicOscillator'), { ssr: false })
+const BlochSphere = dynamic(() => import('@/components/simulations/BlochSphere'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -249,5 +250,26 @@ export const TOPICS: Topic[] = [
       'It approximates any potential near a stable minimum.',
     ],
     render: () => <HarmonicOscillator />,
+  },
+  {
+    id: 'qubit',
+    label: 'The Qubit & Bloch Sphere',
+    tagline: 'Every pure single-qubit state on one sphere.',
+    icon: '⦿',
+    difficulty: 'advanced',
+    category: 'information',
+    equation: '|ψ⟩ = cos(θ/2)|0⟩ + e^{iφ} sin(θ/2)|1⟩',
+    explanation: [
+      'A classical bit is 0 or 1. A qubit\'s pure states form a continuous surface — the Bloch sphere. The north pole is |0⟩, the south pole |1⟩, and every other point is a superposition set by a polar angle θ and an azimuthal phase φ.',
+      'The phase φ is invisible to a single measurement (which only sees the z-projection) but absolutely real: it controls interference, and rotating it is how algorithms steer probability. Logic gates are rotations of the sphere — X flips the poles, Z twists the phase, and the Hadamard H turns a pole into the equator, building superposition.',
+      'Mixed or noisy states sit inside the ball rather than on its surface, and the radius measures how "quantum" the state still is. The Bloch picture is the everyday map quantum-computing engineers use to reason about one qubit at a time.',
+    ],
+    keyPoints: [
+      'Pure qubit states = points on a sphere; angles θ, φ set the state.',
+      'Only the z-projection is measured: P(0) = (1 + z)/2.',
+      'Gates are rotations — X, Z, and H move the state vector.',
+      'The hidden phase φ drives quantum interference.',
+    ],
+    render: () => <BlochSphere />,
   },
 ]
