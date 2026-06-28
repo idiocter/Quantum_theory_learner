@@ -7,6 +7,7 @@ const Wavefunction = dynamic(() => import('@/components/simulations/Wavefunction
 const QuantumTunneling = dynamic(() => import('@/components/simulations/QuantumTunneling'), { ssr: false })
 const Superposition = dynamic(() => import('@/components/simulations/Superposition'), { ssr: false })
 const Entanglement = dynamic(() => import('@/components/simulations/Entanglement'), { ssr: false })
+const Uncertainty = dynamic(() => import('@/components/simulations/Uncertainty'), { ssr: false })
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'
 
@@ -183,5 +184,26 @@ export const TOPICS: Topic[] = [
       'Bell-inequality violations rule out local hidden variables.',
     ],
     render: () => <Entanglement />,
+  },
+  {
+    id: 'uncertainty',
+    label: 'The Uncertainty Principle',
+    tagline: 'Why sharp position means fuzzy momentum.',
+    icon: 'Δ',
+    difficulty: 'intermediate',
+    category: 'foundations',
+    equation: 'Δx · Δp ≥ ℏ / 2',
+    explanation: [
+      'Heisenberg\'s principle says certain pairs of properties — position and momentum, energy and time — can never both be pinned down at once. The more precisely you fix one, the more the other must blur. This is not clumsy measurement; it is built into the wave nature of matter.',
+      'A wavefunction sharply peaked in position is, mathematically, a sum of many different momentum waves — so its momentum is spread wide. Conversely, a single pure momentum is an infinite wave with no definite location. The two descriptions are Fourier transforms of each other, and you cannot make both narrow.',
+      'The floor is ℏ/2, an absurdly small number, so the trade-off is invisible for baseballs but dominant for electrons. It explains why atoms don\'t collapse: confining an electron too tightly would spike its momentum and kinetic energy, pushing it back out.',
+    ],
+    keyPoints: [
+      'Conjugate pairs (x,p) cannot both be sharp simultaneously.',
+      'Position and momentum wavefunctions are Fourier transforms.',
+      'The bound ℏ/2 is fundamental, not a measurement limitation.',
+      'It stabilises atoms against collapse into the nucleus.',
+    ],
+    render: () => <Uncertainty />,
   },
 ]
