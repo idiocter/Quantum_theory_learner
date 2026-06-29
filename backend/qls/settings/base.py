@@ -215,6 +215,12 @@ cloudinary.config(
 )
 
 # ── AI Tutor ─────────────────────────────────────────────────────────────────
+# Active provider for the tutor: "groq" (default) or "anthropic".
+LLM_PROVIDER = config("LLM_PROVIDER", default="groq")
+
+GROQ_API_KEY = config("GROQ_API_KEY", default="")
+GROQ_MODEL = config("GROQ_MODEL", default="llama-3.3-70b-versatile")
+
 ANTHROPIC_API_KEY = config("ANTHROPIC_API_KEY", default="")
 ANTHROPIC_MODEL = config("ANTHROPIC_MODEL", default="claude-sonnet-4-6")
 

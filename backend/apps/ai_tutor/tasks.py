@@ -1,9 +1,10 @@
 import logging
 
-import anthropic
 from celery import shared_task
-from django.conf import settings
 from django.db import transaction
+
+from .llm import LLMError, generate_chat
+from .retrieval import retrieve_context
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +77,15 @@ CONCEPT_PREREQ_TEMPLATE = (
     "'Basics referenced'): {prerequisites}"
 )
 
+# RAG: course material retrieved for the student's question is injected here so
+# the tutor grounds its answer in the actual knowledge base, not just the
+# model's own training.
+RAG_CONTEXT_TEMPLATE = (
+    "\n\nRetrieved course material for this question. Ground your answer in it and prefer it over outside "
+    "facts; if it does not cover the question, say so in one line and then answer from general knowledge:\n"
+    "{passages}"
+)
+
 
 def _build_messages(conversation):
     """Convert stored messages to Anthropic message format."""
@@ -120,27 +130,22 @@ def generate_ai_response(self, conversation_id: str, assistant_message_id: str) 
             )
 
     # Build message history excluding the pending assistant placeholder
-    anthropic_messages = _build_messages(conversation)
+    chat_messages = _build_messages(conversation)
 
-    model = getattr(settings, "ANTHROPIC_MODEL", "claude-opus-4-8")
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    # RAG: retrieve course material relevant to the student's latest question
+    # and fold it into the system prompt so the answer is grounded in it.
+    latest_question = next(
+        (m["content"] for m in reversed(chat_messages) if m["role"] == "user"), ""
+    )
+    passages = retrieve_context(latest_question, limit=3)
+    if passages:
+        system_prompt += RAG_CONTEXT_TEMPLATE.format(passages="\n\n".join(passages))
 
     try:
-        with client.messages.stream(
-            model=model,
-            max_tokens=2048,
-            system=system_prompt,
-            messages=anthropic_messages,
-            thinking={"type": "adaptive"},
-        ) as stream:
-            final = stream.get_final_message()
-
-        # Extract text content blocks only
-        response_text = "".join(
-            block.text for block in final.content if block.type == "text"
-        )
-        input_tokens = final.usage.input_tokens
-        output_tokens = final.usage.output_tokens
+        response = generate_chat(system_prompt, chat_messages, max_tokens=2048)
+        response_text = response.text
+        input_tokens = response.input_tokens
+        output_tokens = response.output_tokens
 
         from django.db.models import F
 
@@ -160,8 +165,8 @@ def generate_ai_response(self, conversation_id: str, assistant_message_id: str) 
 
         logger.info("AI response generated: conv=%s tokens=%d+%d", conversation_id, input_tokens, output_tokens)
 
-    except anthropic.APIStatusError as exc:
-        logger.error("Anthropic API error for conv %s: %s", conversation_id, exc)
+    except LLMError as exc:
+        logger.error("LLM provider error for conv %s: %s", conversation_id, exc)
         assistant_msg.content = "I encountered an error generating a response. Please try again."
         assistant_msg.status = Message.Status.ERROR
         assistant_msg.save(update_fields=["content", "status"])
