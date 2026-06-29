@@ -28,6 +28,15 @@ export interface Category {
   icon: string
 }
 
+export interface ConceptContent {
+  id: string
+  level: 'beginner' | 'intermediate' | 'advanced'
+  explanation: string
+  math_derivation: string
+  key_equations: Array<{ label: string; latex: string }>
+  further_reading: Array<{ title: string; url: string }>
+}
+
 export interface Concept {
   id: string
   title: string
@@ -42,6 +51,8 @@ export interface Concept {
   is_published: boolean
   created_at: string
   updated_at: string
+  // Present on the detail endpoint: the per-level explanatory chapters.
+  contents?: ConceptContent[]
 }
 
 export interface KnowledgeGraph {
