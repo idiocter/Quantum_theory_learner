@@ -6,7 +6,9 @@ from .models import Conversation, Message
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ("id", "role", "content", "input_tokens", "output_tokens", "created_at")
+        # `status` is required by the frontend poll loop to know when an
+        # assistant message finishes generating (pending → completed/error).
+        fields = ("id", "role", "content", "status", "input_tokens", "output_tokens", "created_at")
         read_only_fields = fields
 
 

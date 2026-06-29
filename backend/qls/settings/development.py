@@ -18,6 +18,23 @@ CORS_ALLOW_CREDENTIALS = True
 # Override cookie security for HTTP dev
 SIMPLE_JWT["AUTH_COOKIE_SECURE"] = False  # noqa: F405
 
+# Local dev has no Redis/Celery worker, so run tasks inline (synchronously) in
+# the web process. This makes the AI tutor work end-to-end without a broker.
+# In production a real worker consumes the queue instead.
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True
+
+# The base settings point the cache at Redis. With no Redis in local dev the
+# cache silently no-ops (IGNORE_EXCEPTIONS), which breaks anything that *relies*
+# on it — notably django-ratelimit, which then fails closed and 429s every AI
+# request. Use local memory so rate limiting, cache-based sessions, and the
+# knowledge-graph cache all work without a Redis server.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
 # Disable Cloudinary in dev if not configured — fall back to local filesystem
 import os  # noqa: E402
 
