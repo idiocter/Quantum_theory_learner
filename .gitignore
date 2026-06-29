@@ -54,3 +54,6 @@ Thumbs.db
 nginx/certs/*.pem
 nginx/certs/*.key
 nginx/certs/*.crt
+.claude
+contracts/
+CLAUDE.md
