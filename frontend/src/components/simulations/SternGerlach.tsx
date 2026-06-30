@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 interface Atom {
@@ -12,6 +13,7 @@ interface Atom {
 // into exactly two beams, revealing that spin is quantised, not continuous.
 export default function SternGerlach() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const atomsRef = useRef<Atom[]>([])
   const runningRef = useRef(true)
@@ -44,6 +46,7 @@ export default function SternGerlach() {
     let frame = 0
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       if (!runningRef.current) {
         animRef.current = requestAnimationFrame(render)
         return

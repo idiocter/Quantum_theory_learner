@@ -4,7 +4,7 @@ from django.db.models import Count, F, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_control, cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, permissions, status
 from rest_framework.response import Response
@@ -36,6 +36,7 @@ class BranchListView(generics.ListAPIView):
         ).order_by("order")
 
 
+@method_decorator(cache_control(public=True, max_age=300), name="dispatch")
 class ConceptListView(generics.ListAPIView):
     queryset = Concept.objects.filter(is_published=True).select_related("category")
     serializer_class = ConceptListSerializer
@@ -47,6 +48,7 @@ class ConceptListView(generics.ListAPIView):
     ordering = ["order"]
 
 
+@method_decorator(cache_control(public=True, max_age=300), name="dispatch")
 class ConceptDetailView(generics.RetrieveAPIView):
     queryset = (
         Concept.objects.filter(is_published=True)
@@ -89,6 +91,7 @@ class ConceptSearchView(generics.ListAPIView):
         )
 
 
+@method_decorator(cache_page(60 * 10), name="dispatch")
 class FormulaIndexView(generics.ListAPIView):
     """Site-wide formula index, searchable by LaTeX, description, or topic title."""
 
@@ -199,3 +202,37 @@ class BookmarkToggleView(APIView):
         obj.bookmarked = not obj.bookmarked
         obj.save(update_fields=["bookmarked"])
         return Response({"slug": slug, "bookmarked": obj.bookmarked})
+
+
+@method_decorator(cache_page(60 * 60), name="dispatch")
+class SitemapView(APIView):
+    """XML sitemap of all published topic pages (cached 1h). SEO.
+
+    Absolute URLs are built from the request host so the same view works behind
+    Nginx in production and on localhost in dev.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        base = f"{request.scheme}://{request.get_host()}"
+        rows = (
+            Concept.objects.filter(is_published=True)
+            .values_list("slug", "updated_at")
+            .order_by("slug")
+        )
+        urls = [f"{base}/concepts/{slug}" for slug, _ in rows]
+        lastmods = {slug: updated for slug, updated in rows}
+
+        parts = ['<?xml version="1.0" encoding="UTF-8"?>',
+                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+        # Static top-level pages.
+        for path in ["", "/concepts", "/knowledge-graph", "/formulas", "/simulations"]:
+            parts.append(f"<url><loc>{base}{path}</loc></url>")
+        for slug, updated in lastmods.items():
+            lm = updated.date().isoformat() if updated else ""
+            parts.append(f"<url><loc>{base}/concepts/{slug}</loc><lastmod>{lm}</lastmod></url>")
+        parts.append("</urlset>")
+        from django.http import HttpResponse
+
+        return HttpResponse("".join(parts), content_type="application/xml")

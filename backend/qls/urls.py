@@ -3,8 +3,11 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from apps.concepts.views import SitemapView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("sitemap.xml", SitemapView.as_view(), name="sitemap"),
     path("api/auth/", include("apps.users.urls")),
     path("api/concepts/", include("apps.concepts.urls")),
     path("api/simulations/", include("apps.simulations.urls")),

@@ -1,10 +1,12 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 // Visualises a qubit state |ψ⟩ = cos(θ/2)|0⟩ + sin(θ/2)|1⟩ as two component
 // waves plus their superposition, with a measurement that collapses it.
 export default function Superposition() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const thetaRef = useRef(60) // mixing angle in degrees
   const collapsedRef = useRef<null | 0 | 1>(null)
@@ -45,6 +47,7 @@ export default function Superposition() {
     }
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 

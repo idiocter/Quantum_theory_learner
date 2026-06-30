@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 type Vec = { x: number; y: number; z: number }
@@ -7,6 +8,7 @@ type Vec = { x: number; y: number; z: number }
 // quantum gates rotate that point. Auto-spins the viewpoint for depth.
 export default function BlochSphere() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const vecRef = useRef<Vec>({ x: 0, y: 0, z: 1 }) // start at |0⟩ (north pole)
 
@@ -62,6 +64,7 @@ export default function BlochSphere() {
     }
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 

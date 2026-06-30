@@ -1,10 +1,12 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 // Planck's blackbody spectrum vs. the classical Rayleigh–Jeans law, whose
 // divergence at short wavelengths was the "ultraviolet catastrophe".
 export default function Blackbody() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const tempRef = useRef(5800) // kelvin (≈ Sun)
 
@@ -48,6 +50,7 @@ export default function Blackbody() {
     const rayleigh = (lamNm: number, T: number) => (T * 1) / Math.pow(lamNm, 4)
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 

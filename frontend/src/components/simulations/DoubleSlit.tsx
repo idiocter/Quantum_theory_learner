@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 interface Params {
@@ -18,6 +19,7 @@ interface Particle {
 
 export default function DoubleSlit() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const interfPatternRef = useRef<Float32Array | null>(null)
   const particlesRef = useRef<Particle[]>([])
   const animRef = useRef<number>(0)
@@ -91,6 +93,7 @@ export default function DoubleSlit() {
     }
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       if (!runningRef.current) { animRef.current = requestAnimationFrame(render); return }
 
       ctx.fillStyle = 'rgba(6, 4, 20, 0.15)'

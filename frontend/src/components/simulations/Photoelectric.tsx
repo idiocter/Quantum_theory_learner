@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 interface Photon { x: number; y: number; hit: boolean }
@@ -8,6 +9,7 @@ interface Electron { x: number; y: number; vx: number; vy: number; ke: number }
 // work-function threshold. Intensity changes the count, not the kinetic energy.
 export default function Photoelectric() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const freqRef = useRef(7) // ×10^14 Hz
   const intensityRef = useRef(4)
@@ -48,6 +50,7 @@ export default function Photoelectric() {
     let count = 0
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = 'rgba(6,4,20,0.3)'
       ctx.fillRect(0, 0, W, H)
 

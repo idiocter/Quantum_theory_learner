@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 // Hermite physicists' polynomials H0..H6 for the oscillator eigenstates.
@@ -19,6 +20,7 @@ function hermite(n: number, x: number): number {
 // real Hermite–Gauss eigenstate ψₙ oscillating with phase e^(−iEₙt/ℏ).
 export default function HarmonicOscillator() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const nRef = useRef(2)
   const modeRef = useRef<'psi' | 'prob'>('psi')
@@ -56,6 +58,7 @@ export default function HarmonicOscillator() {
     }
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 
