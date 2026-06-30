@@ -1,23 +1,48 @@
 'use client'
 import { use, useEffect } from 'react'
 import Link from 'next/link'
-import { useConcept } from '@/lib/hooks/useConcepts'
+import { useQueryClient } from '@tanstack/react-query'
+import { useConcept, useProgress, useToggleBookmark } from '@/lib/hooks/useConcepts'
 import { useConceptsStore } from '@/lib/store/concepts'
+import { useAuth } from '@/lib/hooks/useAuth'
+import { conceptsApi } from '@/lib/api/concepts'
 import { difficultyLabel } from '@/lib/utils'
 import { TexProse } from '@/components/ui/Tex'
 import FormulaBlock from '@/components/concepts/FormulaBlock'
 import ConnectionsPanel from '@/components/concepts/ConnectionsPanel'
 import AnimationSlot from '@/components/concepts/AnimationSlot'
 
+// Log a server-side visit only after the reader has dwelled this long.
+const VISIT_DELAY_MS = 10_000
+
 export default function ConceptDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const { data: concept, isLoading } = useConcept(id)
   const markVisited = useConceptsStore((s) => s.markVisited)
+  const { user } = useAuth()
+  const qc = useQueryClient()
+  const { data: progress } = useProgress(!!user)
+  const toggleBookmark = useToggleBookmark()
+
+  const slug = concept?.slug
+  const bookmarked = progress?.visited.some((v) => v.concept_slug === slug && v.bookmarked) ?? false
 
   // Record the visit once the topic resolves (drives the sidebar "visited" dots).
   useEffect(() => {
-    if (concept?.slug) markVisited(concept.slug)
-  }, [concept?.slug, markVisited])
+    if (slug) markVisited(slug)
+  }, [slug, markVisited])
+
+  // Persist the visit to the server after a genuine read delay (logged-in only).
+  useEffect(() => {
+    if (!user || !slug) return
+    const t = setTimeout(() => {
+      conceptsApi
+        .logVisit(slug, VISIT_DELAY_MS / 1000)
+        .then(() => qc.invalidateQueries({ queryKey: ['progress'] }))
+        .catch(() => {})
+    }, VISIT_DELAY_MS)
+    return () => clearTimeout(t)
+  }, [user, slug, qc])
 
   if (isLoading) {
     return (
@@ -64,12 +89,29 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
-        <Link
-          href={`/tutor?concept=${concept.id}&difficulty=${concept.difficulty}`}
-          className="btn-plasma text-sm px-4 py-2 shrink-0"
-        >
-          Ask AI Tutor
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          {user && (
+            <button
+              onClick={() => toggleBookmark.mutate(concept.slug)}
+              disabled={toggleBookmark.isPending}
+              aria-pressed={bookmarked}
+              title={bookmarked ? 'Remove bookmark' : 'Bookmark this topic'}
+              className={`text-sm px-3 py-2 rounded-lg border transition-all ${
+                bookmarked
+                  ? 'border-amber-400/50 text-amber-300 bg-amber-400/10'
+                  : 'border-white/10 text-slate-400 hover:border-white/20 hover:text-slate-200'
+              }`}
+            >
+              {bookmarked ? '★ Bookmarked' : '☆ Bookmark'}
+            </button>
+          )}
+          <Link
+            href={`/tutor?concept=${concept.id}&difficulty=${concept.difficulty}`}
+            className="btn-plasma text-sm px-4 py-2"
+          >
+            Ask AI Tutor
+          </Link>
+        </div>
       </div>
 
       <div className="card-quantum p-6 mb-6">

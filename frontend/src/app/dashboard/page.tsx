@@ -6,6 +6,8 @@ import { useAuth } from '@/lib/hooks/useAuth'
 import AuthGuard from '@/components/auth/AuthGuard'
 import { quizzesApi } from '@/lib/api/quizzes'
 import { conceptsApi } from '@/lib/api/concepts'
+import { useProgress } from '@/lib/hooks/useConcepts'
+import ProgressRing from '@/components/concepts/ProgressRing'
 import { formatXP, difficultyLabel, relativeTime } from '@/lib/utils'
 
 const NAV_CARDS = [
@@ -50,6 +52,12 @@ export default function DashboardPage() {
     queryKey: ['concepts-recent'],
     queryFn: () => conceptsApi.list({ page: 1 }).then((r) => r.data.results.slice(0, 4)),
   })
+
+  const { data: topicProgress } = useProgress(!!user)
+  const branchCompletion = Object.entries(topicProgress?.completion ?? {})
+    .filter(([, c]) => c.total > 0)
+    .sort((a, b) => b[1].percent - a[1].percent)
+  const recentVisits = topicProgress?.visited?.slice(0, 6) ?? []
 
   return (
     <AuthGuard>
@@ -103,6 +111,65 @@ export default function DashboardPage() {
             ))}
           </div>
         </section>
+
+        {/* Learning progress — per-branch completion rings */}
+        {branchCompletion.length > 0 && (
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest">Progress by branch</h2>
+              <Link href="/knowledge-graph" className="text-xs text-quantum-400 hover:text-quantum-300 transition-colors">
+                Open the graph →
+              </Link>
+            </div>
+            <div className="card-quantum p-6 flex flex-wrap gap-x-6 gap-y-5 justify-center sm:justify-start">
+              {branchCompletion.map(([slug, c]) => (
+                <ProgressRing
+                  key={slug}
+                  percent={c.percent}
+                  color={c.color}
+                  label={c.name}
+                  sublabel={`${c.visited}/${c.total}`}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Bookmarked topics */}
+        {topicProgress && topicProgress.bookmarks.length > 0 && (
+          <section>
+            <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">★ Bookmarks</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {topicProgress.bookmarks.map((b) => (
+                <Link key={b.concept_slug} href={`/concepts/${b.concept_slug}`} className="card-quantum px-5 py-3 group flex items-center justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="text-sm text-white group-hover:text-quantum-300 transition-colors block truncate">{b.concept_title}</span>
+                    <span className="text-xs text-slate-600">{b.branch_name}</span>
+                  </span>
+                  <span className="text-amber-300 shrink-0">★</span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Recent visits */}
+        {recentVisits.length > 0 && (
+          <section>
+            <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Recently visited</h2>
+            <div className="space-y-2">
+              {recentVisits.map((v) => (
+                <Link key={v.concept_slug} href={`/concepts/${v.concept_slug}`} className="card-quantum px-5 py-3 group flex items-center justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="text-sm text-white group-hover:text-quantum-300 transition-colors block truncate">{v.concept_title}</span>
+                    <span className="text-xs text-slate-600">{v.branch_name} · {relativeTime(v.visited_at)}</span>
+                  </span>
+                  <span className={`text-xs px-2 py-0.5 rounded shrink-0 badge-${v.difficulty}`}>{difficultyLabel(v.difficulty)}</span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Recent concepts */}
         {concepts && concepts.length > 0 && (

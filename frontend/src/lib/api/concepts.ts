@@ -6,6 +6,7 @@ import type {
   Formula,
   KnowledgeGraph,
   PaginatedResponse,
+  ProgressResponse,
 } from '@/types'
 
 export const conceptsApi = {
@@ -33,4 +34,13 @@ export const conceptsApi = {
     apiClient.get<PaginatedResponse<Formula>>('/concepts/formulas/', { params: { page_size: 100 } }),
 
   knowledgeGraph: () => apiClient.get<KnowledgeGraph>('/concepts/graph/'),
+
+  // ── Per-user progress (auth required) ──
+  getProgress: () => apiClient.get<ProgressResponse>('/concepts/progress/'),
+
+  logVisit: (slug: string, timeSpentSeconds: number) =>
+    apiClient.post('/concepts/progress/', { slug, time_spent_seconds: timeSpentSeconds }),
+
+  toggleBookmark: (slug: string) =>
+    apiClient.patch<{ slug: string; bookmarked: boolean }>(`/concepts/${slug}/bookmark/`),
 }
