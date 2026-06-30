@@ -14,7 +14,7 @@ from django.db import Error as DatabaseError
 logger = logging.getLogger(__name__)
 
 
-def retrieve_context(query: str, limit: int = 3, min_rank: float = 0.01) -> list[str]:
+def retrieve_context(query: str, limit: int = 3) -> list[str]:
     """Return up to ``limit`` formatted passages most relevant to ``query``.
 
     Returns an empty list on a blank query or any DB/search error — retrieval is
@@ -26,12 +26,12 @@ def retrieve_context(query: str, limit: int = 3, min_rank: float = 0.01) -> list
 
     from apps.concepts.models import Concept
 
-    search_query = SearchQuery(query, search_type="websearch")
+    search_query = SearchQuery(query, search_type="websearch", config="english")
     try:
         concepts = list(
             Concept.objects.filter(is_published=True)
+            .filter(search_vector=search_query)  # actual FTS match, not a rank threshold
             .annotate(rank=SearchRank("search_vector", search_query))
-            .filter(rank__gte=min_rank)
             .order_by("-rank")
             .prefetch_related("contents", "formulas")[:limit]
         )

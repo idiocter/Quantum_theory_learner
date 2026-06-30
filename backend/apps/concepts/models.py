@@ -68,12 +68,15 @@ class Concept(TimeStampedModel):
         content_text = " ".join(
             t for t in self.contents.values_list("explanation", flat=True) if t
         )
+        # config="english" so terms are stemmed and stopwords dropped — the same
+        # config the queries use (see ai_tutor.retrieval / concepts.views), so
+        # "what is superconductivity" matches a topic titled "Superconductivity".
         type(self).objects.filter(pk=self.pk).update(
             search_vector=(
-                SearchVector(Value(self.title), weight="A")
-                + SearchVector(Value(self.summary), weight="A")
-                + SearchVector(Value(self.history), weight="B")
-                + SearchVector(Value(content_text), weight="C")
+                SearchVector(Value(self.title), weight="A", config="english")
+                + SearchVector(Value(self.summary), weight="A", config="english")
+                + SearchVector(Value(self.history), weight="B", config="english")
+                + SearchVector(Value(content_text), weight="C", config="english")
             )
         )
 
