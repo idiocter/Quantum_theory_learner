@@ -65,7 +65,7 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
         </div>
 
         <Link
-          href={`/tutor?concept=${concept.id}`}
+          href={`/tutor?concept=${concept.id}&difficulty=${concept.difficulty}`}
           className="btn-plasma text-sm px-4 py-2 shrink-0"
         >
           Ask AI Tutor

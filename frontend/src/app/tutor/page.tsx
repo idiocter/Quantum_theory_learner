@@ -67,6 +67,14 @@ function TutorUI() {
   const conceptId = searchParams.get('concept')
   const qc = useQueryClient()
 
+  const DIFFICULTIES = ['beginner', 'intermediate', 'advanced'] as const
+  type Level = (typeof DIFFICULTIES)[number]
+  const diffParam = searchParams.get('difficulty')
+  const initialDiff: Level = (DIFFICULTIES as readonly string[]).includes(diffParam ?? '')
+    ? (diffParam as Level)
+    : 'intermediate'
+
+  const [difficulty, setDifficulty] = useState<Level>(initialDiff)
   const [activeConvId, setActiveConvId] = useState<string | null>(null)
   const [input, setInput] = useState('')
   const [pendingMsgId, setPendingMsgId] = useState<string | null>(null)
@@ -110,7 +118,7 @@ function TutorUI() {
 
   const createConv = useMutation({
     mutationFn: () =>
-      aiApi.createConversation({ concept: conceptId ?? undefined, difficulty: 'intermediate' }).then((r) => r.data),
+      aiApi.createConversation({ concept: conceptId ?? undefined, difficulty }).then((r) => r.data),
     onSuccess: (conv) => {
       setActiveConvId(conv.id)
       qc.invalidateQueries({ queryKey: ['conversations'] })
@@ -121,7 +129,7 @@ function TutorUI() {
     mutationFn: async (content: string) => {
       let convId = activeConvId
       if (!convId) {
-        const conv = await aiApi.createConversation({ concept: conceptId ?? undefined, difficulty: 'intermediate' }).then((r) => r.data)
+        const conv = await aiApi.createConversation({ concept: conceptId ?? undefined, difficulty }).then((r) => r.data)
         setActiveConvId(conv.id)
         convId = conv.id
         qc.invalidateQueries({ queryKey: ['conversations'] })
@@ -245,6 +253,26 @@ function TutorUI() {
                   {q}
                 </button>
               ))}
+            </div>
+
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-[10px] text-slate-600 font-mono uppercase tracking-widest">Explain at this level</span>
+              <div className="flex gap-1.5">
+                {DIFFICULTIES.map((d) => (
+                  <button
+                    key={d}
+                    onClick={() => setDifficulty(d)}
+                    className={cn(
+                      'px-3 py-1.5 rounded-lg text-xs font-medium border capitalize transition-all',
+                      difficulty === d
+                        ? 'border-quantum-500/50 bg-quantum-500/10 text-quantum-300'
+                        : 'border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
+                    )}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <button onClick={() => createConv.mutate()} className="btn-plasma">
