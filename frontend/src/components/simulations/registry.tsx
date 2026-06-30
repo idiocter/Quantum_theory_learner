@@ -21,6 +21,10 @@ export const Photoelectric = dynamic(() => import('@/components/simulations/Phot
 export const Blackbody = dynamic(() => import('@/components/simulations/Blackbody'), { ssr: false })
 export const Measurement = dynamic(() => import('@/components/simulations/Measurement'), { ssr: false })
 export const BornRuleSampler = dynamic(() => import('@/components/simulations/BornRuleSampler'), { ssr: false })
+export const QuantumCircuit = dynamic(() => import('@/components/simulations/QuantumCircuit'), { ssr: false })
+export const GroverAmplification = dynamic(() => import('@/components/simulations/GroverAmplification'), { ssr: false })
+export const BB84Protocol = dynamic(() => import('@/components/simulations/BB84Protocol'), { ssr: false })
+export const QuantumTeleportation = dynamic(() => import('@/components/simulations/QuantumTeleportation'), { ssr: false })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -40,6 +44,10 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   blackbody: Blackbody,
   measurement: Measurement,
   born_rule: BornRuleSampler,
+  quantum_circuit: QuantumCircuit,
+  grover: GroverAmplification,
+  bb84: BB84Protocol,
+  teleportation: QuantumTeleportation,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
