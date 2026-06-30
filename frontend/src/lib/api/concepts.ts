@@ -27,9 +27,10 @@ export const conceptsApi = {
   search: (q: string) =>
     apiClient.get<ConceptSearchResult[]>('/concepts/search/', { params: { q } }),
 
-  // Site-wide formula index, optionally filtered by query.
-  formulas: (q?: string) =>
-    apiClient.get<Formula[]>('/concepts/formulas/', { params: q ? { q } : undefined }),
+  // Site-wide formula index (paginated server-side; we pull a large page and
+  // filter client-side). max_page_size on the backend is 100.
+  formulas: () =>
+    apiClient.get<PaginatedResponse<Formula>>('/concepts/formulas/', { params: { page_size: 100 } }),
 
   knowledgeGraph: () => apiClient.get<KnowledgeGraph>('/concepts/graph/'),
 }

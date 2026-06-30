@@ -121,6 +121,7 @@ class KnowledgeGraphSerializer(serializers.Serializer):
     def to_representation(self, instance):
         concepts = instance["concepts"]
         nodes, edges = [], []
+        degree = {}
         for c in concepts:
             nodes.append(
                 {
@@ -128,6 +129,10 @@ class KnowledgeGraphSerializer(serializers.Serializer):
                     "title": c.title,
                     "difficulty": c.difficulty,
                     "category_color": c.category.color if c.category else "#4F46E5",
+                    "branch_slug": c.category.slug if c.category else "",
+                    "branch_name": c.category.name if c.category else "Uncategorized",
+                    # connection_count is filled in once all edges are known.
+                    "connection_count": 0,
                 }
             )
             for prereq in c.prerequisites.all():
@@ -138,4 +143,9 @@ class KnowledgeGraphSerializer(serializers.Serializer):
                         "relationship": "prerequisite",
                     }
                 )
+                degree[prereq.slug] = degree.get(prereq.slug, 0) + 1
+                degree[c.slug] = degree.get(c.slug, 0) + 1
+
+        for n in nodes:
+            n["connection_count"] = degree.get(n["id"], 0)
         return {"nodes": nodes, "edges": edges}

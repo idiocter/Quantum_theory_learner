@@ -52,10 +52,10 @@ export function useConceptSearch(q: string) {
   })
 }
 
-export function useFormulaIndex(q?: string) {
+export function useFormulaIndex() {
   return useQuery({
-    queryKey: ['formulas', q ?? ''],
-    queryFn: () => conceptsApi.formulas(q).then((r) => r.data),
+    queryKey: ['formulas'],
+    queryFn: () => conceptsApi.formulas().then((r) => r.data.results),
     staleTime: STALE_TIME,
   })
 }

@@ -1,12 +1,15 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { cn } from '@/lib/utils'
+import GlobalSearch from '@/components/layout/GlobalSearch'
 
 const NAV_LINKS = [
   { href: '/concepts', label: 'Concepts' },
   { href: '/knowledge-graph', label: 'Graph' },
+  { href: '/formulas', label: 'Formulas' },
   { href: '/simulations', label: 'Simulations' },
   { href: '/quiz', label: 'Quizzes' },
   { href: '/tutor', label: 'AI Tutor' },
@@ -15,6 +18,19 @@ const NAV_LINKS = [
 export default function Navbar() {
   const { user, logout } = useAuth()
   const pathname = usePathname()
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  // ⌘K / Ctrl+K opens the global search from anywhere.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen((o) => !o)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-quantum-800/30 bg-void-950/80 backdrop-blur-xl">
@@ -88,6 +104,14 @@ export default function Navbar() {
 
         {/* User section */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 text-slate-500 hover:border-white/20 hover:text-slate-300 transition-all text-xs"
+            aria-label="Search"
+          >
+            <span>⌕ Search</span>
+            <kbd className="font-mono text-[10px] border border-white/10 rounded px-1">⌘K</kbd>
+          </button>
           {user ? (
             <>
               <Link href="/dashboard" className="flex items-center gap-2 group">
@@ -110,6 +134,8 @@ export default function Navbar() {
           )}
         </div>
       </nav>
+
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   )
 }
