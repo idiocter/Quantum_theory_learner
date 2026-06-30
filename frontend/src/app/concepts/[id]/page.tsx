@@ -1,17 +1,22 @@
 'use client'
-import { use } from 'react'
+import { use, useEffect } from 'react'
 import Link from 'next/link'
-import { useQuery } from '@tanstack/react-query'
-import { conceptsApi } from '@/lib/api/concepts'
+import { useConcept } from '@/lib/hooks/useConcepts'
+import { useConceptsStore } from '@/lib/store/concepts'
 import { difficultyLabel } from '@/lib/utils'
+import { TexProse } from '@/components/ui/Tex'
+import FormulaBlock from '@/components/concepts/FormulaBlock'
+import ConnectionsPanel from '@/components/concepts/ConnectionsPanel'
 
 export default function ConceptDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const { data: concept, isLoading } = useConcept(id)
+  const markVisited = useConceptsStore((s) => s.markVisited)
 
-  const { data: concept, isLoading } = useQuery({
-    queryKey: ['concept', id],
-    queryFn: () => conceptsApi.detail(id).then((r) => r.data),
-  })
+  // Record the visit once the topic resolves (drives the sidebar "visited" dots).
+  useEffect(() => {
+    if (concept?.slug) markVisited(concept.slug)
+  }, [concept?.slug, markVisited])
 
   if (isLoading) {
     return (
@@ -99,24 +104,6 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
                 ))}
               </div>
             )}
-
-            {content.key_equations && content.key_equations.length > 0 && (
-              <div className="mt-5">
-                <h3 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">
-                  Key equations
-                </h3>
-                <div className="flex flex-col gap-2">
-                  {content.key_equations.map((eq, i) => (
-                    <div key={i} className="rounded-lg border border-quantum-500/20 bg-void-900/50 px-4 py-3">
-                      <code className="font-mono text-quantum-200 text-sm">{eq.latex}</code>
-                      {eq.label && eq.label !== concept.title && (
-                        <span className="block text-xs text-slate-600 mt-1">{eq.label}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         ))
       ) : (
@@ -125,22 +112,36 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
-      {concept.prerequisites && concept.prerequisites.length > 0 && (
+      {/* Formulas: rendered with KaTeX, symbol legends, and expandable derivations. */}
+      {concept.formulas && concept.formulas.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-3">Prerequisites</h2>
-          <div className="flex flex-wrap gap-2">
-            {concept.prerequisites.map((prereq: string) => (
-              <Link
-                key={prereq}
-                href={`/concepts/${prereq}`}
-                className="text-xs px-3 py-1.5 rounded-lg border border-quantum-500/20 text-quantum-400 hover:border-quantum-500/50 hover:text-quantum-300 transition-all"
-              >
-                → prerequisite
-              </Link>
+          <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-3">
+            Key formulas
+          </h2>
+          <div className="flex flex-col gap-4">
+            {concept.formulas.map((f) => (
+              <FormulaBlock key={f.id} formula={f} />
             ))}
           </div>
         </div>
       )}
+
+      {/* Historical context. */}
+      {concept.history && (
+        <div className="card-quantum p-6 mb-6">
+          <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-3">History</h2>
+          <div className="space-y-3">
+            {concept.history.split('\n\n').map((para, i) => (
+              <TexProse key={i} content={para} className="prose-quantum text-slate-300 leading-relaxed" />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Prerequisites and the topics this one unlocks. */}
+      <div className="mb-6">
+        <ConnectionsPanel prerequisites={concept.prerequisites} unlocks={concept.unlocks} />
+      </div>
 
       <div className="flex gap-3 mt-8 flex-wrap">
         <Link href="/knowledge-graph" className="btn-ghost text-sm">
