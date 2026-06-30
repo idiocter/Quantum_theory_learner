@@ -1,14 +1,16 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.core.cache import cache
 from django.db.models import Count, F, Q
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, permissions
+from rest_framework import filters, generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Category, Concept, Formula
+from .models import Category, Concept, Formula, UserTopicProgress
 from .serializers import (
     BranchSerializer,
     ConceptDetailSerializer,
@@ -16,6 +18,7 @@ from .serializers import (
     ConceptSearchResultSerializer,
     FormulaIndexSerializer,
     KnowledgeGraphSerializer,
+    TopicProgressSerializer,
 )
 
 
@@ -117,3 +120,82 @@ class KnowledgeGraphView(APIView):
         data = KnowledgeGraphSerializer(None).to_representation({"concepts": concepts})
         cache.set(cache_key, data, timeout=300)
         return Response(data)
+
+
+class ProgressView(APIView):
+    """Per-user reading progress.
+
+    GET  → {visited: [...], bookmarks: [...], completion: {branch: {...}}}
+    POST → log a visit: {slug, time_spent_seconds}; upserts and accumulates time.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        rows = (
+            UserTopicProgress.objects.filter(user=request.user)
+            .select_related("concept", "concept__category")
+        )
+        rows = list(rows)
+        serialized = TopicProgressSerializer(rows, many=True).data
+
+        # Per-branch completion: visited distinct concepts over published total.
+        totals = {
+            r["category__slug"]: {
+                "name": r["category__name"],
+                "color": r["category__color"],
+                "total": r["total"],
+                "visited": 0,
+            }
+            for r in (
+                Concept.objects.filter(is_published=True, category__isnull=False)
+                .values("category__slug", "category__name", "category__color")
+                .annotate(total=Count("id"))
+            )
+        }
+        for row in rows:
+            cat = row.concept.category
+            if cat and cat.slug in totals:
+                totals[cat.slug]["visited"] += 1
+        completion = {
+            slug: {
+                **info,
+                "percent": round(100 * info["visited"] / info["total"]) if info["total"] else 0,
+            }
+            for slug, info in totals.items()
+        }
+
+        return Response(
+            {
+                "visited": serialized,
+                "bookmarks": [s for s in serialized if s["bookmarked"]],
+                "completion": completion,
+            }
+        )
+
+    def post(self, request):
+        slug = request.data.get("slug") or request.data.get("concept_slug") or request.data.get("topic_slug")
+        concept = get_object_or_404(Concept, slug=slug, is_published=True)
+        try:
+            secs = max(0, int(request.data.get("time_spent_seconds", 0) or 0))
+        except (TypeError, ValueError):
+            secs = 0
+
+        obj, _ = UserTopicProgress.objects.get_or_create(user=request.user, concept=concept)
+        obj.time_spent_seconds = F("time_spent_seconds") + secs
+        obj.visited_at = timezone.now()
+        obj.save(update_fields=["time_spent_seconds", "visited_at"])
+        return Response({"status": "ok"}, status=status.HTTP_200_OK)
+
+
+class BookmarkToggleView(APIView):
+    """PATCH /concepts/<slug>/bookmark/ — toggle the bookmark for a topic."""
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, slug):
+        concept = get_object_or_404(Concept, slug=slug, is_published=True)
+        obj, _ = UserTopicProgress.objects.get_or_create(user=request.user, concept=concept)
+        obj.bookmarked = not obj.bookmarked
+        obj.save(update_fields=["bookmarked"])
+        return Response({"slug": slug, "bookmarked": obj.bookmarked})

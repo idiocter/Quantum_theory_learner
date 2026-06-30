@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.db import models
 from django.db.models import Value
+from django.utils import timezone
 
 from apps.core.models import TimeStampedModel
 from apps.core.validators import validate_no_script
@@ -154,3 +156,28 @@ class ConceptLink(TimeStampedModel):
 
     def __str__(self):
         return f"{self.source.slug} → {self.target.slug} ({self.relation})"
+
+
+class UserTopicProgress(TimeStampedModel):
+    """Per-user reading progress and bookmarks for a concept/topic.
+
+    One row per (user, concept). A row is created the first time the user dwells
+    on a topic (the frontend logs a visit after a read delay) or bookmarks it.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="topic_progress"
+    )
+    concept = models.ForeignKey(Concept, on_delete=models.CASCADE, related_name="user_progress")
+    visited_at = models.DateTimeField(default=timezone.now)
+    time_spent_seconds = models.PositiveIntegerField(default=0)
+    bookmarked = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "user_topic_progress"
+        unique_together = [("user", "concept")]
+        ordering = ["-visited_at"]
+        indexes = [models.Index(fields=["user", "bookmarked"])]
+
+    def __str__(self):
+        return f"{self.user_id} · {self.concept.slug}"

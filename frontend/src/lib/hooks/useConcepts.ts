@@ -1,5 +1,5 @@
 'use client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { conceptsApi } from '@/lib/api/concepts'
 
 // 5 minutes — matches the Redis `cache_page(300)` on the branch/graph endpoints
@@ -57,5 +57,24 @@ export function useFormulaIndex() {
     queryKey: ['formulas'],
     queryFn: () => conceptsApi.formulas().then((r) => r.data.results),
     staleTime: STALE_TIME,
+  })
+}
+
+// Per-user progress (visited topics, bookmarks, per-branch completion).
+// `enabled` should be the logged-in flag so anonymous users don't 401-spam.
+export function useProgress(enabled = true) {
+  return useQuery({
+    queryKey: ['progress'],
+    queryFn: () => conceptsApi.getProgress().then((r) => r.data),
+    enabled,
+    staleTime: 60 * 1000,
+  })
+}
+
+export function useToggleBookmark() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (slug: string) => conceptsApi.toggleBookmark(slug).then((r) => r.data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['progress'] }),
   })
 }

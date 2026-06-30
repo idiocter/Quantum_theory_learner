@@ -110,6 +110,32 @@ export interface KnowledgeGraph {
   edges: Array<{ source: string; target: string; relationship: string }>
 }
 
+// ── Per-user progress ──
+export interface TopicProgress {
+  concept_slug: string
+  concept_title: string
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  branch_slug: string
+  branch_name: string
+  bookmarked: boolean
+  time_spent_seconds: number
+  visited_at: string
+}
+
+export interface BranchCompletion {
+  name: string
+  color: string
+  total: number
+  visited: number
+  percent: number
+}
+
+export interface ProgressResponse {
+  visited: TopicProgress[]
+  bookmarks: TopicProgress[]
+  completion: Record<string, BranchCompletion>
+}
+
 // ── Simulations ───────────────────────────────────────────────────────────────
 export type SimulationType = 'double_slit' | 'particle_in_box' | 'wavefunction' | 'quantum_tunneling'
 export type SimulationStatus = 'queued' | 'running' | 'completed' | 'failed'

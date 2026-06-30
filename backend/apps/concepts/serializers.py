@@ -110,6 +110,25 @@ class FormulaIndexSerializer(serializers.ModelSerializer):
                   "concept_slug", "concept_title", "branch")
 
 
+class TopicProgressSerializer(serializers.ModelSerializer):
+    """A single visited/bookmarked topic for the progress + dashboard views."""
+
+    concept_slug = serializers.CharField(source="concept.slug", read_only=True)
+    concept_title = serializers.CharField(source="concept.title", read_only=True)
+    difficulty = serializers.CharField(source="concept.difficulty", read_only=True)
+    branch_slug = serializers.CharField(source="concept.category.slug", read_only=True, default="")
+    branch_name = serializers.CharField(source="concept.category.name", read_only=True, default="")
+
+    class Meta:
+        from .models import UserTopicProgress
+
+        model = UserTopicProgress
+        fields = (
+            "concept_slug", "concept_title", "difficulty", "branch_slug", "branch_name",
+            "bookmarked", "time_spent_seconds", "visited_at",
+        )
+
+
 class KnowledgeGraphSerializer(serializers.Serializer):
     """Returns graph nodes and edges for the frontend force-graph.
 
