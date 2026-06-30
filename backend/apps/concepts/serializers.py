@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Concept, ConceptContent
+from .models import Category, Concept, ConceptContent, Formula
 
 # Rough reading-time estimate per difficulty, surfaced as `estimated_minutes`.
 ESTIMATED_MINUTES_BY_DIFFICULTY = {"beginner": 5, "intermediate": 8, "advanced": 12}
@@ -13,7 +13,23 @@ def _estimated_minutes(concept) -> int:
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "slug", "description", "icon", "color")
+        fields = ("id", "name", "slug", "description", "icon", "color", "order")
+
+
+class BranchSerializer(serializers.ModelSerializer):
+    """A branch (category) with its published-topic count, for the branch list."""
+
+    topic_count = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ("id", "name", "slug", "description", "icon", "color", "order", "topic_count")
+
+
+class FormulaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Formula
+        fields = ("id", "latex", "description", "symbols", "derivation_steps", "order")
 
 
 class ConceptContentSerializer(serializers.ModelSerializer):
@@ -46,6 +62,7 @@ class ConceptListSerializer(serializers.ModelSerializer):
 class ConceptDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     contents = ConceptContentSerializer(many=True, read_only=True)
+    formulas = FormulaSerializer(many=True, read_only=True)
     description = serializers.CharField(source="summary", read_only=True)
     estimated_minutes = serializers.SerializerMethodField()
     # Slugs only — the detail page links each prerequisite to /concepts/<slug>.
@@ -54,9 +71,9 @@ class ConceptDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Concept
-        fields = ("id", "title", "slug", "category", "summary", "description", "difficulty", "order",
+        fields = ("id", "title", "slug", "category", "summary", "description", "history", "difficulty", "order",
                   "thumbnail", "related_simulation", "is_published", "view_count", "estimated_minutes",
-                  "prerequisites", "unlocks", "contents", "created_at", "updated_at")
+                  "formulas", "prerequisites", "unlocks", "contents", "created_at", "updated_at")
 
     def get_estimated_minutes(self, obj):
         return _estimated_minutes(obj)
@@ -66,6 +83,31 @@ class ConceptDetailSerializer(serializers.ModelSerializer):
 
     def get_unlocks(self, obj):
         return list(obj.unlocks.values_list("slug", flat=True))
+
+
+class ConceptSearchResultSerializer(serializers.ModelSerializer):
+    """A ranked search hit: lightweight topic info + branch + relevance rank."""
+
+    category = CategorySerializer(read_only=True)
+    description = serializers.CharField(source="summary", read_only=True)
+    rank = serializers.FloatField(read_only=True)
+
+    class Meta:
+        model = Concept
+        fields = ("id", "title", "slug", "category", "description", "difficulty", "rank")
+
+
+class FormulaIndexSerializer(serializers.ModelSerializer):
+    """A formula with its owning topic + branch, for the site-wide formula index."""
+
+    concept_slug = serializers.CharField(source="concept.slug", read_only=True)
+    concept_title = serializers.CharField(source="concept.title", read_only=True)
+    branch = serializers.CharField(source="concept.category.name", read_only=True, default=None)
+
+    class Meta:
+        model = Formula
+        fields = ("id", "latex", "description", "symbols", "derivation_steps",
+                  "concept_slug", "concept_title", "branch")
 
 
 class KnowledgeGraphSerializer(serializers.Serializer):
