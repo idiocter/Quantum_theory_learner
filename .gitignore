@@ -57,3 +57,4 @@ nginx/certs/*.crt
 .claude
 contracts/
 CLAUDE.md
+/docs

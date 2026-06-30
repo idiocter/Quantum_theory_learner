@@ -44,6 +44,8 @@ export const ManyWorldsBranching = dynamic(() => import('@/components/simulation
 export const DecoherenceTime = dynamic(() => import('@/components/simulations/DecoherenceTime'), { ssr: false, loading: SimLoading })
 export const HawkingRadiation = dynamic(() => import('@/components/simulations/HawkingRadiation'), { ssr: false, loading: SimLoading })
 export const PhotosynthesisCoherence = dynamic(() => import('@/components/simulations/PhotosynthesisCoherence'), { ssr: false, loading: SimLoading })
+export const BlochSphereQC = dynamic(() => import('@/components/simulations/BlochSphereQC'), { ssr: false, loading: SimLoading })
+export const BellState = dynamic(() => import('@/components/simulations/BellState'), { ssr: false, loading: SimLoading })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -78,6 +80,8 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   decoherence: DecoherenceTime,
   hawking: HawkingRadiation,
   photosynthesis: PhotosynthesisCoherence,
+  bloch_sphere: BlochSphereQC,
+  bell_state: BellState,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
