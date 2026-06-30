@@ -231,6 +231,14 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
+        branch_slugs = [b[0] for b in BRANCHES]
+
+        # Drop branches no longer in the taxonomy FIRST (e.g. the old dynamics,
+        # information, light-and-matter rows). Done up front so their names don't
+        # collide with the new branches' unique names; concepts they held fall to
+        # category=NULL and are reassigned below.
+        removed, _ = Category.objects.exclude(slug__in=branch_slugs).delete()
+
         branches = {}
         for slug, name, desc, color, order in BRANCHES:
             branches[slug], _ = Category.objects.update_or_create(
@@ -288,7 +296,7 @@ class Command(BaseCommand):
                     "summary": summary,
                     "difficulty": difficulty,
                     "order": order_in_branch[branch],
-                    "related_simulation": slug if slug in SIM_KEYS else "",
+                    "related_simulation": "",  # stubs have no built simulation yet
                     "is_published": True,
                 },
             )
@@ -301,9 +309,6 @@ class Command(BaseCommand):
             if concept:
                 concept.prerequisites.set([by_slug[p] for p in prereq_slugs if p in by_slug])
 
-        # Drop any old branches no longer in the taxonomy (e.g. dynamics, light-and-matter).
-        removed, _ = Category.objects.exclude(slug__in=[b[0] for b in BRANCHES]).delete()
-
         # Make sure every concept's FTS vector is populated.
         for concept in Concept.objects.all():
             concept.update_search_vector()
@@ -314,8 +319,3 @@ class Command(BaseCommand):
                 f"({len(CONCEPTS)} full, {len(STUBS)} stubs). Removed {removed} stale category rows."
             )
         )
-
-
-# Stub slugs that already have a built simulation component in the frontend
-# registry; everything else leaves related_simulation blank for now.
-SIM_KEYS = set()
