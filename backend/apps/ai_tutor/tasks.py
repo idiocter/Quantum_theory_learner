@@ -66,7 +66,8 @@ GUARDRAILS = (
 
 CONCEPT_CONTEXT_TEMPLATE = (
     "\n\nContext: The student is currently studying the concept '{title}'. "
-    "Keep the answer anchored to this topic.\n"
+    "Keep the answer anchored to this topic. When the topic's own formulas appear in the retrieved "
+    "course material below, cite and use them verbatim (in LaTeX) rather than reinventing notation.\n"
     "Concept summary: {summary}"
 )
 
@@ -137,7 +138,9 @@ def generate_ai_response(self, conversation_id: str, assistant_message_id: str) 
     latest_question = next(
         (m["content"] for m in reversed(chat_messages) if m["role"] == "user"), ""
     )
-    passages = retrieve_context(latest_question, limit=3)
+    # Anchor retrieval on the conversation's topic so its own formulas are
+    # always in context, then fill the rest with question-ranked passages.
+    passages = retrieve_context(latest_question, limit=3, anchor=conversation.concept)
     if passages:
         system_prompt += RAG_CONTEXT_TEMPLATE.format(passages="\n\n".join(passages))
 
