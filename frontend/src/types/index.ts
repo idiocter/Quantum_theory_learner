@@ -95,8 +95,18 @@ export interface Concept {
   contents?: ConceptContent[]
 }
 
+export interface KnowledgeGraphNode {
+  id: string
+  title: string
+  difficulty: string
+  category_color: string
+  branch_slug: string
+  branch_name: string
+  connection_count: number
+}
+
 export interface KnowledgeGraph {
-  nodes: Array<{ id: string; title: string; difficulty: string; category_color: string }>
+  nodes: KnowledgeGraphNode[]
   edges: Array<{ source: string; target: string; relationship: string }>
 }
 

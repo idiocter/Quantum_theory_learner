@@ -104,7 +104,7 @@ class KnowledgeGraphView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        cache_key = "knowledge_graph_v2"
+        cache_key = "knowledge_graph_v3"
         cached = cache.get(cache_key)
         if cached:
             return Response(cached)
