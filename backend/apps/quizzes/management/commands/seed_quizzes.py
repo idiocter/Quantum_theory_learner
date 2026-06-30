@@ -29,9 +29,10 @@ OPTION_IDS = ["a", "b", "c", "d", "e", "f"]
 SYSTEM_PROMPT = (
     "You are a quantum-physics exam author. Given study material on one topic, write rigorous, "
     "unambiguous multiple-choice questions that test genuine understanding (not trivia). "
-    "Each question has exactly one correct option and three plausible distractors. Use LaTeX in "
-    "inline math delimiters $...$ where a formula or symbol is needed. Do NOT reference 'the text' "
-    "or 'the passage' — questions must stand alone.\n\n"
+    "Each question has exactly one correct option and three plausible distractors. ALWAYS wrap every "
+    "formula, equation, or mathematical symbol in inline LaTeX math delimiters, e.g. $d\\sin\\theta = "
+    "\\frac{m\\lambda}{2}$ and $\\hbar$ — never write bare LaTeX without the surrounding $...$. Do NOT "
+    "reference 'the text' or 'the passage' — questions must stand alone.\n\n"
     "Respond with ONLY a JSON object of this exact shape, no prose, no code fences:\n"
     '{"questions": [{"question": "...", "options": ["...", "...", "...", "..."], '
     '"answer": 0, "explanation": "why the correct option is right"}]}\n'

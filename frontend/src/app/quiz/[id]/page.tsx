@@ -6,7 +6,18 @@ import toast from 'react-hot-toast'
 import AuthGuard from '@/components/auth/AuthGuard'
 import { quizzesApi } from '@/lib/api/quizzes'
 import { difficultyLabel, cn } from '@/lib/utils'
+import { Tex, TexProse } from '@/components/ui/Tex'
 import type { Question } from '@/types'
+
+// Quiz text may be prose with inline $...$ math, a bare LaTeX formula (the
+// generator often omits delimiters when the whole string is a formula), or
+// plain text. Render each appropriately so KaTeX shows real symbols.
+function QuizText({ children, className }: { children: string; className?: string }) {
+  const s = children ?? ''
+  if (s.includes('$')) return <TexProse content={s} className={className} />
+  if (/\\[a-zA-Z]/.test(s)) return <Tex className={className}>{s}</Tex>
+  return <span className={className}>{s}</span>
+}
 
 function QuestionView({
   q,
@@ -27,7 +38,7 @@ function QuestionView({
     <div className={cn('card-quantum p-6 transition-all', submitted && result?.correct && 'border-wave-500/40', submitted && result && !result.correct && 'border-particle-500/40')}>
       <div className="flex items-start gap-3 mb-4">
         <span className="text-xs font-mono text-slate-600 mt-0.5 shrink-0">Q{index + 1}</span>
-        <p className="text-sm text-slate-200 leading-relaxed">{q.text}</p>
+        <QuizText className="text-sm text-slate-200 leading-relaxed">{q.text}</QuizText>
       </div>
 
       {q.question_type === 'mcq' || q.question_type === 'true_false' ? (
@@ -52,7 +63,7 @@ function QuestionView({
                 disabled={submitted}
                 className="accent-quantum-500"
               />
-              <span className="text-sm text-slate-300">{opt.text}</span>
+              <QuizText className="text-sm text-slate-300">{opt.text}</QuizText>
             </label>
           ))}
         </div>
@@ -73,14 +84,14 @@ function QuestionView({
       {submitted && result && (
         <div className={cn('mt-4 ml-5 p-3 rounded-lg text-xs', result.correct ? 'bg-wave-500/10 border border-wave-500/20 text-wave-400' : 'bg-particle-500/10 border border-particle-500/20 text-particle-400')}>
           <span className="font-semibold">{result.correct ? '✓ Correct' : '✗ Incorrect'}</span>
-          {result.explanation && <p className="text-slate-400 mt-1">{result.explanation}</p>}
+          {result.explanation && <QuizText className="text-slate-400 mt-1 block">{result.explanation}</QuizText>}
         </div>
       )}
 
       {q.hint && !submitted && (
         <details className="ml-5 mt-3">
           <summary className="text-xs text-slate-600 cursor-pointer hover:text-slate-400 transition-colors">Hint</summary>
-          <p className="text-xs text-slate-500 mt-1.5 pl-2">{q.hint}</p>
+          <QuizText className="text-xs text-slate-500 mt-1.5 pl-2 block">{q.hint}</QuizText>
         </details>
       )}
     </div>
