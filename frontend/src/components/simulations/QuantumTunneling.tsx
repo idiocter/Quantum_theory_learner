@@ -1,8 +1,10 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 export default function QuantumTunneling() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const tRef = useRef(0)
   const runRef = useRef(true)
@@ -45,6 +47,7 @@ export default function QuantumTunneling() {
     const waveScale = H * 0.22
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       if (runRef.current) tRef.current += 0.06
 
       ctx.fillStyle = '#060414'

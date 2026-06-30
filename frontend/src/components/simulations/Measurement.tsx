@@ -1,10 +1,12 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 // Wavefunction collapse: a spread-out |ψ|² snaps to a single localised spike
 // when measured, and repeated measurements rebuild the Born distribution.
 export default function Measurement() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   // collapseRef holds the measured x (0..1) while collapsing, else null.
   const collapseRef = useRef<number | null>(null)
@@ -41,6 +43,7 @@ export default function Measurement() {
     const maxPdf = Math.max(...pdf)
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 

@@ -22,6 +22,8 @@ interface QuantumCanvasProps {
   /** Called when the user resets — clear any accumulated state here. */
   onReset?: () => void
   className?: string
+  /** Accessible label describing what the canvas depicts (for screen readers). */
+  label?: string
   /** Optional extra controls rendered to the right of the built-in ones. */
   children?: React.ReactNode
 }
@@ -41,6 +43,7 @@ export default function QuantumCanvas({
   speeds = [0.5, 1, 2],
   onReset,
   className,
+  label = 'Interactive physics simulation',
   children,
 }: QuantumCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -145,7 +148,13 @@ export default function QuantumCanvas({
 
   return (
     <div className={className}>
-      <canvas ref={canvasRef} className="w-full rounded-lg block" style={{ background: '#060414' }} />
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label={label}
+        className="w-full rounded-lg block"
+        style={{ background: '#060414' }}
+      />
 
       {controls && (
         <div className="flex items-center gap-3 mt-3 flex-wrap">

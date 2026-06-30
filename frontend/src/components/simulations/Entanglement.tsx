@@ -1,4 +1,5 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 type Outcome = 'up' | 'down' | null
@@ -7,6 +8,7 @@ type Outcome = 'up' | 'down' | null
 // instantly fixes the other to the opposite value, however far apart.
 export default function Entanglement() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const stateRef = useRef<{ a: Outcome; b: Outcome }>({ a: null, b: null })
 
@@ -65,6 +67,7 @@ export default function Entanglement() {
     }
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       ctx.fillStyle = '#060414'
       ctx.fillRect(0, 0, W, H)
 

@@ -1,10 +1,12 @@
 'use client'
+import { useCanvasVisible } from '@/lib/hooks/useCanvasVisible'
 import { useRef, useEffect, useState } from 'react'
 
 const GRID = 512
 
 export default function Wavefunction() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const visibleRef = useCanvasVisible(canvasRef)
   const animRef = useRef<number>(0)
   const stateRef = useRef<{ re: Float64Array; im: Float64Array } | null>(null)
   const tRef = useRef(0)
@@ -72,6 +74,7 @@ export default function Wavefunction() {
     const scale = H * 0.38
 
     const render = () => {
+      if (!visibleRef.current) { animRef.current = requestAnimationFrame(render); return }
       if (!stateRef.current) { animRef.current = requestAnimationFrame(render); return }
 
       if (runRef.current) {
