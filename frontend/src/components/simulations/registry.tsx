@@ -25,6 +25,12 @@ export const QuantumCircuit = dynamic(() => import('@/components/simulations/Qua
 export const GroverAmplification = dynamic(() => import('@/components/simulations/GroverAmplification'), { ssr: false })
 export const BB84Protocol = dynamic(() => import('@/components/simulations/BB84Protocol'), { ssr: false })
 export const QuantumTeleportation = dynamic(() => import('@/components/simulations/QuantumTeleportation'), { ssr: false })
+export const BandTheory = dynamic(() => import('@/components/simulations/BandTheory'), { ssr: false })
+export const CooperPairs = dynamic(() => import('@/components/simulations/CooperPairs'), { ssr: false })
+export const BECCondensate = dynamic(() => import('@/components/simulations/BECCondensate'), { ssr: false })
+export const StandardModelTable = dynamic(() => import('@/components/simulations/StandardModelTable'), { ssr: false })
+export const FeynmanDiagram = dynamic(() => import('@/components/simulations/FeynmanDiagram'), { ssr: false })
+export const HiggsPotential = dynamic(() => import('@/components/simulations/HiggsPotential'), { ssr: false })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -48,6 +54,12 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   grover: GroverAmplification,
   bb84: BB84Protocol,
   teleportation: QuantumTeleportation,
+  band_theory: BandTheory,
+  cooper_pairs: CooperPairs,
+  bec: BECCondensate,
+  standard_model: StandardModelTable,
+  feynman: FeynmanDiagram,
+  higgs: HiggsPotential,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
