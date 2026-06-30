@@ -24,8 +24,41 @@ export interface Category {
   id: string
   name: string
   slug: string
+  description?: string
   color: string
   icon: string
+  order?: number
+}
+
+// A branch is a Category enriched with its published-topic count
+// (GET /api/concepts/branches/).
+export interface Branch extends Category {
+  topic_count: number
+}
+
+// A formula attached to a concept (nested on the detail endpoint and
+// returned flat from the site-wide /api/concepts/formulas/ index).
+export interface Formula {
+  id: string
+  latex: string
+  description: string
+  symbols: Record<string, string>
+  derivation_steps: string[]
+  order?: number
+  // Present only on the site-wide formula index.
+  concept_slug?: string
+  concept_title?: string
+  branch?: string | null
+}
+
+export interface ConceptSearchResult {
+  id: string
+  title: string
+  slug: string
+  category: Category
+  description: string
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  rank: number
 }
 
 export interface ConceptContent {
@@ -41,6 +74,7 @@ export interface Concept {
   id: string
   title: string
   slug: string
+  summary?: string
   description: string
   category: Category
   difficulty: 'beginner' | 'intermediate' | 'advanced'
@@ -51,7 +85,13 @@ export interface Concept {
   is_published: boolean
   created_at: string
   updated_at: string
-  // Present on the detail endpoint: the per-level explanatory chapters.
+  // The following fields are present only on the detail endpoint.
+  history?: string
+  related_simulation?: string | null
+  formulas?: Formula[]
+  // Slugs of topics this one unlocks (downstream prerequisites).
+  unlocks?: string[]
+  // The per-level explanatory chapters.
   contents?: ConceptContent[]
 }
 
