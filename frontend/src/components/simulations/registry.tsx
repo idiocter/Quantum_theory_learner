@@ -31,6 +31,11 @@ export const BECCondensate = dynamic(() => import('@/components/simulations/BECC
 export const StandardModelTable = dynamic(() => import('@/components/simulations/StandardModelTable'), { ssr: false })
 export const FeynmanDiagram = dynamic(() => import('@/components/simulations/FeynmanDiagram'), { ssr: false })
 export const HiggsPotential = dynamic(() => import('@/components/simulations/HiggsPotential'), { ssr: false })
+export const BellTest = dynamic(() => import('@/components/simulations/BellTest'), { ssr: false })
+export const ManyWorldsBranching = dynamic(() => import('@/components/simulations/ManyWorldsBranching'), { ssr: false })
+export const DecoherenceTime = dynamic(() => import('@/components/simulations/DecoherenceTime'), { ssr: false })
+export const HawkingRadiation = dynamic(() => import('@/components/simulations/HawkingRadiation'), { ssr: false })
+export const PhotosynthesisCoherence = dynamic(() => import('@/components/simulations/PhotosynthesisCoherence'), { ssr: false })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -60,6 +65,11 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   standard_model: StandardModelTable,
   feynman: FeynmanDiagram,
   higgs: HiggsPotential,
+  bell: BellTest,
+  many_worlds: ManyWorldsBranching,
+  decoherence: DecoherenceTime,
+  hawking: HawkingRadiation,
+  photosynthesis: PhotosynthesisCoherence,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
