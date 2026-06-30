@@ -5,6 +5,7 @@
 // Client Component. Keeping them here lets the server-safe topic data in
 // `@/data/topics` reference them without dragging `ssr: false` into the RSC graph.
 import dynamic from 'next/dynamic'
+import type { ComponentType } from 'react'
 
 export const DoubleSlit = dynamic(() => import('@/components/simulations/DoubleSlit'), { ssr: false })
 export const ParticleInBox = dynamic(() => import('@/components/simulations/ParticleInBox'), { ssr: false })
@@ -19,3 +20,29 @@ export const BlochSphere = dynamic(() => import('@/components/simulations/BlochS
 export const Photoelectric = dynamic(() => import('@/components/simulations/Photoelectric'), { ssr: false })
 export const Blackbody = dynamic(() => import('@/components/simulations/Blackbody'), { ssr: false })
 export const Measurement = dynamic(() => import('@/components/simulations/Measurement'), { ssr: false })
+export const BornRuleSampler = dynamic(() => import('@/components/simulations/BornRuleSampler'), { ssr: false })
+
+// Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
+// to its interactive component. AnimationSlot uses this to render the right sim
+// on a topic page. Stub topics carry an empty key and render no slot.
+export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
+  double_slit: DoubleSlit,
+  particle_in_box: ParticleInBox,
+  wavefunction: Wavefunction,
+  quantum_tunneling: QuantumTunneling,
+  superposition: Superposition,
+  entanglement: Entanglement,
+  uncertainty: Uncertainty,
+  spin: SternGerlach,
+  harmonic_oscillator: HarmonicOscillator,
+  qubit: BlochSphere,
+  photoelectric: Photoelectric,
+  blackbody: Blackbody,
+  measurement: Measurement,
+  born_rule: BornRuleSampler,
+}
+
+export function getSimulation(key?: string | null): ComponentType | null {
+  if (!key) return null
+  return SIMULATION_BY_KEY[key] ?? null
+}

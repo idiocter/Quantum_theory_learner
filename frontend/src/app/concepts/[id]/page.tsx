@@ -7,6 +7,7 @@ import { difficultyLabel } from '@/lib/utils'
 import { TexProse } from '@/components/ui/Tex'
 import FormulaBlock from '@/components/concepts/FormulaBlock'
 import ConnectionsPanel from '@/components/concepts/ConnectionsPanel'
+import AnimationSlot from '@/components/concepts/AnimationSlot'
 
 export default function ConceptDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -74,6 +75,9 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
       <div className="card-quantum p-6 mb-6">
         <p className="text-slate-300 leading-relaxed">{concept.description}</p>
       </div>
+
+      {/* Interactive simulation for this topic (omitted for stub topics). */}
+      <AnimationSlot simulationKey={concept.related_simulation} />
 
       {/* The explanatory chapter(s) for this concept, ordered beginner → advanced. */}
       {concept.contents && concept.contents.length > 0 ? (
