@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Concept, ConceptContent, Formula
+from .models import Category, Concept, ConceptContent, Formula, GlossaryTerm
 
 # Rough reading-time estimate per difficulty, surfaced as `estimated_minutes`.
 ESTIMATED_MINUTES_BY_DIFFICULTY = {"beginner": 5, "intermediate": 8, "advanced": 12}
@@ -127,6 +127,41 @@ class TopicProgressSerializer(serializers.ModelSerializer):
             "concept_slug", "concept_title", "difficulty", "branch_slug", "branch_name",
             "bookmarked", "time_spent_seconds", "visited_at",
         )
+
+
+class GlossaryTermSerializer(serializers.ModelSerializer):
+    """A glossary term for the frontend linker.
+
+    `concept_slug` (nullable) lets a tooltip deep-link to the lesson that
+    defines the term via /concepts/<slug>.
+    """
+
+    concept_slug = serializers.CharField(source="concept.slug", read_only=True, default=None)
+    concept_title = serializers.CharField(source="concept.title", read_only=True, default=None)
+
+    class Meta:
+        model = GlossaryTerm
+        fields = ("id", "term", "slug", "definition", "concept_slug", "concept_title")
+
+
+class LessonUnlockSerializer(serializers.Serializer):
+    """Per-lesson unlock status computed server-side from the user's progress.
+
+    A lesson is `unlocked` when every prerequisite concept has been visited
+    (has a `UserTopicProgress` row for this user). Lessons with no prerequisites
+    are always unlocked. The server is the source of truth; the client must not
+    infer unlock state on its own.
+    """
+
+    slug = serializers.CharField()
+    title = serializers.CharField()
+    category_slug = serializers.CharField(allow_null=True)
+    order = serializers.IntegerField()
+    difficulty = serializers.CharField()
+    visited = serializers.BooleanField()
+    unlocked = serializers.BooleanField()
+    prerequisites = serializers.ListField(child=serializers.DictField())
+    missing_prerequisites = serializers.ListField(child=serializers.CharField())
 
 
 class KnowledgeGraphSerializer(serializers.Serializer):

@@ -158,6 +158,37 @@ class ConceptLink(TimeStampedModel):
         return f"{self.source.slug} → {self.target.slug} ({self.relation})"
 
 
+class GlossaryTerm(TimeStampedModel):
+    """A cross-cutting glossary term the lesson prose links to.
+
+    Content authors mark the first use of a term in prose with the
+    `[[term-slug]]` / `[[term-slug|surface text]]` marker (see CONTENT_SCHEMA
+    section 7). The frontend glossary linker resolves the marker's slug to one
+    of these rows and renders a hover/anchor; unknown slugs fail safe to plain
+    surface text. The optional `concept` link points at the lesson that defines
+    the term so the tooltip can deep-link to it.
+    """
+
+    term = models.CharField(max_length=120)  # human label, e.g. "Bloch sphere"
+    slug = models.SlugField(unique=True, max_length=120)  # kebab-case marker key
+    definition = models.TextField(validators=[validate_no_script])
+    concept = models.ForeignKey(
+        Concept,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="glossary_terms",
+    )
+
+    class Meta:
+        db_table = "glossary_terms"
+        ordering = ["term"]
+        indexes = [models.Index(fields=["slug"])]
+
+    def __str__(self):
+        return self.term
+
+
 class UserTopicProgress(TimeStampedModel):
     """Per-user reading progress and bookmarks for a concept/topic.
 

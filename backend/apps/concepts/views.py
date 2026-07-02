@@ -10,14 +10,16 @@ from rest_framework import filters, generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Category, Concept, Formula, UserTopicProgress
+from .models import Category, Concept, Formula, GlossaryTerm, UserTopicProgress
 from .serializers import (
     BranchSerializer,
     ConceptDetailSerializer,
     ConceptListSerializer,
     ConceptSearchResultSerializer,
     FormulaIndexSerializer,
+    GlossaryTermSerializer,
     KnowledgeGraphSerializer,
+    LessonUnlockSerializer,
     TopicProgressSerializer,
 )
 
@@ -104,6 +106,92 @@ class FormulaIndexView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     filter_backends = [filters.SearchFilter]
     search_fields = ["latex", "description", "concept__title"]
+
+
+@method_decorator(cache_control(public=True, max_age=300), name="dispatch")
+class GlossaryListView(generics.ListAPIView):
+    """All glossary terms (flat list, cached). Powers the frontend linker.
+
+    Optional `?concept=<slug>` filter returns only terms defined by that lesson.
+    """
+
+    serializer_class = GlossaryTermSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = None  # small controlled vocabulary — return them all
+
+    def get_queryset(self):
+        qs = GlossaryTerm.objects.select_related("concept").order_by("slug")
+        concept_slug = self.request.query_params.get("concept")
+        if concept_slug:
+            qs = qs.filter(concept__slug=concept_slug)
+        return qs
+
+
+@method_decorator(cache_control(public=True, max_age=300), name="dispatch")
+class GlossaryDetailView(generics.RetrieveAPIView):
+    """A single glossary term by slug."""
+
+    queryset = GlossaryTerm.objects.select_related("concept")
+    serializer_class = GlossaryTermSerializer
+    permission_classes = [permissions.AllowAny]
+    lookup_field = "slug"
+
+
+class LessonUnlockView(APIView):
+    """Server-side prerequisite enforcement.
+
+    GET → per-lesson unlock status for the authenticated user, computed from
+    `Concept.prerequisites` and the user's `UserTopicProgress` rows. A lesson
+    unlocks once all of its prerequisite concepts have been visited. Optional
+    `?category=<slug>` scopes the report to one branch (e.g. `qc-foundations`).
+
+    This is the authoritative unlock oracle: the client must consult it rather
+    than deciding unlock state itself, so gating cannot be bypassed by tampering
+    with local state.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        concepts = (
+            Concept.objects.filter(is_published=True)
+            .select_related("category")
+            .prefetch_related("prerequisites")
+            .order_by("category__order", "order")
+        )
+        category = request.query_params.get("category")
+        if category:
+            concepts = concepts.filter(category__slug=category)
+
+        visited = set(
+            UserTopicProgress.objects.filter(user=request.user).values_list(
+                "concept__slug", flat=True
+            )
+        )
+
+        rows = []
+        for c in concepts:
+            prereqs = list(c.prerequisites.all())
+            prereq_status = [
+                {"slug": p.slug, "title": p.title, "visited": p.slug in visited}
+                for p in prereqs
+            ]
+            missing = [p["slug"] for p in prereq_status if not p["visited"]]
+            rows.append(
+                {
+                    "slug": c.slug,
+                    "title": c.title,
+                    "category_slug": c.category.slug if c.category else None,
+                    "order": c.order,
+                    "difficulty": c.difficulty,
+                    "visited": c.slug in visited,
+                    "unlocked": len(missing) == 0,
+                    "prerequisites": prereq_status,
+                    "missing_prerequisites": missing,
+                }
+            )
+
+        return Response(LessonUnlockSerializer(rows, many=True).data)
 
 
 class KnowledgeGraphView(APIView):

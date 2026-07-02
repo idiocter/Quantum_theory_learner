@@ -7,7 +7,10 @@ from .views import (
     ConceptListView,
     ConceptSearchView,
     FormulaIndexView,
+    GlossaryDetailView,
+    GlossaryListView,
     KnowledgeGraphView,
+    LessonUnlockView,
     ProgressView,
 )
 
@@ -20,6 +23,9 @@ urlpatterns = [
     path("graph/", KnowledgeGraphView.as_view(), name="knowledge-graph"),
     path("search/", ConceptSearchView.as_view(), name="concept-search"),
     path("formulas/", FormulaIndexView.as_view(), name="formula-index"),
+    path("glossary/", GlossaryListView.as_view(), name="glossary-list"),
+    path("glossary/<slug:slug>/", GlossaryDetailView.as_view(), name="glossary-detail"),
+    path("unlocks/", LessonUnlockView.as_view(), name="lesson-unlocks"),
     path("progress/", ProgressView.as_view(), name="progress"),
     path("<slug:slug>/bookmark/", BookmarkToggleView.as_view(), name="bookmark-toggle"),
     path("<slug:slug>/", ConceptDetailView.as_view(), name="concept-detail"),
