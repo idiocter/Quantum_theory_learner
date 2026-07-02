@@ -60,6 +60,18 @@ export function useFormulaIndex() {
   })
 }
 
+// Server-side prerequisite enforcement: authoritative per-lesson unlock status.
+// `enabled` should be the logged-in flag (the endpoint requires auth); anonymous
+// callers get no rows, and the UI falls back to treating lessons as accessible.
+export function useUnlocks(category?: string, enabled = true) {
+  return useQuery({
+    queryKey: ['unlocks', category ?? 'all'],
+    queryFn: () => conceptsApi.unlocks(category).then((r) => r.data),
+    enabled,
+    staleTime: 60 * 1000,
+  })
+}
+
 // Per-user progress (visited topics, bookmarks, per-branch completion).
 // `enabled` should be the logged-in flag so anonymous users don't 401-spam.
 export function useProgress(enabled = true) {

@@ -5,6 +5,7 @@ import type {
   ConceptSearchResult,
   Formula,
   KnowledgeGraph,
+  LessonUnlock,
   PaginatedResponse,
   ProgressResponse,
 } from '@/types'
@@ -34,6 +35,13 @@ export const conceptsApi = {
     apiClient.get<PaginatedResponse<Formula>>('/concepts/formulas/', { params: { page_size: 100 } }),
 
   knowledgeGraph: () => apiClient.get<KnowledgeGraph>('/concepts/graph/'),
+
+  // Server-side prerequisite enforcement: per-lesson unlock status for the
+  // authenticated user, optionally scoped to a branch (auth required).
+  unlocks: (category?: string) =>
+    apiClient.get<LessonUnlock[]>('/concepts/unlocks/', {
+      params: category ? { category } : undefined,
+    }),
 
   // ── Per-user progress (auth required) ──
   getProgress: () => apiClient.get<ProgressResponse>('/concepts/progress/'),

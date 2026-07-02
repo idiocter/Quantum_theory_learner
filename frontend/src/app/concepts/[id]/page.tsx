@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/hooks/useAuth'
 import { conceptsApi } from '@/lib/api/concepts'
 import { difficultyLabel } from '@/lib/utils'
 import { TexProse } from '@/components/ui/Tex'
+import { GlossaryText } from '@/components/ui/GlossaryText'
 import FormulaBlock from '@/components/concepts/FormulaBlock'
 import ConnectionsPanel from '@/components/concepts/ConnectionsPanel'
 import AnimationSlot from '@/components/concepts/AnimationSlot'
@@ -134,10 +135,12 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
               </span>
             </div>
 
+            {/* Prose is rendered through GlossaryText: it turns `[[term]]`
+                markers into hover/linked glossary terms and renders inline
+                `$...$` / display `$$...$$` KaTeX. Marker-free physics prose is
+                unaffected. */}
             <div className="space-y-4">
-              {content.explanation.split('\n\n').map((para, i) => (
-                <p key={i} className="text-slate-300 leading-relaxed">{para}</p>
-              ))}
+              <GlossaryText content={content.explanation} className="text-slate-300 leading-relaxed" />
             </div>
 
             {content.math_derivation && (
@@ -145,9 +148,9 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
                 <h3 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">
                   Derivation
                 </h3>
-                {content.math_derivation.split('\n\n').map((para, i) => (
-                  <p key={i} className="text-slate-400 leading-relaxed text-sm mb-2">{para}</p>
-                ))}
+                <div className="space-y-2">
+                  <GlossaryText content={content.math_derivation} className="text-slate-400 leading-relaxed text-sm" />
+                </div>
               </div>
             )}
           </div>

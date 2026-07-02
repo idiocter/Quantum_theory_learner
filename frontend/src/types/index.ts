@@ -78,6 +78,7 @@ export interface Concept {
   description: string
   category: Category
   difficulty: 'beginner' | 'intermediate' | 'advanced'
+  order: number
   prerequisites: string[]
   estimated_minutes: number
   view_count: number
@@ -93,6 +94,33 @@ export interface Concept {
   unlocks?: string[]
   // The per-level explanatory chapters.
   contents?: ConceptContent[]
+}
+
+// A cross-cutting glossary term (GET /api/concepts/glossary/). The frontend
+// linker resolves `[[slug]]` / `[[slug|surface]]` prose markers to these rows.
+export interface GlossaryTerm {
+  id: string
+  term: string
+  slug: string
+  definition: string
+  // The lesson that defines the term, if any — tooltips deep-link to it.
+  concept_slug: string | null
+  concept_title: string | null
+}
+
+// Per-lesson unlock status computed server-side from the user's visited
+// progress (GET /api/concepts/unlocks/). A lesson is `unlocked` once every
+// prerequisite has been visited. The server is the source of truth.
+export interface LessonUnlock {
+  slug: string
+  title: string
+  category_slug: string | null
+  order: number
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  visited: boolean
+  unlocked: boolean
+  prerequisites: Array<{ slug: string; title: string; visited: boolean }>
+  missing_prerequisites: string[]
 }
 
 export interface KnowledgeGraphNode {
