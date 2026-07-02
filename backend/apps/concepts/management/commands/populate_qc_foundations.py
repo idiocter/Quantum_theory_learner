@@ -179,7 +179,7 @@ CONCEPTS = [
 # ── Reusable citation entries ──
 NC = {  # Nielsen & Chuang, Quantum Computation and Quantum Information (10th anniv. ed., 2010)
     "1.2": {"title": "Nielsen & Chuang, Sec 1.2 (Qubits)", "url": "https://doi.org/10.1017/CBO9780511976667"},
-    "1.3.6": {"title": "Nielsen & Chuang, Sec 1.3.6 (Application: superdense coding / Bell states)", "url": "https://doi.org/10.1017/CBO9780511976667"},
+    "1.3.6": {"title": "Nielsen & Chuang, Sec 1.3.6 (Example: Bell states)", "url": "https://doi.org/10.1017/CBO9780511976667"},
     "2.1": {"title": "Nielsen & Chuang, Sec 2.1 (Linear algebra)", "url": "https://doi.org/10.1017/CBO9780511976667"},
     "2.1.7": {"title": "Nielsen & Chuang, Sec 2.1.7 (Tensor products)", "url": "https://doi.org/10.1017/CBO9780511976667"},
     "2.2": {"title": "Nielsen & Chuang, Sec 2.2 (The postulates of quantum mechanics)", "url": "https://doi.org/10.1017/CBO9780511976667"},
@@ -188,10 +188,8 @@ NC = {  # Nielsen & Chuang, Quantum Computation and Quantum Information (10th an
     "2.2.7": {"title": "Nielsen & Chuang, Sec 2.2.7 (Global and relative phase)", "url": "https://doi.org/10.1017/CBO9780511976667"},
     "2.2.8": {"title": "Nielsen & Chuang, Sec 2.2.8 (Composite systems / entanglement)", "url": "https://doi.org/10.1017/CBO9780511976667"},
     "2.4.3": {"title": "Nielsen & Chuang, Sec 2.4.3 (The reduced density operator)", "url": "https://doi.org/10.1017/CBO9780511976667"},
-    "3.2.5": {"title": "Nielsen & Chuang, Sec 3.2.5 (Reversible Turing machines)", "url": "https://doi.org/10.1017/CBO9780511976667"},
-    # VERIFY: N&C states the no-cloning theorem in Box 12.1 (Ch. 12, Quantum
-    # information theory). Confirm the exact box/section number in the printed
-    # 10th-anniversary edition.
+    "3.2.5": {"title": "Nielsen & Chuang, Sec 3.2.5 (Energy and computation)", "url": "https://doi.org/10.1017/CBO9780511976667"},
+    # Verified by physics-accuracy-reviewer: no-cloning theorem is Box 12.1, §12.1.
     "no-cloning": {"title": "Nielsen & Chuang, Box 12.1 (The no-cloning theorem)", "url": "https://doi.org/10.1017/CBO9780511976667"},
 }
 
