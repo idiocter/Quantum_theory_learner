@@ -316,7 +316,7 @@ TOPICS = [
             "connectivity but slower gates. **Photonic** systems are naturally suited to communication and "
             "room-temperature operation but struggle with deterministic two-qubit gates. **Neutral atoms** "
             "(QuEra, Pasqal) combine large arrays with reconfigurable connectivity.",
-            "The honest state of the art: devices with tens to a few hundred physical qubits, two-qubit "
+            "The honest state of the art: devices ranging from tens up to over a thousand physical qubits, two-qubit "
             "error rates around $10^{-2}$-$10^{-3}$, and no error correction at useful scale yet. The gap to "
             "the millions of physical qubits a fault-tolerant machine needs is the field's defining "
             "engineering challenge.",
