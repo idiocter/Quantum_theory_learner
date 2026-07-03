@@ -46,6 +46,14 @@ export const HawkingRadiation = dynamic(() => import('@/components/simulations/H
 export const PhotosynthesisCoherence = dynamic(() => import('@/components/simulations/PhotosynthesisCoherence'), { ssr: false, loading: SimLoading })
 export const BlochSphereQC = dynamic(() => import('@/components/simulations/BlochSphereQC'), { ssr: false, loading: SimLoading })
 export const BellState = dynamic(() => import('@/components/simulations/BellState'), { ssr: false, loading: SimLoading })
+export const SingleQubitGate = dynamic(() => import('@/components/simulations/SingleQubitGate'), { ssr: false, loading: SimLoading })
+export const MultiQubitGate = dynamic(() => import('@/components/simulations/MultiQubitGate'), { ssr: false, loading: SimLoading })
+export const GateDecomposition = dynamic(() => import('@/components/simulations/GateDecomposition'), { ssr: false, loading: SimLoading })
+export const DensityMatrix = dynamic(() => import('@/components/simulations/DensityMatrix'), { ssr: false, loading: SimLoading })
+export const DeutschJozsa = dynamic(() => import('@/components/simulations/DeutschJozsa'), { ssr: false, loading: SimLoading })
+export const QFT = dynamic(() => import('@/components/simulations/QFT'), { ssr: false, loading: SimLoading })
+export const PhaseEstimation = dynamic(() => import('@/components/simulations/PhaseEstimation'), { ssr: false, loading: SimLoading })
+export const Shor = dynamic(() => import('@/components/simulations/Shor'), { ssr: false, loading: SimLoading })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -82,6 +90,14 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   photosynthesis: PhotosynthesisCoherence,
   bloch_sphere: BlochSphereQC,
   bell_state: BellState,
+  single_qubit_gate: SingleQubitGate,
+  multi_qubit_gate: MultiQubitGate,
+  gate_decomposition: GateDecomposition,
+  density_matrix: DensityMatrix,
+  deutsch_jozsa: DeutschJozsa,
+  qft: QFT,
+  phase_estimation: PhaseEstimation,
+  shor: Shor,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {

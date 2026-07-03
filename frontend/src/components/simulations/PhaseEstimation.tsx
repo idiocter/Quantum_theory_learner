@@ -100,7 +100,7 @@ export default function PhaseEstimation() {
         </div>
       </div>
       <div className="flex flex-col gap-1 max-w-md">
-        <div className="flex justify-between text-[11px] text-slate-500"><span>true φ (U = diag(1, e^{2πiφ}))</span><span className="font-mono text-quantum-400">{phi.toFixed(4)}</span></div>
+        <div className="flex justify-between text-[11px] text-slate-500"><span>true φ (U = diag(1, e^{'{2πiφ}'}))</span><span className="font-mono text-quantum-400">{phi.toFixed(4)}</span></div>
         <input type="range" min={0} max={1000} value={Math.round(phi * 1000)} aria-label="True eigenphase phi"
           onChange={(e) => setPhi(Number(e.target.value) / 1000)} className="w-full accent-quantum-500 h-1" />
       </div>
