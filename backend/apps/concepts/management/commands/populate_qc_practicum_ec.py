@@ -234,7 +234,7 @@ TOPICS = [
             "Noise is modelled by **quantum channels** — completely-positive trace-preserving maps on "
             "$\\rho$. The **bit-flip** channel applies $X$ with probability $p$; the **phase-flip** applies "
             "$Z$ with probability $p$; the **depolarizing** channel replaces the state with the maximally "
-            "mixed $I/2$ with probability $p$, i.e. applies a random Pauli. Each is written in Kraus form "
+            "mixed $I/2$ with probability $p$. Each is written in Kraus form "
             "$\\rho \\mapsto \\sum_k K_k \\rho K_k^\\dagger$.",
             "Geometrically every noise channel **shrinks the Bloch vector**. Dephasing with probability "
             "$p$ contracts the $x,y$ components by $(1-2p)$, collapsing the vector toward the $z$-axis; "
@@ -245,7 +245,7 @@ TOPICS = [
         "key_equations": [
             {"label": "Bit-flip channel", "latex": r"\rho \mapsto (1-p)\,\rho + p\,X\rho X"},
             {"label": "Phase-flip channel", "latex": r"\rho \mapsto (1-p)\,\rho + p\,Z\rho Z"},
-            {"label": "Depolarizing channel", "latex": r"\rho \mapsto (1-p)\,\rho + \tfrac{p}{3}\,(X\rho X + Y\rho Y + Z\rho Z)"},
+            {"label": "Depolarizing channel", "latex": r"\rho \mapsto (1-p)\,\rho + p\,\tfrac{I}{2}"},
         ],
         "math_derivation": (
             "For a single qubit $\\rho = \\tfrac12(I + \\vec r\\cdot\\vec\\sigma)$, the dephasing channel "
