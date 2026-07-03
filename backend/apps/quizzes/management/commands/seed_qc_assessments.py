@@ -39,6 +39,8 @@ DOCS_DIR = Path(settings.BASE_DIR).parent / "docs" / "quantum-computing" / "asse
 MODULE_FILES = {
     "module-0": DOCS_DIR / "module-0.json",
     "module-1": DOCS_DIR / "module-1.json",
+    "module-2": DOCS_DIR / "module-2.json",
+    "module-3": DOCS_DIR / "module-3.json",
 }
 VALID_TYPES = {"mcq", "numerical", "true_false"}
 
