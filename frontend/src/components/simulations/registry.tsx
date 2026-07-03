@@ -54,6 +54,10 @@ export const DeutschJozsa = dynamic(() => import('@/components/simulations/Deuts
 export const QFT = dynamic(() => import('@/components/simulations/QFT'), { ssr: false, loading: SimLoading })
 export const PhaseEstimation = dynamic(() => import('@/components/simulations/PhaseEstimation'), { ssr: false, loading: SimLoading })
 export const Shor = dynamic(() => import('@/components/simulations/Shor'), { ssr: false, loading: SimLoading })
+export const CircuitPlayground = dynamic(() => import('@/components/simulations/CircuitPlayground'), { ssr: false, loading: SimLoading })
+export const NoiseChannel = dynamic(() => import('@/components/simulations/NoiseChannel'), { ssr: false, loading: SimLoading })
+export const BitFlipCode = dynamic(() => import('@/components/simulations/BitFlipCode'), { ssr: false, loading: SimLoading })
+export const SurfaceCode = dynamic(() => import('@/components/simulations/SurfaceCode'), { ssr: false, loading: SimLoading })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -98,6 +102,10 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   qft: QFT,
   phase_estimation: PhaseEstimation,
   shor: Shor,
+  circuit_playground: CircuitPlayground,
+  noise_channel: NoiseChannel,
+  bit_flip_code: BitFlipCode,
+  surface_code: SurfaceCode,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
