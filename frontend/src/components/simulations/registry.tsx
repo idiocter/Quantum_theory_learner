@@ -58,6 +58,8 @@ export const CircuitPlayground = dynamic(() => import('@/components/simulations/
 export const NoiseChannel = dynamic(() => import('@/components/simulations/NoiseChannel'), { ssr: false, loading: SimLoading })
 export const BitFlipCode = dynamic(() => import('@/components/simulations/BitFlipCode'), { ssr: false, loading: SimLoading })
 export const SurfaceCode = dynamic(() => import('@/components/simulations/SurfaceCode'), { ssr: false, loading: SimLoading })
+export const VQE = dynamic(() => import('@/components/simulations/VQE'), { ssr: false, loading: SimLoading })
+export const QAOA = dynamic(() => import('@/components/simulations/QAOA'), { ssr: false, loading: SimLoading })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -106,6 +108,8 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   noise_channel: NoiseChannel,
   bit_flip_code: BitFlipCode,
   surface_code: SurfaceCode,
+  vqe: VQE,
+  qaoa: QAOA,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
