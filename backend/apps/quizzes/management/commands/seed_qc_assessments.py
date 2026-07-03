@@ -43,6 +43,9 @@ MODULE_FILES = {
     "module-3": DOCS_DIR / "module-3.json",
     "module-4": DOCS_DIR / "module-4.json",
     "module-5": DOCS_DIR / "module-5.json",
+    "module-6": DOCS_DIR / "module-6.json",
+    "module-7": DOCS_DIR / "module-7.json",
+    "module-8": DOCS_DIR / "module-8.json",
 }
 VALID_TYPES = {"mcq", "numerical", "true_false"}
 
