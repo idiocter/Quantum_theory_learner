@@ -53,6 +53,7 @@ export const DensityMatrix = dynamic(() => import('@/components/simulations/Dens
 export const DeutschJozsa = dynamic(() => import('@/components/simulations/DeutschJozsa'), { ssr: false, loading: SimLoading })
 export const QFT = dynamic(() => import('@/components/simulations/QFT'), { ssr: false, loading: SimLoading })
 export const PhaseEstimation = dynamic(() => import('@/components/simulations/PhaseEstimation'), { ssr: false, loading: SimLoading })
+export const Shor = dynamic(() => import('@/components/simulations/Shor'), { ssr: false, loading: SimLoading })
 
 // Maps a Concept's `related_simulation` key (set in the seed, e.g. "double_slit")
 // to its interactive component. AnimationSlot uses this to render the right sim
@@ -96,6 +97,7 @@ export const SIMULATION_BY_KEY: Record<string, ComponentType> = {
   deutsch_jozsa: DeutschJozsa,
   qft: QFT,
   phase_estimation: PhaseEstimation,
+  shor: Shor,
 }
 
 export function getSimulation(key?: string | null): ComponentType | null {
