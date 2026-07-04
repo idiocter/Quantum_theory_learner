@@ -10,7 +10,16 @@ from apps.core.validators import validate_no_script
 
 
 class Category(TimeStampedModel):
-    """A top-level branch of the curriculum (e.g. Foundations, Quantum Information)."""
+    """A top-level branch of the curriculum (e.g. Foundations, Quantum Information).
+
+    Branches are grouped into `track`s so the two distinct curricula — the core
+    quantum-physics topics and the structured Quantum Computing course — render
+    as separate sections instead of one flat list.
+    """
+
+    class Track(models.TextChoices):
+        PHYSICS = "quantum-physics", "Quantum Physics"
+        COMPUTING = "quantum-computing", "Quantum Computing"
 
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
@@ -18,6 +27,9 @@ class Category(TimeStampedModel):
     icon = models.CharField(max_length=50, blank=True)  # icon name/class
     color = models.CharField(max_length=7, default="#4F46E5")  # hex color
     order = models.IntegerField(default=0, db_index=True)  # branch display order
+    track = models.CharField(
+        max_length=20, choices=Track.choices, default=Track.PHYSICS, db_index=True
+    )
 
     class Meta:
         db_table = "concept_categories"
