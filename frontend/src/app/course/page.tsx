@@ -6,8 +6,8 @@ import { useAuth } from '@/lib/hooks/useAuth'
 import { difficultyLabel } from '@/lib/utils'
 import type { Concept, LessonUnlock } from '@/types'
 
-// The Quantum Computing track is namespaced with `qc-` category slugs.
-const QC_PREFIX = 'qc-'
+// The Quantum Computing course is the `quantum-computing` category track.
+const QC_TRACK = 'quantum-computing'
 
 function LessonRow({
   lesson,
@@ -79,7 +79,7 @@ export default function CourseOverviewPage() {
   }, [unlocks])
 
   const qcBranches = (branches ?? [])
-    .filter((b) => b.slug.startsWith(QC_PREFIX))
+    .filter((b) => b.track === QC_TRACK)
     .slice()
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
 
