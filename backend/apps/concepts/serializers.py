@@ -13,7 +13,7 @@ def _estimated_minutes(concept) -> int:
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "slug", "description", "icon", "color", "order")
+        fields = ("id", "name", "slug", "description", "icon", "color", "order", "track")
 
 
 class BranchSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class BranchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ("id", "name", "slug", "description", "icon", "color", "order", "topic_count")
+        fields = ("id", "name", "slug", "description", "icon", "color", "order", "track", "topic_count")
 
 
 class FormulaSerializer(serializers.ModelSerializer):

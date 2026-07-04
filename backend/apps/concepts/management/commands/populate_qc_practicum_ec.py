@@ -411,7 +411,8 @@ class Command(BaseCommand):
         for slug, name, desc, color, order in BRANCHES:
             branches[slug], _ = Category.objects.update_or_create(
                 slug=slug,
-                defaults={"name": name, "description": desc, "color": color, "order": order},
+                defaults={"name": name, "description": desc, "color": color, "order": order,
+                          "track": "quantum-computing"},
             )
             self.stdout.write(f"  ✓ {slug}")
 
