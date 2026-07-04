@@ -57,4 +57,7 @@ nginx/certs/*.crt
 .claude
 contracts/
 CLAUDE.md
-/docs
+# Course content (curriculum + assessment banks) must ship so a fresh clone can
+# seed. Everything else under docs/ stays local.
+/docs/*
+!/docs/quantum-computing/

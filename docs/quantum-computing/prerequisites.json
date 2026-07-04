@@ -1,0 +1,1609 @@
+{
+ "$comment": "Single source of truth for the Quantum Computing course track, Phases 1-2 (Modules 0-3). Slugs and objective IDs here are the canonical IDs every downstream agent keys off of. Module -> Category branch; Lesson -> Concept. Graph verified acyclic via Kahn topological sort over the full 21-lesson graph. Do NOT collide with existing physics-track concept slugs (qubit, superposition, entanglement, measurement, bell_theorem, quantum_gates, quantum_circuits, grover_algorithm, shor_algorithm, ...) -- the qc- prefix namespaces this track.",
+ "version": "phase-2",
+ "modules": [
+  {
+   "id": "module-0",
+   "title": "Module 0 - Prerequisites Diagnostic",
+   "category_slug": "qc-prerequisites",
+   "category_name": "QC: Prerequisites Diagnostic",
+   "graded": false,
+   "note": "Diagnostic refresher/reference concepts. Objectives are testable so the diagnostic quiz can tag one item per objective and route gaps to references. Not part of graded lesson progression; lessons here have no course prerequisites (they are the prerequisites)."
+  },
+  {
+   "id": "module-1",
+   "title": "Module 1 - Foundations of QM for Computing",
+   "category_slug": "qc-foundations",
+   "category_name": "QC: Foundations of Quantum Mechanics for Computing",
+   "graded": true
+  },
+  {
+   "id": "module-2",
+   "title": "Module 2 - Quantum Gates & Circuits",
+   "category_slug": "qc-gates-circuits",
+   "category_name": "QC: Quantum Gates & Circuits",
+   "graded": true
+  },
+  {
+   "id": "module-3",
+   "title": "Module 3 - Core Quantum Algorithms",
+   "category_slug": "qc-algorithms",
+   "category_name": "QC: Core Quantum Algorithms",
+   "graded": true
+  },
+  {
+   "id": "module-4",
+   "title": "Module 4 - Programming Quantum Computers",
+   "category_slug": "qc-programming",
+   "category_name": "QC: Programming Quantum Computers",
+   "graded": true
+  },
+  {
+   "id": "module-5",
+   "title": "Module 5 - Quantum Error Correction & Noise",
+   "category_slug": "qc-error-correction",
+   "category_name": "QC: Error Correction & Noise",
+   "graded": true
+  },
+  {
+   "id": "module-6",
+   "title": "Module 6 - Variational & Near-Term Algorithms",
+   "category_slug": "qc-variational",
+   "category_name": "QC: Variational & Near-Term Algorithms",
+   "graded": true
+  },
+  {
+   "id": "module-7",
+   "title": "Module 7 - Quantum Communication & Cryptography",
+   "category_slug": "qc-communication",
+   "category_name": "QC: Communication & Cryptography",
+   "graded": true
+  },
+  {
+   "id": "module-8",
+   "title": "Module 8 - Hardware, Advantage & Outlook",
+   "category_slug": "qc-hardware",
+   "category_name": "QC: Hardware, Advantage & Outlook",
+   "graded": true
+  }
+ ],
+ "topological_order": [
+  "qc-prereq-classical-computing",
+  "qc-prereq-complex-numbers",
+  "qc-prereq-linear-algebra",
+  "qc-prereq-probability",
+  "qc-qubit-state-vector",
+  "qc-multi-qubit-tensor",
+  "qc-superposition",
+  "qc-bloch-sphere",
+  "qc-measurement-born-rule",
+  "qc-no-cloning",
+  "qc-entanglement-bell-states",
+  "qc-single-qubit-gates",
+  "qc-multi-qubit-gates",
+  "qc-circuit-model",
+  "qc-universal-gate-sets",
+  "qc-density-matrices-mixed-states",
+  "qc-deutsch-jozsa",
+  "qc-quantum-fourier-transform",
+  "qc-grover-search",
+  "qc-phase-estimation",
+  "qc-shor-factoring",
+  "qc-quantum-programming-model",
+  "qc-building-circuits-in-code",
+  "qc-measurement-and-shots",
+  "qc-simulators-and-transpilation",
+  "qc-coding-quantum-algorithms",
+  "qc-decoherence-and-noise",
+  "qc-three-qubit-bit-flip-code",
+  "qc-phase-flip-and-shor-code",
+  "qc-css-and-steane-code",
+  "qc-surface-codes-threshold",
+  "qc-variational-principle",
+  "qc-vqe",
+  "qc-qaoa",
+  "qc-qml-and-barren-plateaus",
+  "qc-quantum-teleportation",
+  "qc-superdense-coding",
+  "qc-bb84-qkd",
+  "qc-quantum-networks-repeaters",
+  "qc-hardware-platforms",
+  "qc-quantum-advantage",
+  "qc-outlook-and-careers"
+ ],
+ "acyclic": true,
+ "lessons": [
+  {
+   "slug": "qc-prereq-linear-algebra",
+   "module": "Module 0 - Prerequisites Diagnostic",
+   "category": "qc-prerequisites",
+   "title": "Linear Algebra for Quantum Computing",
+   "difficulty": "intermediate",
+   "related_simulation": "",
+   "prerequisites": [],
+   "objectives": [
+    {
+     "id": "qc-prereq-linear-algebra.o1",
+     "bloom": "Apply",
+     "statement": "Given a vector in the complex vector space C^n, compute its inner product with another vector, its norm, and the normalized unit vector."
+    },
+    {
+     "id": "qc-prereq-linear-algebra.o2",
+     "bloom": "Apply",
+     "statement": "Given a square complex matrix, compute its conjugate transpose and determine whether it is unitary, Hermitian, both, or neither."
+    },
+    {
+     "id": "qc-prereq-linear-algebra.o3",
+     "bloom": "Apply",
+     "statement": "Compute the eigenvalues and eigenvectors of a 2x2 complex matrix and verify that the eigenvectors of a Hermitian matrix corresponding to distinct eigenvalues are orthogonal."
+    },
+    {
+     "id": "qc-prereq-linear-algebra.o4",
+     "bloom": "Apply",
+     "statement": "Compute the tensor (Kronecker) product of two given vectors or matrices and state the dimension of the resulting space."
+    },
+    {
+     "id": "qc-prereq-linear-algebra.o5",
+     "bloom": "Apply",
+     "statement": "Express a given vector as a linear combination of an orthonormal basis by computing the expansion coefficients via inner products."
+    }
+   ]
+  },
+  {
+   "slug": "qc-prereq-complex-numbers",
+   "module": "Module 0 - Prerequisites Diagnostic",
+   "category": "qc-prerequisites",
+   "title": "Complex Numbers and Amplitudes",
+   "difficulty": "intermediate",
+   "related_simulation": "",
+   "prerequisites": [],
+   "objectives": [
+    {
+     "id": "qc-prereq-complex-numbers.o1",
+     "bloom": "Apply",
+     "statement": "Convert a given complex number between Cartesian form a + bi and polar form r e^{i theta}, and compute its modulus and argument."
+    },
+    {
+     "id": "qc-prereq-complex-numbers.o2",
+     "bloom": "Apply",
+     "statement": "Given a complex amplitude z, compute its complex conjugate and modulus squared |z|^2, and identify why |z|^2 is real and non-negative."
+    },
+    {
+     "id": "qc-prereq-complex-numbers.o3",
+     "bloom": "Apply",
+     "statement": "Use Euler's formula e^{i theta} = cos theta + i sin theta to evaluate a given expression, and identify the effect of multiplying a state by a unit-modulus global phase factor."
+    }
+   ]
+  },
+  {
+   "slug": "qc-prereq-probability",
+   "module": "Module 0 - Prerequisites Diagnostic",
+   "category": "qc-prerequisites",
+   "title": "Probability for Quantum Computing",
+   "difficulty": "intermediate",
+   "related_simulation": "",
+   "prerequisites": [],
+   "objectives": [
+    {
+     "id": "qc-prereq-probability.o1",
+     "bloom": "Apply",
+     "statement": "Given a discrete probability distribution over outcomes, compute the expectation value and variance of an associated random variable."
+    },
+    {
+     "id": "qc-prereq-probability.o2",
+     "bloom": "Apply",
+     "statement": "Given a set of candidate outcome weights, determine whether they form a valid probability distribution and compute a specified marginal or conditional probability from a joint distribution."
+    },
+    {
+     "id": "qc-prereq-probability.o3",
+     "bloom": "Analyze",
+     "statement": "Given a joint distribution over two variables, determine whether the variables are statistically independent by comparing the joint distribution to the product of its marginals."
+    }
+   ]
+  },
+  {
+   "slug": "qc-prereq-classical-computing",
+   "module": "Module 0 - Prerequisites Diagnostic",
+   "category": "qc-prerequisites",
+   "title": "Classical Computing Foundations",
+   "difficulty": "beginner",
+   "related_simulation": "",
+   "prerequisites": [],
+   "objectives": [
+    {
+     "id": "qc-prereq-classical-computing.o1",
+     "bloom": "Remember",
+     "statement": "Identify the standard classical logic gates (AND, OR, NOT, NAND, XOR) and state their truth tables."
+    },
+    {
+     "id": "qc-prereq-classical-computing.o2",
+     "bloom": "Understand",
+     "statement": "Explain that an n-bit register has 2^n possible states and represent a specified register state as a bit string."
+    },
+    {
+     "id": "qc-prereq-classical-computing.o3",
+     "bloom": "Analyze",
+     "statement": "Given a function's step count, classify its asymptotic scaling using big-O notation and distinguish polynomial from exponential growth."
+    },
+    {
+     "id": "qc-prereq-classical-computing.o4",
+     "bloom": "Apply",
+     "statement": "Define reversible computation and determine whether a given classical gate is reversible by inspecting its truth table for injectivity."
+    }
+   ]
+  },
+  {
+   "slug": "qc-qubit-state-vector",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "Qubits and State Vectors",
+   "difficulty": "intermediate",
+   "related_simulation": "bloch_sphere",
+   "prerequisites": [
+    "qc-prereq-linear-algebra",
+    "qc-prereq-complex-numbers",
+    "qc-prereq-classical-computing"
+   ],
+   "objectives": [
+    {
+     "id": "qc-qubit-state-vector.o1",
+     "bloom": "Understand",
+     "statement": "State the definition of a qubit as a unit vector in C^2 and write a general pure state as |psi> = alpha|0> + beta|1> subject to the normalization constraint |alpha|^2 + |beta|^2 = 1."
+    },
+    {
+     "id": "qc-qubit-state-vector.o2",
+     "bloom": "Apply",
+     "statement": "Given amplitudes alpha and beta, verify normalization and convert the state between the Dirac form alpha|0> + beta|1> and its column-vector form in the computational basis."
+    },
+    {
+     "id": "qc-qubit-state-vector.o3",
+     "bloom": "Apply",
+     "statement": "Write the states |0>, |1>, |+>, |-> as explicit column vectors in C^2."
+    },
+    {
+     "id": "qc-qubit-state-vector.o4",
+     "bloom": "Analyze",
+     "statement": "Given a description of a classical bit and a qubit, identify the differences in their state spaces and select the statement that correctly explains why a qubit's pure-state space is continuous rather than two discrete values."
+    }
+   ]
+  },
+  {
+   "slug": "qc-superposition",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "Superposition",
+   "difficulty": "intermediate",
+   "related_simulation": "superposition",
+   "prerequisites": [
+    "qc-qubit-state-vector",
+    "qc-prereq-probability"
+   ],
+   "objectives": [
+    {
+     "id": "qc-superposition.o1",
+     "bloom": "Understand",
+     "statement": "Define quantum superposition as a normalized linear combination of basis states and identify the amplitudes in a given superposition."
+    },
+    {
+     "id": "qc-superposition.o2",
+     "bloom": "Apply",
+     "statement": "Construct the equal-superposition state |+> = (|0> + |1>)/sqrt(2) and, given a target state in a specified basis, compute its amplitudes."
+    },
+    {
+     "id": "qc-superposition.o3",
+     "bloom": "Apply",
+     "statement": "Given a single-qubit state, separate it into a global phase and a relative phase and identify which is physically observable."
+    },
+    {
+     "id": "qc-superposition.o4",
+     "bloom": "Analyze",
+     "statement": "Given a coherent superposition and a classical probabilistic mixture with the same computational-basis probabilities, identify the role of relative phase and select the measurement that distinguishes them."
+    }
+   ]
+  },
+  {
+   "slug": "qc-bloch-sphere",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "The Bloch Sphere",
+   "difficulty": "intermediate",
+   "related_simulation": "bloch_sphere",
+   "prerequisites": [
+    "qc-qubit-state-vector",
+    "qc-superposition"
+   ],
+   "objectives": [
+    {
+     "id": "qc-bloch-sphere.o1",
+     "bloom": "Understand",
+     "statement": "State the Bloch-sphere parametrization |psi> = cos(theta/2)|0> + e^{i phi} sin(theta/2)|1> and give the ranges of theta and phi."
+    },
+    {
+     "id": "qc-bloch-sphere.o2",
+     "bloom": "Apply",
+     "statement": "Given a pure single-qubit state, compute its Bloch angles (theta, phi) and its Cartesian Bloch vector (x, y, z), and perform the inverse mapping."
+    },
+    {
+     "id": "qc-bloch-sphere.o3",
+     "bloom": "Apply",
+     "statement": "Locate the states |0>, |1>, |+>, |->, |+i>, |-i> at their correct positions on the Bloch sphere."
+    },
+    {
+     "id": "qc-bloch-sphere.o4",
+     "bloom": "Analyze",
+     "statement": "Explain why two orthogonal qubit states map to antipodal points on the Bloch sphere, relating the Hilbert-space inner product to the geometric angle on the sphere."
+    }
+   ]
+  },
+  {
+   "slug": "qc-multi-qubit-tensor",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "Multi-Qubit Systems and Tensor Products",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-qubit-state-vector",
+    "qc-prereq-linear-algebra"
+   ],
+   "objectives": [
+    {
+     "id": "qc-multi-qubit-tensor.o1",
+     "bloom": "Understand",
+     "statement": "State that an n-qubit system lives in a 2^n-dimensional Hilbert space and write its computational basis as the set of 2^n bit-string states."
+    },
+    {
+     "id": "qc-multi-qubit-tensor.o2",
+     "bloom": "Apply",
+     "statement": "Given two single-qubit states, compute their tensor product and express the joint state as a column vector in the computational basis."
+    },
+    {
+     "id": "qc-multi-qubit-tensor.o3",
+     "bloom": "Apply",
+     "statement": "Expand a given multi-qubit state in the computational basis and read off the amplitude associated with a specified basis string."
+    },
+    {
+     "id": "qc-multi-qubit-tensor.o4",
+     "bloom": "Analyze",
+     "statement": "Given a two-qubit state, determine whether it is a product state by attempting to factor it into single-qubit states and reporting the factorization or its impossibility."
+    }
+   ]
+  },
+  {
+   "slug": "qc-measurement-born-rule",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "Measurement and the Born Rule",
+   "difficulty": "intermediate",
+   "related_simulation": "born_rule",
+   "prerequisites": [
+    "qc-superposition",
+    "qc-prereq-probability"
+   ],
+   "objectives": [
+    {
+     "id": "qc-measurement-born-rule.o1",
+     "bloom": "Understand",
+     "statement": "State the Born rule, giving the probability of outcome i for a projective measurement of state |psi> as P(i) = |<i|psi>|^2."
+    },
+    {
+     "id": "qc-measurement-born-rule.o2",
+     "bloom": "Apply",
+     "statement": "Given a qubit state, compute the outcome probabilities for a projective measurement in the computational basis and in a specified arbitrary orthonormal basis."
+    },
+    {
+     "id": "qc-measurement-born-rule.o3",
+     "bloom": "Apply",
+     "statement": "Given a measurement outcome, determine the post-measurement (collapsed and renormalized) state."
+    },
+    {
+     "id": "qc-measurement-born-rule.o4",
+     "bloom": "Apply",
+     "statement": "Compute the expectation value <psi|A|psi> of a given observable A for a given state |psi>."
+    },
+    {
+     "id": "qc-measurement-born-rule.o5",
+     "bloom": "Analyze",
+     "statement": "Given the same state measured in two different bases, compare the resulting outcome statistics and explain why projective measurement is irreversible whereas unitary evolution is reversible."
+    }
+   ]
+  },
+  {
+   "slug": "qc-entanglement-bell-states",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "Entanglement and Bell States",
+   "difficulty": "advanced",
+   "related_simulation": "bell_state",
+   "prerequisites": [
+    "qc-multi-qubit-tensor",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-entanglement-bell-states.o1",
+     "bloom": "Understand",
+     "statement": "Define an entangled state as a joint state that cannot be written as a tensor product of single-subsystem states."
+    },
+    {
+     "id": "qc-entanglement-bell-states.o2",
+     "bloom": "Apply",
+     "statement": "Write the four Bell states as explicit two-qubit superpositions and verify that they form an orthonormal set."
+    },
+    {
+     "id": "qc-entanglement-bell-states.o3",
+     "bloom": "Apply",
+     "statement": "Prove that a given Bell state (e.g. |Phi+>) is entangled by showing that no single-qubit factorization alpha|a> tensor |b> reproduces it."
+    },
+    {
+     "id": "qc-entanglement-bell-states.o4",
+     "bloom": "Analyze",
+     "statement": "Given a Bell state, compute the joint outcome probabilities and the correlation of local computational-basis measurements on the two qubits, and explain why the outcomes are perfectly correlated regardless of separation."
+    },
+    {
+     "id": "qc-entanglement-bell-states.o5",
+     "bloom": "Evaluate",
+     "statement": "Evaluate the claim that measuring one half of an entangled pair transmits information to the other party, and identify the step in the argument that fails by appeal to the local marginal statistics (no-signaling)."
+    }
+   ]
+  },
+  {
+   "slug": "qc-no-cloning",
+   "module": "Module 1 - Foundations of QM for Computing",
+   "category": "qc-foundations",
+   "title": "The No-Cloning Theorem",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-superposition",
+    "qc-multi-qubit-tensor"
+   ],
+   "objectives": [
+    {
+     "id": "qc-no-cloning.o1",
+     "bloom": "Understand",
+     "statement": "State the no-cloning theorem: there is no unitary operation that copies an arbitrary unknown quantum state onto a blank register."
+    },
+    {
+     "id": "qc-no-cloning.o2",
+     "bloom": "Analyze",
+     "statement": "Reproduce the proof of the no-cloning theorem by assuming a universal cloning unitary and deriving a contradiction from linearity (or from preservation of inner products)."
+    },
+    {
+     "id": "qc-no-cloning.o3",
+     "bloom": "Understand",
+     "statement": "Explain why a fixed set of mutually orthogonal states can be copied while non-orthogonal states cannot, given the inner-product condition from the proof."
+    },
+    {
+     "id": "qc-no-cloning.o4",
+     "bloom": "Evaluate",
+     "statement": "Given a proposed state-copying scheme, identify the specific step that violates unitarity or linearity and judge whether the scheme circumvents the no-cloning theorem."
+    }
+   ]
+  },
+  {
+   "slug": "qc-single-qubit-gates",
+   "module": "Module 2 - Quantum Gates & Circuits",
+   "category": "qc-gates-circuits",
+   "title": "Single-Qubit Gates",
+   "difficulty": "intermediate",
+   "related_simulation": "single_qubit_gate",
+   "prerequisites": [
+    "qc-qubit-state-vector",
+    "qc-bloch-sphere"
+   ],
+   "objectives": [
+    {
+     "id": "qc-single-qubit-gates.o1",
+     "bloom": "Understand",
+     "statement": "Write the 2x2 matrix representations in the computational basis of the Pauli gates X, Y, Z, the Hadamard gate H, the phase gate S, and the T gate."
+    },
+    {
+     "id": "qc-single-qubit-gates.o2",
+     "bloom": "Apply",
+     "statement": "Given a single-qubit state and a gate from {X, Y, Z, H, S, T}, compute the resulting state by matrix-vector multiplication."
+    },
+    {
+     "id": "qc-single-qubit-gates.o3",
+     "bloom": "Apply",
+     "statement": "Write the rotation operators R_x(theta), R_y(theta), R_z(theta) as the matrix exponentials exp(-i theta sigma_j / 2) and evaluate the resulting 2x2 matrix for a specified axis and angle."
+    },
+    {
+     "id": "qc-single-qubit-gates.o4",
+     "bloom": "Analyze",
+     "statement": "Given a single-qubit gate (X, Y, Z, or H), identify its action on the Bloch sphere as a rotation about a stated axis by a stated angle."
+    },
+    {
+     "id": "qc-single-qubit-gates.o5",
+     "bloom": "Apply",
+     "statement": "Verify that a given single-qubit gate is unitary and compute its inverse, and establish the relations S^2 = Z and T^2 = S by matrix multiplication."
+    },
+    {
+     "id": "qc-single-qubit-gates.o6",
+     "bloom": "Analyze",
+     "statement": "Determine whether two specified single-qubit gates commute by evaluating their commutator [A, B] = AB - BA."
+    }
+   ]
+  },
+  {
+   "slug": "qc-multi-qubit-gates",
+   "module": "Module 2 - Quantum Gates & Circuits",
+   "category": "qc-gates-circuits",
+   "title": "Multi-Qubit Gates",
+   "difficulty": "intermediate",
+   "related_simulation": "multi_qubit_gate",
+   "prerequisites": [
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-tensor"
+   ],
+   "objectives": [
+    {
+     "id": "qc-multi-qubit-gates.o1",
+     "bloom": "Understand",
+     "statement": "Write the 4x4 computational-basis matrices of CNOT, CZ, and SWAP, and give the truth table (or 8x8 matrix) of the Toffoli (CCNOT) gate."
+    },
+    {
+     "id": "qc-multi-qubit-gates.o2",
+     "bloom": "Apply",
+     "statement": "Given a two-qubit input state, compute the output of a specified CNOT, CZ, or SWAP gate by matrix-vector multiplication."
+    },
+    {
+     "id": "qc-multi-qubit-gates.o3",
+     "bloom": "Apply",
+     "statement": "Trace the circuit H on the first qubit followed by CNOT acting on |00> and show it produces the Bell state |Phi+>, computing the state after each gate."
+    },
+    {
+     "id": "qc-multi-qubit-gates.o4",
+     "bloom": "Analyze",
+     "statement": "Given a product-state input to a controlled gate, determine whether the output is entangled and state the condition on the control qubit's amplitudes that produces entanglement."
+    },
+    {
+     "id": "qc-multi-qubit-gates.o5",
+     "bloom": "Understand",
+     "statement": "Explain phase kickback: show that a controlled-U with the target prepared in an eigenstate of U imprints U's eigenphase onto the control qubit's amplitude."
+    },
+    {
+     "id": "qc-multi-qubit-gates.o6",
+     "bloom": "Apply",
+     "statement": "Express SWAP as a product of three CNOTs and verify the decomposition on the four computational-basis states."
+    }
+   ]
+  },
+  {
+   "slug": "qc-circuit-model",
+   "module": "Module 2 - Quantum Gates & Circuits",
+   "category": "qc-gates-circuits",
+   "title": "The Circuit Model and Circuit Identities",
+   "difficulty": "intermediate",
+   "related_simulation": "quantum_circuit",
+   "prerequisites": [
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-gates"
+   ],
+   "objectives": [
+    {
+     "id": "qc-circuit-model.o1",
+     "bloom": "Understand",
+     "statement": "Describe the quantum circuit model (wires as qubits, gates applied left-to-right in time, measurement at the end) and state that the equivalent unitary is the matrix product of the gates in reverse of the drawn order."
+    },
+    {
+     "id": "qc-circuit-model.o2",
+     "bloom": "Apply",
+     "statement": "Given a circuit diagram of single- and multi-qubit gates, compute the overall unitary as the ordered matrix product and evaluate the output state for a specified input."
+    },
+    {
+     "id": "qc-circuit-model.o3",
+     "bloom": "Apply",
+     "statement": "Compute the operator for gates acting on parallel wires as a tensor product (e.g. H tensor I) and apply it to a given multi-qubit state."
+    },
+    {
+     "id": "qc-circuit-model.o4",
+     "bloom": "Analyze",
+     "statement": "Prove or refute a given circuit identity (e.g. HXH = Z, HZH = X, CNOT conjugated by Hadamards on both wires exchanges control and target, two identical CNOTs = identity) by matrix multiplication."
+    },
+    {
+     "id": "qc-circuit-model.o5",
+     "bloom": "Analyze",
+     "statement": "Given two candidate circuits, determine whether they implement the same unitary by comparing their matrix products up to global phase."
+    }
+   ]
+  },
+  {
+   "slug": "qc-universal-gate-sets",
+   "module": "Module 2 - Quantum Gates & Circuits",
+   "category": "qc-gates-circuits",
+   "title": "Universal Gate Sets",
+   "difficulty": "advanced",
+   "related_simulation": "gate_decomposition",
+   "prerequisites": [
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-gates"
+   ],
+   "objectives": [
+    {
+     "id": "qc-universal-gate-sets.o1",
+     "bloom": "Understand",
+     "statement": "Define a universal gate set and state that {H, T, CNOT} is universal for quantum computation, approximating any unitary to arbitrary accuracy."
+    },
+    {
+     "id": "qc-universal-gate-sets.o2",
+     "bloom": "Analyze",
+     "statement": "Distinguish exact universality from approximate universality and select the correct explanation of why a finite gate set can only approximate the continuum of unitaries."
+    },
+    {
+     "id": "qc-universal-gate-sets.o3",
+     "bloom": "Understand",
+     "statement": "State the Solovay-Kitaev theorem and its scaling: any single-qubit unitary can be approximated to accuracy epsilon using O(log^c(1/epsilon)) gates from a dense set."
+    },
+    {
+     "id": "qc-universal-gate-sets.o4",
+     "bloom": "Apply",
+     "statement": "Given a target single-qubit unitary (e.g. a diagonal phase gate), express it exactly or approximately as a sequence of gates drawn from a specified universal set."
+    },
+    {
+     "id": "qc-universal-gate-sets.o5",
+     "bloom": "Analyze",
+     "statement": "Explain via the Gottesman-Knill theorem why the Clifford group {H, S, CNOT} alone is not universal (efficiently classically simulable) and identify what adding the T gate provides."
+    }
+   ]
+  },
+  {
+   "slug": "qc-density-matrices-mixed-states",
+   "module": "Module 2 - Quantum Gates & Circuits",
+   "category": "qc-gates-circuits",
+   "title": "Density Matrices and Mixed States",
+   "difficulty": "advanced",
+   "related_simulation": "density_matrix",
+   "prerequisites": [
+    "qc-measurement-born-rule",
+    "qc-entanglement-bell-states",
+    "qc-multi-qubit-tensor"
+   ],
+   "objectives": [
+    {
+     "id": "qc-density-matrices-mixed-states.o1",
+     "bloom": "Understand",
+     "statement": "Define the density matrix rho = sum_i p_i |psi_i><psi_i| and state its defining properties: Hermitian, unit trace, and positive semidefinite."
+    },
+    {
+     "id": "qc-density-matrices-mixed-states.o2",
+     "bloom": "Apply",
+     "statement": "Given a pure state, compute its density matrix and verify rho^2 = rho; given a probabilistic ensemble, compute the corresponding mixed-state density matrix."
+    },
+    {
+     "id": "qc-density-matrices-mixed-states.o3",
+     "bloom": "Analyze",
+     "statement": "Given a density matrix, determine whether it is pure or mixed by computing the purity Tr(rho^2) and comparing it to 1."
+    },
+    {
+     "id": "qc-density-matrices-mixed-states.o4",
+     "bloom": "Apply",
+     "statement": "Compute the reduced density matrix of one qubit of a given two-qubit state by partial trace, and show that each qubit of a Bell state is maximally mixed (rho = I/2)."
+    },
+    {
+     "id": "qc-density-matrices-mixed-states.o5",
+     "bloom": "Apply",
+     "statement": "From a given density matrix, compute a measurement outcome probability and the expectation value <A> = Tr(rho A) of a given observable."
+    },
+    {
+     "id": "qc-density-matrices-mixed-states.o6",
+     "bloom": "Analyze",
+     "statement": "Given a Bloch vector r, place the single-qubit state rho = (I + r.sigma)/2 inside the Bloch ball and relate |r| = 1 to purity and |r| < 1 to mixedness."
+    }
+   ]
+  },
+  {
+   "slug": "qc-deutsch-jozsa",
+   "module": "Module 3 - Core Quantum Algorithms",
+   "category": "qc-algorithms",
+   "title": "The Deutsch-Jozsa Algorithm",
+   "difficulty": "advanced",
+   "related_simulation": "deutsch_jozsa",
+   "prerequisites": [
+    "qc-circuit-model",
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-gates",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-deutsch-jozsa.o1",
+     "bloom": "Understand",
+     "statement": "State the Deutsch-Jozsa problem (decide whether a promised f:{0,1}^n -> {0,1} is constant or balanced) and contrast the classical worst-case query cost with the single quantum query."
+    },
+    {
+     "id": "qc-deutsch-jozsa.o2",
+     "bloom": "Apply",
+     "statement": "Construct the phase oracle U_f and show that with the target qubit in |->, phase kickback places the factor (-1)^{f(x)} on each computational-basis amplitude |x>."
+    },
+    {
+     "id": "qc-deutsch-jozsa.o3",
+     "bloom": "Apply",
+     "statement": "Trace the Deutsch (n=1) or Deutsch-Jozsa circuit through H^{tensor n}, the oracle, and the final H^{tensor n}, computing the state at each stage."
+    },
+    {
+     "id": "qc-deutsch-jozsa.o4",
+     "bloom": "Analyze",
+     "statement": "Show by evaluating the amplitude of |0...0> that the final measurement returns all zeros with certainty if and only if f is constant."
+    },
+    {
+     "id": "qc-deutsch-jozsa.o5",
+     "bloom": "Evaluate",
+     "statement": "Evaluate the claim that Deutsch-Jozsa demonstrates an exponential quantum advantage, distinguishing the exact/deterministic query model from bounded-error classical randomized query cost."
+    }
+   ]
+  },
+  {
+   "slug": "qc-quantum-fourier-transform",
+   "module": "Module 3 - Core Quantum Algorithms",
+   "category": "qc-algorithms",
+   "title": "The Quantum Fourier Transform",
+   "difficulty": "advanced",
+   "related_simulation": "qft",
+   "prerequisites": [
+    "qc-circuit-model",
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-gates",
+    "qc-multi-qubit-tensor",
+    "qc-prereq-complex-numbers"
+   ],
+   "objectives": [
+    {
+     "id": "qc-quantum-fourier-transform.o1",
+     "bloom": "Understand",
+     "statement": "State the QFT action on a basis state as |x> -> (1/sqrt(N)) sum_k exp(2 pi i x k / N) |k> and identify it as the discrete Fourier transform acting on amplitudes."
+    },
+    {
+     "id": "qc-quantum-fourier-transform.o2",
+     "bloom": "Apply",
+     "statement": "Compute the QFT of a given small state (e.g. show the N=2 QFT equals H; compute the N=4 QFT of a specified basis state)."
+    },
+    {
+     "id": "qc-quantum-fourier-transform.o3",
+     "bloom": "Apply",
+     "statement": "Derive the product (tensor-factored) form of the QFT output and read off the corresponding circuit of Hadamards and controlled-phase gates."
+    },
+    {
+     "id": "qc-quantum-fourier-transform.o4",
+     "bloom": "Analyze",
+     "statement": "Count the QFT circuit's gate complexity as O(n^2) and contrast it with the classical FFT's O(n 2^n) operations on 2^n amplitudes."
+    },
+    {
+     "id": "qc-quantum-fourier-transform.o5",
+     "bloom": "Understand",
+     "statement": "Explain the role of the terminal swap gates in the QFT circuit as reversing the output qubit order."
+    }
+   ]
+  },
+  {
+   "slug": "qc-grover-search",
+   "module": "Module 3 - Core Quantum Algorithms",
+   "category": "qc-algorithms",
+   "title": "Grover's Search Algorithm",
+   "difficulty": "advanced",
+   "related_simulation": "grover",
+   "prerequisites": [
+    "qc-circuit-model",
+    "qc-single-qubit-gates",
+    "qc-multi-qubit-gates",
+    "qc-measurement-born-rule",
+    "qc-superposition"
+   ],
+   "objectives": [
+    {
+     "id": "qc-grover-search.o1",
+     "bloom": "Understand",
+     "statement": "State the unstructured-search problem and Grover's quadratic speedup: O(sqrt(N)) oracle queries versus classical O(N)."
+    },
+    {
+     "id": "qc-grover-search.o2",
+     "bloom": "Apply",
+     "statement": "Construct the Grover iterate G = (2|s><s| - I) O_f from the phase oracle and the diffusion operator, and apply one iteration to the uniform superposition |s>."
+    },
+    {
+     "id": "qc-grover-search.o3",
+     "bloom": "Analyze",
+     "statement": "Using the two-dimensional geometric picture, show that each Grover iterate is a fixed-angle rotation toward the marked state in the plane spanned by the marked and unmarked states."
+    },
+    {
+     "id": "qc-grover-search.o4",
+     "bloom": "Apply",
+     "statement": "Compute the optimal number of iterations approximately floor((pi/4) sqrt(N/M)) for N items with M marked, and the resulting success probability."
+    },
+    {
+     "id": "qc-grover-search.o5",
+     "bloom": "Evaluate",
+     "statement": "Explain why applying too many Grover iterations lowers the success probability (over-rotation) and evaluate the claim that one should run Grover until the answer is certain."
+    }
+   ]
+  },
+  {
+   "slug": "qc-phase-estimation",
+   "module": "Module 3 - Core Quantum Algorithms",
+   "category": "qc-algorithms",
+   "title": "Quantum Phase Estimation",
+   "difficulty": "advanced",
+   "related_simulation": "phase_estimation",
+   "prerequisites": [
+    "qc-quantum-fourier-transform",
+    "qc-multi-qubit-gates",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-phase-estimation.o1",
+     "bloom": "Understand",
+     "statement": "State the phase-estimation problem: given a unitary U and an eigenstate |u> with U|u> = e^{2 pi i phi}|u>, estimate the phase phi."
+    },
+    {
+     "id": "qc-phase-estimation.o2",
+     "bloom": "Apply",
+     "statement": "Construct the QPE circuit (Hadamards on the counting register, controlled-U^{2^j} gates, then the inverse QFT) and give the counting-register state after the controlled operations."
+    },
+    {
+     "id": "qc-phase-estimation.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how phase kickback from the controlled-U^{2^j} gates encodes phi in the relative phases of the counting register, and show that for a phi exactly representable in t bits the inverse QFT returns phi's bit string with certainty."
+    },
+    {
+     "id": "qc-phase-estimation.o4",
+     "bloom": "Apply",
+     "statement": "Determine the number of counting qubits required to estimate phi to n bits of accuracy with success probability at least 1 - epsilon."
+    },
+    {
+     "id": "qc-phase-estimation.o5",
+     "bloom": "Understand",
+     "statement": "Explain why QPE is the core subroutine of Shor's algorithm and other algorithms by identifying it as an eigenvalue-extraction primitive."
+    }
+   ]
+  },
+  {
+   "slug": "qc-shor-factoring",
+   "module": "Module 3 - Core Quantum Algorithms",
+   "category": "qc-algorithms",
+   "title": "Shor's Factoring Algorithm",
+   "difficulty": "advanced",
+   "related_simulation": "shor",
+   "prerequisites": [
+    "qc-phase-estimation",
+    "qc-quantum-fourier-transform",
+    "qc-prereq-classical-computing"
+   ],
+   "objectives": [
+    {
+     "id": "qc-shor-factoring.o1",
+     "bloom": "Understand",
+     "statement": "State the structure of Shor's algorithm: reduce factoring N to order-finding for a random a mod N, solve order-finding by phase estimation on the modular-multiplication unitary, and recover factors classically."
+    },
+    {
+     "id": "qc-shor-factoring.o2",
+     "bloom": "Apply",
+     "statement": "Given a and N, define the order r as the least positive integer with a^r ≡ 1 (mod N), and given an even r with a^{r/2} not ≡ -1 (mod N), compute gcd(a^{r/2} ± 1, N) as candidate factors."
+    },
+    {
+     "id": "qc-shor-factoring.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how phase estimation on the unitary U|y> = |a y mod N> yields an estimate of a fraction s/r and how the continued-fraction expansion recovers the order r."
+    },
+    {
+     "id": "qc-shor-factoring.o4",
+     "bloom": "Analyze",
+     "statement": "State Shor's polynomial gate complexity, contrast it with the sub-exponential general number field sieve, and identify the QFT-based phase estimation as the source of the speedup."
+    },
+    {
+     "id": "qc-shor-factoring.o5",
+     "bloom": "Apply",
+     "statement": "Work a small instance (e.g. N = 15, a = 7) from a given measured phase through continued fractions to the order and then to the factors of N."
+    }
+   ]
+  },
+  {
+   "slug": "qc-quantum-programming-model",
+   "module": "Module 4 - Programming Quantum Computers",
+   "category": "qc-programming",
+   "title": "The Quantum Programming Model",
+   "difficulty": "intermediate",
+   "related_simulation": "circuit_playground",
+   "prerequisites": [
+    "qc-circuit-model",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-quantum-programming-model.o1",
+     "bloom": "Understand",
+     "statement": "Describe the circuit-as-program model: quantum and classical registers, gates as ordered instructions, and measurement writing outcomes to classical bits."
+    },
+    {
+     "id": "qc-quantum-programming-model.o2",
+     "bloom": "Apply",
+     "statement": "Given a short circuit program (e.g. h q0; cx q0 q1; measure), identify the gate sequence and the qubits each instruction acts on."
+    },
+    {
+     "id": "qc-quantum-programming-model.o3",
+     "bloom": "Understand",
+     "statement": "Contrast the statevector view (full complex amplitudes) with the sampling view (shot counts) of executing a circuit."
+    },
+    {
+     "id": "qc-quantum-programming-model.o4",
+     "bloom": "Apply",
+     "statement": "Predict the many-shot output distribution of a simple program such as Bell-state preparation."
+    }
+   ]
+  },
+  {
+   "slug": "qc-building-circuits-in-code",
+   "module": "Module 4 - Programming Quantum Computers",
+   "category": "qc-programming",
+   "title": "Building Circuits in Code",
+   "difficulty": "intermediate",
+   "related_simulation": "circuit_playground",
+   "prerequisites": [
+    "qc-quantum-programming-model",
+    "qc-multi-qubit-gates"
+   ],
+   "objectives": [
+    {
+     "id": "qc-building-circuits-in-code.o1",
+     "bloom": "Apply",
+     "statement": "Write a program that prepares a Bell state and a 3-qubit GHZ state starting from the all-zeros state."
+    },
+    {
+     "id": "qc-building-circuits-in-code.o2",
+     "bloom": "Apply",
+     "statement": "Compose subcircuits with correct gate ordering to realize a specified target unitary."
+    },
+    {
+     "id": "qc-building-circuits-in-code.o3",
+     "bloom": "Understand",
+     "statement": "Explain how parameterized gates such as rx(theta) define families of circuits."
+    },
+    {
+     "id": "qc-building-circuits-in-code.o4",
+     "bloom": "Analyze",
+     "statement": "Given two circuit programs, determine whether they prepare the same output state."
+    }
+   ]
+  },
+  {
+   "slug": "qc-measurement-and-shots",
+   "module": "Module 4 - Programming Quantum Computers",
+   "category": "qc-programming",
+   "title": "Measurement, Shots & Sampling",
+   "difficulty": "intermediate",
+   "related_simulation": "circuit_playground",
+   "prerequisites": [
+    "qc-quantum-programming-model",
+    "qc-density-matrices-mixed-states"
+   ],
+   "objectives": [
+    {
+     "id": "qc-measurement-and-shots.o1",
+     "bloom": "Understand",
+     "statement": "Define a measurement 'shot' and explain why finite sampling produces statistical fluctuations in observed frequencies."
+    },
+    {
+     "id": "qc-measurement-and-shots.o2",
+     "bloom": "Apply",
+     "statement": "Estimate the number of shots needed to resolve an outcome probability to a target statistical error (scaling as 1/sqrt(shots))."
+    },
+    {
+     "id": "qc-measurement-and-shots.o3",
+     "bloom": "Apply",
+     "statement": "Compute an expectation value <Z> from measured 0/1 counts."
+    },
+    {
+     "id": "qc-measurement-and-shots.o4",
+     "bloom": "Understand",
+     "statement": "Distinguish an ideal statevector simulator from a shot-based sampler and state what each returns."
+    }
+   ]
+  },
+  {
+   "slug": "qc-simulators-and-transpilation",
+   "module": "Module 4 - Programming Quantum Computers",
+   "category": "qc-programming",
+   "title": "Simulators, Transpilation & Limits",
+   "difficulty": "advanced",
+   "related_simulation": "circuit_playground",
+   "prerequisites": [
+    "qc-building-circuits-in-code",
+    "qc-universal-gate-sets"
+   ],
+   "objectives": [
+    {
+     "id": "qc-simulators-and-transpilation.o1",
+     "bloom": "Understand",
+     "statement": "Explain transpilation: rewriting a circuit into a backend's native gate set and qubit connectivity."
+    },
+    {
+     "id": "qc-simulators-and-transpilation.o2",
+     "bloom": "Analyze",
+     "statement": "Explain why exact statevector simulation is limited to roughly 30-50 qubits due to 2^n memory growth."
+    },
+    {
+     "id": "qc-simulators-and-transpilation.o3",
+     "bloom": "Understand",
+     "statement": "Distinguish a statevector simulator from a stabilizer (Clifford) simulator and state when each is efficient."
+    },
+    {
+     "id": "qc-simulators-and-transpilation.o4",
+     "bloom": "Apply",
+     "statement": "Estimate the memory required to store the statevector of n qubits (2^n complex amplitudes)."
+    }
+   ]
+  },
+  {
+   "slug": "qc-coding-quantum-algorithms",
+   "module": "Module 4 - Programming Quantum Computers",
+   "category": "qc-programming",
+   "title": "Coding Quantum Algorithms",
+   "difficulty": "advanced",
+   "related_simulation": "circuit_playground",
+   "prerequisites": [
+    "qc-building-circuits-in-code",
+    "qc-grover-search",
+    "qc-deutsch-jozsa"
+   ],
+   "objectives": [
+    {
+     "id": "qc-coding-quantum-algorithms.o1",
+     "bloom": "Apply",
+     "statement": "Implement the Deutsch-Jozsa circuit for a given oracle as a circuit program."
+    },
+    {
+     "id": "qc-coding-quantum-algorithms.o2",
+     "bloom": "Apply",
+     "statement": "Implement one Grover iteration (phase oracle followed by the diffusion operator) as a circuit program."
+    },
+    {
+     "id": "qc-coding-quantum-algorithms.o3",
+     "bloom": "Analyze",
+     "statement": "Interpret a running algorithm's output histogram to identify which basis state encodes the answer."
+    },
+    {
+     "id": "qc-coding-quantum-algorithms.o4",
+     "bloom": "Understand",
+     "statement": "Explain why oracles are abstractions that must themselves be compiled into elementary gates."
+    }
+   ]
+  },
+  {
+   "slug": "qc-decoherence-and-noise",
+   "module": "Module 5 - Quantum Error Correction & Noise",
+   "category": "qc-error-correction",
+   "title": "Decoherence & Noise Channels",
+   "difficulty": "advanced",
+   "related_simulation": "noise_channel",
+   "prerequisites": [
+    "qc-density-matrices-mixed-states",
+    "qc-bloch-sphere"
+   ],
+   "objectives": [
+    {
+     "id": "qc-decoherence-and-noise.o1",
+     "bloom": "Understand",
+     "statement": "Define decoherence and distinguish energy relaxation (T1) from dephasing (T2)."
+    },
+    {
+     "id": "qc-decoherence-and-noise.o2",
+     "bloom": "Understand",
+     "statement": "Describe the bit-flip (X), phase-flip (Z), and depolarizing channels as probabilistic error models."
+    },
+    {
+     "id": "qc-decoherence-and-noise.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how a noise channel shrinks the Bloch vector toward the maximally mixed state at the center of the ball."
+    },
+    {
+     "id": "qc-decoherence-and-noise.o4",
+     "bloom": "Apply",
+     "statement": "For a dephasing channel with error probability p, compute its effect on the off-diagonal elements of the density matrix."
+    }
+   ]
+  },
+  {
+   "slug": "qc-three-qubit-bit-flip-code",
+   "module": "Module 5 - Quantum Error Correction & Noise",
+   "category": "qc-error-correction",
+   "title": "The 3-Qubit Bit-Flip Code",
+   "difficulty": "advanced",
+   "related_simulation": "bit_flip_code",
+   "prerequisites": [
+    "qc-decoherence-and-noise",
+    "qc-multi-qubit-gates"
+   ],
+   "objectives": [
+    {
+     "id": "qc-three-qubit-bit-flip-code.o1",
+     "bloom": "Understand",
+     "statement": "Describe the 3-qubit repetition code (|0>->|000>, |1>->|111>) and why it protects against a single bit-flip error."
+    },
+    {
+     "id": "qc-three-qubit-bit-flip-code.o2",
+     "bloom": "Apply",
+     "statement": "Given a single-qubit X-error location, determine the two-bit syndrome from the parity checks Z1Z2 and Z2Z3."
+    },
+    {
+     "id": "qc-three-qubit-bit-flip-code.o3",
+     "bloom": "Analyze",
+     "statement": "Explain why measuring the syndrome (ancilla parities) rather than the data avoids collapsing the encoded superposition."
+    },
+    {
+     "id": "qc-three-qubit-bit-flip-code.o4",
+     "bloom": "Analyze",
+     "statement": "Explain why the 3-qubit bit-flip code cannot correct a phase-flip (Z) error."
+    }
+   ]
+  },
+  {
+   "slug": "qc-phase-flip-and-shor-code",
+   "module": "Module 5 - Quantum Error Correction & Noise",
+   "category": "qc-error-correction",
+   "title": "Phase-Flip & the 9-Qubit Shor Code",
+   "difficulty": "advanced",
+   "related_simulation": "bit_flip_code",
+   "prerequisites": [
+    "qc-three-qubit-bit-flip-code"
+   ],
+   "objectives": [
+    {
+     "id": "qc-phase-flip-and-shor-code.o1",
+     "bloom": "Understand",
+     "statement": "Explain how conjugating the bit-flip code by Hadamards yields a phase-flip code that protects against Z errors."
+    },
+    {
+     "id": "qc-phase-flip-and-shor-code.o2",
+     "bloom": "Understand",
+     "statement": "Describe the 9-qubit Shor code as a concatenation of the phase-flip and bit-flip codes that corrects any single-qubit error."
+    },
+    {
+     "id": "qc-phase-flip-and-shor-code.o3",
+     "bloom": "Analyze",
+     "statement": "Explain error discretization: why correcting discrete X, Z, and Y=iXZ errors suffices to correct the continuous set of single-qubit errors."
+    },
+    {
+     "id": "qc-phase-flip-and-shor-code.o4",
+     "bloom": "Understand",
+     "statement": "State the [[9,1,3]] code parameters and interpret n, k, and d."
+    }
+   ]
+  },
+  {
+   "slug": "qc-css-and-steane-code",
+   "module": "Module 5 - Quantum Error Correction & Noise",
+   "category": "qc-error-correction",
+   "title": "Stabilizer & Steane CSS Codes",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-phase-flip-and-shor-code",
+    "qc-universal-gate-sets"
+   ],
+   "objectives": [
+    {
+     "id": "qc-css-and-steane-code.o1",
+     "bloom": "Understand",
+     "statement": "Define stabilizer codes: the code space as the simultaneous +1 eigenspace of a set of commuting Pauli stabilizers."
+    },
+    {
+     "id": "qc-css-and-steane-code.o2",
+     "bloom": "Understand",
+     "statement": "Describe the 7-qubit Steane code as a CSS code built from the classical [7,4,3] Hamming code."
+    },
+    {
+     "id": "qc-css-and-steane-code.o3",
+     "bloom": "Analyze",
+     "statement": "Relate the code distance d to the number of correctable errors, floor((d-1)/2)."
+    },
+    {
+     "id": "qc-css-and-steane-code.o4",
+     "bloom": "Understand",
+     "statement": "State the [[7,1,3]] parameters of the Steane code and contrast them with Shor's [[9,1,3]]."
+    }
+   ]
+  },
+  {
+   "slug": "qc-surface-codes-threshold",
+   "module": "Module 5 - Quantum Error Correction & Noise",
+   "category": "qc-error-correction",
+   "title": "Surface Codes & the Threshold Theorem",
+   "difficulty": "advanced",
+   "related_simulation": "surface_code",
+   "prerequisites": [
+    "qc-css-and-steane-code"
+   ],
+   "objectives": [
+    {
+     "id": "qc-surface-codes-threshold.o1",
+     "bloom": "Understand",
+     "statement": "Describe the surface code as a 2D lattice of qubits with local star and plaquette stabilizer checks."
+    },
+    {
+     "id": "qc-surface-codes-threshold.o2",
+     "bloom": "Understand",
+     "statement": "State the threshold theorem: below a physical error-rate threshold, the logical error rate can be suppressed arbitrarily by increasing code distance."
+    },
+    {
+     "id": "qc-surface-codes-threshold.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how error 'chains' are detected via changed syndromes and corrected by matching syndrome endpoints."
+    },
+    {
+     "id": "qc-surface-codes-threshold.o4",
+     "bloom": "Evaluate",
+     "statement": "Assess the physical-qubit overhead of surface-code fault tolerance for running practical algorithms."
+    }
+   ]
+  },
+  {
+   "slug": "qc-variational-principle",
+   "module": "Module 6 - Variational & Near-Term Algorithms",
+   "category": "qc-variational",
+   "title": "The Variational Principle & NISQ",
+   "difficulty": "advanced",
+   "related_simulation": "vqe",
+   "prerequisites": [
+    "qc-coding-quantum-algorithms",
+    "qc-density-matrices-mixed-states"
+   ],
+   "objectives": [
+    {
+     "id": "qc-variational-principle.o1",
+     "bloom": "Understand",
+     "statement": "Describe the NISQ era and the hybrid quantum-classical variational loop: prepare an ansatz, measure a cost, update parameters on a classical optimizer, repeat."
+    },
+    {
+     "id": "qc-variational-principle.o2",
+     "bloom": "Understand",
+     "statement": "Define a parameterized ansatz U(θ)|0⟩ and the objective/cost function evaluated on the quantum device."
+    },
+    {
+     "id": "qc-variational-principle.o3",
+     "bloom": "Analyze",
+     "statement": "Explain the role of the classical optimizer and why cost evaluation requires many measurements per iteration."
+    },
+    {
+     "id": "qc-variational-principle.o4",
+     "bloom": "Understand",
+     "statement": "State the variational principle: ⟨ψ(θ)|H|ψ(θ)⟩ ≥ E₀ for every θ, with equality only at the ground state."
+    }
+   ]
+  },
+  {
+   "slug": "qc-vqe",
+   "module": "Module 6 - Variational & Near-Term Algorithms",
+   "category": "qc-variational",
+   "title": "The Variational Quantum Eigensolver",
+   "difficulty": "advanced",
+   "related_simulation": "vqe",
+   "prerequisites": [
+    "qc-variational-principle"
+   ],
+   "objectives": [
+    {
+     "id": "qc-vqe.o1",
+     "bloom": "Understand",
+     "statement": "State the VQE goal: estimate the ground-state energy of a Hamiltonian H by minimizing ⟨H⟩ over the ansatz parameters."
+    },
+    {
+     "id": "qc-vqe.o2",
+     "bloom": "Apply",
+     "statement": "Decompose a Hamiltonian into a weighted sum of Pauli strings and write the energy as Σ wᵢ⟨Pᵢ⟩."
+    },
+    {
+     "id": "qc-vqe.o3",
+     "bloom": "Apply",
+     "statement": "Measure the expectation values ⟨Z⟩ and ⟨X⟩, applying a basis rotation (Hadamard) before a computational-basis measurement for ⟨X⟩."
+    },
+    {
+     "id": "qc-vqe.o4",
+     "bloom": "Understand",
+     "statement": "Identify quantum chemistry (molecular ground states) as the flagship VQE application and why it suits near-term devices."
+    }
+   ]
+  },
+  {
+   "slug": "qc-qaoa",
+   "module": "Module 6 - Variational & Near-Term Algorithms",
+   "category": "qc-variational",
+   "title": "The Quantum Approximate Optimization Algorithm",
+   "difficulty": "advanced",
+   "related_simulation": "qaoa",
+   "prerequisites": [
+    "qc-variational-principle"
+   ],
+   "objectives": [
+    {
+     "id": "qc-qaoa.o1",
+     "bloom": "Understand",
+     "statement": "State the QAOA goal: approximately solve a combinatorial optimization problem such as MaxCut."
+    },
+    {
+     "id": "qc-qaoa.o2",
+     "bloom": "Apply",
+     "statement": "Construct the alternating unitaries e^{-iγC} (cost) and e^{-iβB} (mixer, B = Σ Xᵢ) for p layers."
+    },
+    {
+     "id": "qc-qaoa.o3",
+     "bloom": "Analyze",
+     "statement": "Explain why increasing the number of layers p improves the approximation and connects to adiabatic evolution."
+    },
+    {
+     "id": "qc-qaoa.o4",
+     "bloom": "Apply",
+     "statement": "For MaxCut, write the cost value c(x) as the number of cut edges and the objective as ⟨C⟩ = Σₓ |⟨x|ψ⟩|² c(x)."
+    }
+   ]
+  },
+  {
+   "slug": "qc-qml-and-barren-plateaus",
+   "module": "Module 6 - Variational & Near-Term Algorithms",
+   "category": "qc-variational",
+   "title": "Quantum ML & Barren Plateaus",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-vqe",
+    "qc-qaoa"
+   ],
+   "objectives": [
+    {
+     "id": "qc-qml-and-barren-plateaus.o1",
+     "bloom": "Understand",
+     "statement": "Describe quantum machine learning: feature maps that encode classical data into quantum states and variational classifiers."
+    },
+    {
+     "id": "qc-qml-and-barren-plateaus.o2",
+     "bloom": "Understand",
+     "statement": "Explain quantum kernels and the hope that quantum feature spaces are hard to compute classically."
+    },
+    {
+     "id": "qc-qml-and-barren-plateaus.o3",
+     "bloom": "Analyze",
+     "statement": "State the barren-plateau problem: for random deep ansätze, gradients vanish exponentially in the number of qubits."
+    },
+    {
+     "id": "qc-qml-and-barren-plateaus.o4",
+     "bloom": "Evaluate",
+     "statement": "Assess honestly whether NISQ variational algorithms have yet demonstrated a practical quantum advantage."
+    }
+   ]
+  },
+  {
+   "slug": "qc-quantum-teleportation",
+   "module": "Module 7 - Quantum Communication & Cryptography",
+   "category": "qc-communication",
+   "title": "Quantum Teleportation",
+   "difficulty": "advanced",
+   "related_simulation": "teleportation",
+   "prerequisites": [
+    "qc-entanglement-bell-states",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-quantum-teleportation.o1",
+     "bloom": "Understand",
+     "statement": "State that teleportation transfers an unknown qubit state using a shared Bell pair and two classical bits."
+    },
+    {
+     "id": "qc-quantum-teleportation.o2",
+     "bloom": "Apply",
+     "statement": "Trace the protocol: Bell measurement on the unknown qubit and one half of the pair, classical communication of two bits, and the Pauli correction on the far qubit."
+    },
+    {
+     "id": "qc-quantum-teleportation.o3",
+     "bloom": "Analyze",
+     "statement": "Explain why teleportation neither violates no-cloning (the original is destroyed) nor permits superluminal signaling (classical bits are required)."
+    },
+    {
+     "id": "qc-quantum-teleportation.o4",
+     "bloom": "Understand",
+     "statement": "Count the resources: one ebit (shared Bell pair) plus two classical bits per qubit teleported."
+    }
+   ]
+  },
+  {
+   "slug": "qc-superdense-coding",
+   "module": "Module 7 - Quantum Communication & Cryptography",
+   "category": "qc-communication",
+   "title": "Superdense Coding",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-quantum-teleportation"
+   ],
+   "objectives": [
+    {
+     "id": "qc-superdense-coding.o1",
+     "bloom": "Understand",
+     "statement": "State that superdense coding sends two classical bits by transmitting one qubit, given pre-shared entanglement."
+    },
+    {
+     "id": "qc-superdense-coding.o2",
+     "bloom": "Apply",
+     "statement": "Show how applying one of {I, X, Z, ZX} to one half of a Bell pair maps it to one of the four orthogonal Bell states."
+    },
+    {
+     "id": "qc-superdense-coding.o3",
+     "bloom": "Analyze",
+     "statement": "Describe superdense coding as the dual of teleportation (trading the roles of quantum and classical channels)."
+    },
+    {
+     "id": "qc-superdense-coding.o4",
+     "bloom": "Understand",
+     "statement": "Count the resources: one ebit plus one transmitted qubit convey two classical bits."
+    }
+   ]
+  },
+  {
+   "slug": "qc-bb84-qkd",
+   "module": "Module 7 - Quantum Communication & Cryptography",
+   "category": "qc-communication",
+   "title": "BB84 & Quantum Key Distribution",
+   "difficulty": "advanced",
+   "related_simulation": "bb84",
+   "prerequisites": [
+    "qc-no-cloning",
+    "qc-measurement-born-rule"
+   ],
+   "objectives": [
+    {
+     "id": "qc-bb84-qkd.o1",
+     "bloom": "Understand",
+     "statement": "State that BB84 lets two parties establish a shared secret key encoded in two conjugate bases."
+    },
+    {
+     "id": "qc-bb84-qkd.o2",
+     "bloom": "Apply",
+     "statement": "Perform basis reconciliation: keep the bits where sender and receiver bases matched and discard the rest (the sifted key)."
+    },
+    {
+     "id": "qc-bb84-qkd.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how no-cloning and measurement disturbance let eavesdropping be detected as an elevated quantum bit-error rate."
+    },
+    {
+     "id": "qc-bb84-qkd.o4",
+     "bloom": "Evaluate",
+     "statement": "Identify the security assumptions of BB84, including the need for an authenticated classical channel."
+    }
+   ]
+  },
+  {
+   "slug": "qc-quantum-networks-repeaters",
+   "module": "Module 7 - Quantum Communication & Cryptography",
+   "category": "qc-communication",
+   "title": "Quantum Networks & Repeaters",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-quantum-teleportation"
+   ],
+   "objectives": [
+    {
+     "id": "qc-quantum-networks-repeaters.o1",
+     "bloom": "Understand",
+     "statement": "Explain why photon loss makes direct quantum communication fidelity fall exponentially with distance."
+    },
+    {
+     "id": "qc-quantum-networks-repeaters.o2",
+     "bloom": "Understand",
+     "statement": "Describe entanglement swapping: teleporting entanglement to link two independently entangled segments."
+    },
+    {
+     "id": "qc-quantum-networks-repeaters.o3",
+     "bloom": "Analyze",
+     "statement": "Explain how quantum repeaters combine entanglement swapping, purification, and quantum memory to beat direct-transmission loss."
+    },
+    {
+     "id": "qc-quantum-networks-repeaters.o4",
+     "bloom": "Evaluate",
+     "statement": "Assess the quantum-internet vision and the current experimental state of quantum networks."
+    }
+   ]
+  },
+  {
+   "slug": "qc-hardware-platforms",
+   "module": "Module 8 - Hardware, Advantage & Outlook",
+   "category": "qc-hardware",
+   "title": "Hardware Platforms",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-decoherence-and-noise"
+   ],
+   "objectives": [
+    {
+     "id": "qc-hardware-platforms.o1",
+     "bloom": "Understand",
+     "statement": "State the DiVincenzo criteria that a viable quantum-computing platform must satisfy."
+    },
+    {
+     "id": "qc-hardware-platforms.o2",
+     "bloom": "Understand",
+     "statement": "Compare superconducting, trapped-ion, photonic, and neutral-atom platforms at a high level."
+    },
+    {
+     "id": "qc-hardware-platforms.o3",
+     "bloom": "Analyze",
+     "statement": "Contrast the platforms' trade-offs among gate speed, coherence time, connectivity, and scalability."
+    },
+    {
+     "id": "qc-hardware-platforms.o4",
+     "bloom": "Understand",
+     "statement": "State honestly the current scale of hardware (qubit counts and two-qubit error rates)."
+    }
+   ]
+  },
+  {
+   "slug": "qc-quantum-advantage",
+   "module": "Module 8 - Hardware, Advantage & Outlook",
+   "category": "qc-hardware",
+   "title": "Quantum Advantage, Honestly",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-simulators-and-transpilation",
+    "qc-shor-factoring"
+   ],
+   "objectives": [
+    {
+     "id": "qc-quantum-advantage.o1",
+     "bloom": "Understand",
+     "statement": "Define quantum advantage/supremacy and name its demonstrations (random-circuit sampling, boson sampling)."
+    },
+    {
+     "id": "qc-quantum-advantage.o2",
+     "bloom": "Analyze",
+     "statement": "Distinguish a sampling-based advantage on a contrived task from a practically useful speedup."
+    },
+    {
+     "id": "qc-quantum-advantage.o3",
+     "bloom": "Evaluate",
+     "statement": "Explain how improved classical simulations have narrowed several claimed advantage gaps."
+    },
+    {
+     "id": "qc-quantum-advantage.o4",
+     "bloom": "Evaluate",
+     "statement": "Assess honestly where provable speedups exist (Shor, Grover, quantum simulation) versus overstated claims."
+    }
+   ]
+  },
+  {
+   "slug": "qc-outlook-and-careers",
+   "module": "Module 8 - Hardware, Advantage & Outlook",
+   "category": "qc-hardware",
+   "title": "Outlook, Cryptography & Careers",
+   "difficulty": "advanced",
+   "related_simulation": "",
+   "prerequisites": [
+    "qc-quantum-advantage",
+    "qc-surface-codes-threshold"
+   ],
+   "objectives": [
+    {
+     "id": "qc-outlook-and-careers.o1",
+     "bloom": "Understand",
+     "statement": "Give realistic timelines for chemistry, optimization, and cryptanalysis applications."
+    },
+    {
+     "id": "qc-outlook-and-careers.o2",
+     "bloom": "Analyze",
+     "statement": "Explain the fault-tolerance gap between today's NISQ devices and a cryptographically relevant Shor machine."
+    },
+    {
+     "id": "qc-outlook-and-careers.o3",
+     "bloom": "Evaluate",
+     "statement": "Describe post-quantum cryptography as the practical response to the future Shor threat."
+    },
+    {
+     "id": "qc-outlook-and-careers.o4",
+     "bloom": "Understand",
+     "statement": "Survey the quantum-computing research and career landscape."
+    }
+   ]
+  }
+ ]
+}
