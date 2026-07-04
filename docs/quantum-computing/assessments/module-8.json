@@ -1,0 +1,393 @@
+{
+  "$comment": "Module 8 - Hardware, Advantage & Outlook. One item per objective. Grading matches apps.quizzes.views.",
+  "module": "module-8",
+  "title": "Module 8 - Hardware, Advantage & Outlook",
+  "category_slug": "qc-hardware",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-hardware-platforms",
+      "quiz_title": "Hardware Platforms - Assessment",
+      "difficulty": "advanced",
+      "description": "DiVincenzo criteria, platform comparison, trade-offs, scale.",
+      "questions": [
+        {
+          "objective_id": "qc-hardware-platforms.o1",
+          "question_type": "mcq",
+          "text": "The DiVincenzo criteria specify that a scalable quantum computer needs:",
+          "hint": "It is a five-point checklist (plus two for communication).",
+          "explanation": "DiVincenzo's criteria: scalable qubits, initialization to a fiducial state, coherence times long relative to gates, a universal gate set, and qubit-specific readout (plus flying-qubit interconversion for networking).",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "scalable well-defined qubits, initialization, long coherence vs gate time, a universal gate set, and qubit-specific measurement",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "only that qubits can be measured",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a classical CPU and lots of RAM",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "exactly 50 qubits and no more",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-hardware-platforms.o2",
+          "question_type": "mcq",
+          "text": "Which pairing of platform and property is correct?",
+          "hint": "Each platform trades speed against coherence and connectivity.",
+          "explanation": "Trapped ions offer long coherence, high fidelity, and full connectivity but slow gates; superconducting circuits give fast gates and lithographic scaling at the cost of coherence and connectivity.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "trapped ions: long coherence and all-to-all connectivity but slower gates; superconducting: fast gates but shorter coherence and limited connectivity",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "superconducting qubits have the longest coherence of any platform",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "photonic qubits have deterministic two-qubit gates by default",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "trapped ions have the fastest gates of any platform",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-hardware-platforms.o3",
+          "question_type": "mcq",
+          "text": "The key engineering trade-offs across platforms are among:",
+          "hint": "No platform optimizes all four at once.",
+          "explanation": "Platforms differ in how they balance gate speed, coherence, qubit connectivity, and manufacturability/scalability — no single technology currently wins on every axis.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "gate speed, coherence time, connectivity, and scalability",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "only price and marketing",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the color of the dilution refrigerator",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "programming language choice",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-hardware-platforms.o4",
+          "question_type": "mcq",
+          "text": "An honest statement of the current hardware scale is:",
+          "hint": "We are firmly in the NISQ era.",
+          "explanation": "State-of-the-art devices range from tens up to over a thousand physical qubits, with two-qubit error rates near $10^{-2}$-$10^{-3}$ and no error correction at useful scale — the gap to fault tolerance is large.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "from tens up to over a thousand noisy physical qubits with two-qubit error rates around $10^{-2}$-$10^{-3}$ and no useful error correction yet",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "millions of error-corrected logical qubits are available today",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "error rates are already below $10^{-9}$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "fault-tolerant machines are commercially deployed",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-quantum-advantage",
+      "quiz_title": "Quantum Advantage, Honestly - Assessment",
+      "difficulty": "advanced",
+      "description": "Definitions, sampling vs useful, classical pushback, proven speedups.",
+      "questions": [
+        {
+          "objective_id": "qc-quantum-advantage.o1",
+          "question_type": "mcq",
+          "text": "The demonstrations of 'quantum advantage' to date are based on:",
+          "hint": "They are contrived sampling problems, not applications.",
+          "explanation": "Google's random-circuit sampling and photonic boson-sampling experiments target tasks chosen to be hard to simulate classically, not tasks of practical use.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "sampling tasks — random circuit sampling and boson sampling",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "factoring 2048-bit RSA keys",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "solving practical optimization problems faster than any classical method",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "training large language models",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-advantage.o2",
+          "question_type": "mcq",
+          "text": "Why is a sampling-based advantage not the same as a useful one?",
+          "hint": "Hard-to-simulate ≠ practically valuable.",
+          "explanation": "Random-circuit sampling produces no answer anyone needs; a practical advantage would speed up a problem people care about (chemistry, optimization), which has not yet been shown.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the sampling task has no known application — it was chosen because it is hard to simulate, not because the answer is wanted",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "sampling is slower than useful computation",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "sampling advantage automatically solves optimization",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "there is no difference",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-advantage.o3",
+          "question_type": "mcq",
+          "text": "How have claimed advantage results evolved?",
+          "hint": "It is a moving target.",
+          "explanation": "Better classical simulation methods have shrunk or reversed several advantage claims, making 'advantage' a contested, evolving boundary rather than a settled fact.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "improved classical algorithms and supercomputer use have repeatedly narrowed or overturned specific claims",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "every claim has stood permanently unchallenged",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "classical computers have been proven unable to ever compete",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the claims were all withdrawn as fraudulent",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-advantage.o4",
+          "question_type": "mcq",
+          "text": "Which is the defensible statement about quantum speedups?",
+          "hint": "Speedups are problem-specific, not universal.",
+          "explanation": "Rigorous speedups are known for particular tasks — Shor (exponential), Grover (quadratic), Hamiltonian simulation — but blanket claims of universal exponential speedup are not supported.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "provable asymptotic speedups exist for specific problems (Shor exponential, Grover quadratic, quantum simulation), while universal exponential speedups are overstated",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "quantum computers are exponentially faster at everything",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "there are no proven speedups of any kind",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "only Grover offers any advantage",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-outlook-and-careers",
+      "quiz_title": "Outlook, Cryptography & Careers - Assessment",
+      "difficulty": "advanced",
+      "description": "Timelines, NISQ-vs-fault-tolerance gap, post-quantum crypto, landscape.",
+      "questions": [
+        {
+          "objective_id": "qc-outlook-and-careers.o1",
+          "question_type": "mcq",
+          "text": "A realistic view of application timelines is that:",
+          "hint": "Near-term niche vs long-term transformative.",
+          "explanation": "Near-term devices may offer niche value, but the high-impact applications require fault-tolerant machines that are years to decades out, gated by error-correction overhead.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "NISQ devices may find niche uses soon, but transformative applications (large-scale chemistry, cryptanalysis) need fault tolerance and are years-to-decades away",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "all major applications are already in production",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "quantum computers will never be useful",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "cryptanalysis of RSA is possible on today's hardware",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-outlook-and-careers.o2",
+          "question_type": "mcq",
+          "text": "The gap between NISQ and a cryptographically relevant Shor machine is mainly:",
+          "hint": "Surface-code overhead is the bottleneck.",
+          "explanation": "Breaking RSA needs millions of high-quality physical qubits (thousands per logical qubit via surface codes) — far beyond NISQ. The bottleneck is fault-tolerance overhead, not algorithms.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "fault tolerance — thousands of physical qubits per logical qubit are needed to run Shor at scale",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "just a software update away",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "purely a funding problem with no technical barrier",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "nonexistent; today's devices can already run Shor at scale",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-outlook-and-careers.o3",
+          "question_type": "mcq",
+          "text": "What is the practical response to the future Shor threat?",
+          "hint": "'Harvest now, decrypt later' makes it urgent already.",
+          "explanation": "Post-quantum cryptography replaces RSA/ECC with problems believed hard for quantum computers; standardization is underway now because encrypted data captured today could be decrypted by a future Shor machine.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "post-quantum cryptography — classical schemes believed hard even for quantum computers, already being standardized",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "waiting until a quantum computer exists before acting",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "abandoning all encryption",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "using longer RSA keys, which fully defeats Shor",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-outlook-and-careers.o4",
+          "question_type": "mcq",
+          "text": "The quantum-computing field spans which areas?",
+          "hint": "It is a broad, multidisciplinary landscape.",
+          "explanation": "Careers and research span hardware, error correction, algorithms, software/compilation, and domain applications, across academia, national labs, startups, and industry.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "hardware, error correction, algorithms, software/compilers, and applications — across labs, startups, and established companies",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "only theoretical physics",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "only hardware engineering",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "only cryptography",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "$comment": "Module 0 - Prerequisites Diagnostic question bank. One assessment item per objective in prerequisites.json, tagged by objective_id. Graded by apps.quizzes.views: MCQ/true_false compare the lowercased submitted answer to the unique is_correct option id; numerical uses |ans-correct| <= |correct|*tolerance. LaTeX is KaTeX-ready inline math ($...$); JSON backslashes are single-escaped so the parsed string carries one literal backslash.",
+  "module": "module-0",
+  "title": "Module 0 - Prerequisites Diagnostic",
+  "category_slug": "qc-prerequisites",
+  "graded": false,
+  "quizzes": [
+    {
+      "concept_slug": "qc-prereq-linear-algebra",
+      "quiz_title": "Linear Algebra for Quantum Computing - Diagnostic",
+      "difficulty": "intermediate",
+      "description": "Diagnostic: complex inner products, norms, unitarity/Hermiticity, eigenstructure, Kronecker products, and basis expansions.",
+      "questions": [
+        {
+          "objective_id": "qc-prereq-linear-algebra.o1",
+          "question_type": "numerical",
+          "text": "Let $|u\\rangle = \\begin{pmatrix} 3 \\\\ 4i \\end{pmatrix} \\in \\mathbb{C}^2$. Compute its norm $\\lVert u\\rVert = \\sqrt{\\langle u | u\\rangle}$.",
+          "hint": "The Hermitian inner product uses the complex conjugate of the bra: $\\langle u|u\\rangle = \\sum_k \\overline{u_k}\\, u_k = \\sum_k |u_k|^2$. Note $|4i|^2 = 16$, not $-16$.",
+          "explanation": "$\\langle u|u\\rangle = \\overline{3}\\cdot 3 + \\overline{4i}\\cdot 4i = 9 + (-4i)(4i) = 9 + 16 = 25$. Hence $\\lVert u\\rVert = \\sqrt{25} = 5$. The conjugation makes each term $|u_k|^2 \\ge 0$, so the norm is real and positive. (The normalized unit vector would be $\\tfrac{1}{5}(3,\\,4i)^T$.)",
+          "points": 1,
+          "correct_numerical": 5,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-prereq-linear-algebra.o2",
+          "question_type": "mcq",
+          "text": "Consider the phase gate $S = \\begin{pmatrix} 1 & 0 \\\\ 0 & i \\end{pmatrix}$. Classify $S$.",
+          "hint": "Compute $S^{\\dagger}$ (conjugate transpose). $S$ is Hermitian iff $S^{\\dagger}=S$; unitary iff $S^{\\dagger}S = I$.",
+          "explanation": "$S^{\\dagger} = \\overline{S^{T}} = \\begin{pmatrix} 1 & 0 \\\\ 0 & -i \\end{pmatrix}$. Then $S^{\\dagger}S = \\begin{pmatrix} 1 & 0 \\\\ 0 & -i \\end{pmatrix}\\begin{pmatrix} 1 & 0 \\\\ 0 & i \\end{pmatrix} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = I$, so $S$ is unitary. But $S^{\\dagger} \\ne S$ (the $(2,2)$ entry is $-i$ vs $i$), so $S$ is not Hermitian. Being diagonal does not imply Hermitian unless the diagonal entries are real.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Unitary but not Hermitian", "is_correct": true },
+            { "id": "b", "text": "Hermitian but not unitary", "is_correct": false },
+            { "id": "c", "text": "Both Hermitian and unitary", "is_correct": false },
+            { "id": "d", "text": "Neither Hermitian nor unitary", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-linear-algebra.o3",
+          "question_type": "mcq",
+          "text": "Let $H = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$ (a real symmetric, hence Hermitian, matrix). Which statement about its eigenvalues and eigenvectors is correct?",
+          "hint": "Solve $\\det(H-\\lambda I)=0$: $(2-\\lambda)^2 - 1 = 0$. Then check whether the two eigenvectors are orthogonal, as guaranteed for a Hermitian matrix with distinct eigenvalues.",
+          "explanation": "$(2-\\lambda)^2 - 1 = 0 \\Rightarrow 2-\\lambda = \\pm 1 \\Rightarrow \\lambda = 3,\\,1$. For $\\lambda=3$: $(H-3I)v=0 \\Rightarrow -v_1+v_2=0 \\Rightarrow v \\propto (1,1)$. For $\\lambda=1$: $v_1+v_2=0 \\Rightarrow v \\propto (1,-1)$. Their inner product $\\langle(1,1)|(1,-1)\\rangle = 1\\cdot1 + 1\\cdot(-1) = 0$, confirming the eigenvectors of a Hermitian matrix with distinct eigenvalues are orthogonal.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Eigenvalues $3$ and $1$; eigenvectors $(1,1)$ and $(1,-1)$, which are orthogonal", "is_correct": true },
+            { "id": "b", "text": "Eigenvalues $3$ and $1$; eigenvectors $(1,1)$ and $(1,1)$, which are parallel", "is_correct": false },
+            { "id": "c", "text": "Eigenvalues $2$ and $2$ (degenerate); no orthogonal eigenbasis exists", "is_correct": false },
+            { "id": "d", "text": "Eigenvalues $3$ and $-1$; eigenvectors $(1,0)$ and $(0,1)$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-linear-algebra.o4",
+          "question_type": "mcq",
+          "text": "Compute the Kronecker product $\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} \\otimes \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$ and give the dimension of the resulting space.",
+          "hint": "$a \\otimes b$ scales the whole second vector by each entry of the first, stacked in order: $(a_1 b_1,\\, a_1 b_2,\\, a_2 b_1,\\, a_2 b_2)^T$. A $2$-vector tensored with a $2$-vector lives in $\\mathbb{C}^{2\\cdot 2}$.",
+          "explanation": "$(1,2)^T \\otimes (3,4)^T = (1\\cdot3,\\ 1\\cdot4,\\ 2\\cdot3,\\ 2\\cdot4)^T = (3,4,6,8)^T$, a vector in $\\mathbb{C}^4$ (dimension $2 \\times 2 = 4$). Getting $(3,6,4,8)$ means the block ordering was reversed (that would be $b\\otimes a$).",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$(3,\\,4,\\,6,\\,8)^T$ in $\\mathbb{C}^4$", "is_correct": true },
+            { "id": "b", "text": "$(3,\\,6,\\,4,\\,8)^T$ in $\\mathbb{C}^4$", "is_correct": false },
+            { "id": "c", "text": "$(3,\\,4,\\,6,\\,8)^T$ in $\\mathbb{C}^2$", "is_correct": false },
+            { "id": "d", "text": "$(3,\\,7)^T$ in $\\mathbb{C}^2$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-linear-algebra.o5",
+          "question_type": "numerical",
+          "text": "Expand $|v\\rangle = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$ in the orthonormal basis $|+\\rangle = \\tfrac{1}{\\sqrt{2}}(1,1)^T,\\ |-\\rangle = \\tfrac{1}{\\sqrt{2}}(1,-1)^T$. What is the expansion coefficient $c_+ = \\langle +|v\\rangle$?",
+          "hint": "For an orthonormal basis the coefficient is just the inner product $c_+ = \\langle +|v\\rangle$. Here everything is real, so $\\langle +|v\\rangle = \\tfrac{1}{\\sqrt2}(3+4)$.",
+          "explanation": "$c_+ = \\langle +|v\\rangle = \\tfrac{1}{\\sqrt2}(1,1)\\cdot(3,4)^T = \\tfrac{1}{\\sqrt2}(3+4) = \\tfrac{7}{\\sqrt2} \\approx 4.9497$. (For completeness $c_- = \\langle -|v\\rangle = \\tfrac{1}{\\sqrt2}(3-4) = -\\tfrac{1}{\\sqrt2} \\approx -0.7071$, and indeed $c_+|+\\rangle + c_-|-\\rangle = (3,4)^T$.)",
+          "points": 1,
+          "correct_numerical": 4.9497,
+          "numerical_tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-prereq-complex-numbers",
+      "quiz_title": "Complex Numbers and Amplitudes - Diagnostic",
+      "difficulty": "intermediate",
+      "description": "Diagnostic: Cartesian/polar forms, modulus and argument, conjugates and modulus-squared, Euler's formula, and global phase.",
+      "questions": [
+        {
+          "objective_id": "qc-prereq-complex-numbers.o1",
+          "question_type": "numerical",
+          "text": "For $z = -1 + i$, compute the argument $\\arg(z)$ in radians, taken in the principal range $(-\\pi,\\pi]$.",
+          "hint": "$z$ lies in the second quadrant (negative real part, positive imaginary part), so $\\arg z$ is between $\\pi/2$ and $\\pi$. Use $\\arg z = \\pi - \\arctan\\!\\big(\\tfrac{|\\mathrm{Im}|}{|\\mathrm{Re}|}\\big)$.",
+          "explanation": "The modulus is $r=\\sqrt{(-1)^2+1^2}=\\sqrt2$. The reference angle is $\\arctan(1/1)=\\pi/4$. Since $z$ is in the second quadrant, $\\arg z = \\pi - \\pi/4 = \\tfrac{3\\pi}{4} \\approx 2.3562$ rad. Naively taking $\\arctan(1/(-1)) = -\\pi/4$ gives the wrong quadrant.",
+          "points": 1,
+          "correct_numerical": 2.3562,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-prereq-complex-numbers.o2",
+          "question_type": "mcq",
+          "text": "A quantum amplitude is $z = \\tfrac{1+i}{2}$. Which choice correctly gives $|z|^2$ and the reason it must be real and non-negative?",
+          "hint": "$|z|^2 = z\\bar z$, not $z^2$. Write $z=a+bi$ so $z\\bar z = a^2+b^2$.",
+          "explanation": "$\\bar z = \\tfrac{1-i}{2}$, so $|z|^2 = z\\bar z = \\tfrac{(1+i)(1-i)}{4} = \\tfrac{1 - i^2}{4} = \\tfrac{2}{4} = \\tfrac12$. Writing $z=a+bi$, $z\\bar z = a^2+b^2$, a sum of real squares, hence always real and $\\ge 0$ — which is exactly why $|z|^2$ can serve as a probability. Computing $z^2 = \\tfrac{(1+i)^2}{4} = \\tfrac{2i}{4} = \\tfrac{i}{2}$ is the classic error: $z^2 \\ne |z|^2$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$|z|^2 = z\\bar z = \\tfrac12$; real and non-negative because $z\\bar z = a^2 + b^2$", "is_correct": true },
+            { "id": "b", "text": "$|z|^2 = z^2 = \\tfrac{i}{2}$; it is complex, so amplitudes cannot be probabilities", "is_correct": false },
+            { "id": "c", "text": "$|z|^2 = 1$; every normalized amplitude has modulus squared $1$", "is_correct": false },
+            { "id": "d", "text": "$|z|^2 = a + b = 1$; the real and imaginary parts simply add", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-complex-numbers.o3",
+          "question_type": "mcq",
+          "text": "Using Euler's formula $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$, which statement is correct about $e^{i\\pi/2}$ and about multiplying a state $|\\psi\\rangle$ by an overall factor $e^{i\\gamma}$ (a global phase)?",
+          "hint": "Evaluate $\\cos(\\pi/2)$ and $\\sin(\\pi/2)$. Then recall that measurement probabilities depend on $|\\langle i|\\psi\\rangle|^2$; a common factor $e^{i\\gamma}$ has $|e^{i\\gamma}|=1$.",
+          "explanation": "$e^{i\\pi/2} = \\cos(\\pi/2) + i\\sin(\\pi/2) = 0 + i(1) = i$. Multiplying by $e^{i\\gamma}$: every probability is $|\\langle i| e^{i\\gamma}|\\psi\\rangle|^2 = |e^{i\\gamma}|^2\\,|\\langle i|\\psi\\rangle|^2 = |\\langle i|\\psi\\rangle|^2$, unchanged. A global phase is therefore physically unobservable (only relative phases between components matter).",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$e^{i\\pi/2} = i$; a global phase $e^{i\\gamma}$ leaves all measurement probabilities unchanged and is unobservable", "is_correct": true },
+            { "id": "b", "text": "$e^{i\\pi/2} = -1$; a global phase changes the state's probabilities", "is_correct": false },
+            { "id": "c", "text": "$e^{i\\pi/2} = i$; a global phase rescales the norm, so the state must be renormalized", "is_correct": false },
+            { "id": "d", "text": "$e^{i\\pi/2} = 1$; a global phase is the same as a relative phase", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-prereq-probability",
+      "quiz_title": "Probability for Quantum Computing - Diagnostic",
+      "difficulty": "intermediate",
+      "description": "Diagnostic: expectation and variance, valid distributions, marginals/conditionals, and statistical independence.",
+      "questions": [
+        {
+          "objective_id": "qc-prereq-probability.o1",
+          "question_type": "numerical",
+          "text": "A random variable $X$ takes values $\\{0,1,2\\}$ with probabilities $\\{\\tfrac12, \\tfrac14, \\tfrac14\\}$. Compute the variance $\\mathrm{Var}(X) = \\mathbb{E}[X^2] - \\mathbb{E}[X]^2$.",
+          "hint": "First find $\\mathbb{E}[X] = \\sum_x x\\,p(x)$ and $\\mathbb{E}[X^2] = \\sum_x x^2\\,p(x)$, then subtract the square of the mean.",
+          "explanation": "$\\mathbb{E}[X] = 0\\cdot\\tfrac12 + 1\\cdot\\tfrac14 + 2\\cdot\\tfrac14 = \\tfrac34 = 0.75$. $\\mathbb{E}[X^2] = 0\\cdot\\tfrac12 + 1\\cdot\\tfrac14 + 4\\cdot\\tfrac14 = \\tfrac14 + 1 = 1.25$. $\\mathrm{Var}(X) = 1.25 - 0.75^2 = 1.25 - 0.5625 = 0.6875$. (Subtracting $\\mathbb{E}[X]$ instead of $\\mathbb{E}[X]^2$ is the usual slip.)",
+          "points": 1,
+          "correct_numerical": 0.6875,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-prereq-probability.o2",
+          "question_type": "numerical",
+          "text": "A valid joint distribution over binary $X,Y$ is $P(0,0)=0.1,\\ P(0,1)=0.3,\\ P(1,0)=0.4,\\ P(1,1)=0.2$ (it sums to $1$). Compute the conditional probability $P(Y=1 \\mid X=0)$.",
+          "hint": "$P(Y=1\\mid X=0) = \\dfrac{P(X=0, Y=1)}{P(X=0)}$, where $P(X=0)$ is the marginal $P(0,0)+P(0,1)$.",
+          "explanation": "The marginal $P(X=0) = P(0,0)+P(0,1) = 0.1 + 0.3 = 0.4$. Then $P(Y=1\\mid X=0) = \\dfrac{P(0,1)}{P(X=0)} = \\dfrac{0.3}{0.4} = 0.75$. Note the distribution is valid because all weights are non-negative and sum to $0.1+0.3+0.4+0.2 = 1$. Dividing by $1$ instead of the marginal (giving $0.3$) is the common error.",
+          "points": 1,
+          "correct_numerical": 0.75,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-prereq-probability.o3",
+          "question_type": "mcq",
+          "text": "For the joint distribution $P(0,0)=0.1,\\ P(0,1)=0.3,\\ P(1,0)=0.4,\\ P(1,1)=0.2$, are $X$ and $Y$ statistically independent?",
+          "hint": "Independence requires $P(x,y) = P(X=x)\\,P(Y=y)$ for every cell. Compute the marginals $P(X=0)$ and $P(Y=0)$ and test the $(0,0)$ cell.",
+          "explanation": "Marginals: $P(X=0)=0.1+0.3=0.4$, $P(Y=0)=P(0,0)+P(1,0)=0.1+0.4=0.5$. If independent, $P(0,0)$ would equal $0.4\\times0.5 = 0.2$. But $P(0,0)=0.1 \\ne 0.2$, so a single failing cell already proves $X$ and $Y$ are dependent. That the marginals each sum to $1$ is necessary for any distribution and says nothing about independence.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "No: $P(0,0)=0.1 \\ne P(X=0)P(Y=0) = 0.4\\times0.5 = 0.2$", "is_correct": true },
+            { "id": "b", "text": "Yes: the marginals of $X$ and $Y$ each sum to $1$", "is_correct": false },
+            { "id": "c", "text": "Yes: the joint probabilities themselves sum to $1$", "is_correct": false },
+            { "id": "d", "text": "Cannot be determined without the correlation coefficient", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-prereq-classical-computing",
+      "quiz_title": "Classical Computing Foundations - Diagnostic",
+      "difficulty": "beginner",
+      "description": "Diagnostic: logic gates and truth tables, register state counting, asymptotic scaling, and reversibility.",
+      "questions": [
+        {
+          "objective_id": "qc-prereq-classical-computing.o1",
+          "question_type": "mcq",
+          "text": "Which two-input classical logic gate outputs $0$ if and only if both inputs are $1$?",
+          "hint": "Write out the truth tables. The gate you want is the negation of AND.",
+          "explanation": "NAND$(a,b) = \\lnot(a \\land b)$ outputs $0$ only for input $(1,1)$ and $1$ for all other inputs — exactly 'outputs $0$ iff both inputs are $1$'. AND does the opposite (outputs $1$ only for $(1,1)$). XOR outputs $1$ when the inputs differ. NOR outputs $1$ only for $(0,0)$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "NAND", "is_correct": true },
+            { "id": "b", "text": "AND", "is_correct": false },
+            { "id": "c", "text": "XOR", "is_correct": false },
+            { "id": "d", "text": "NOR", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-classical-computing.o2",
+          "question_type": "mcq",
+          "text": "A $4$-bit register (which has $2^4 = 16$ possible states) stores the decimal value $11$. Written most-significant-bit first, which bit string represents it?",
+          "hint": "Decompose $11$ into powers of two: $11 = 8 + 2 + 1 = 2^3 + 2^1 + 2^0$. Place a $1$ in the $b_3,b_2,b_1,b_0$ slots accordingly.",
+          "explanation": "$11 = 1\\cdot2^3 + 0\\cdot2^2 + 1\\cdot2^1 + 1\\cdot2^0 = 8+0+2+1$. MSB-first this is $b_3 b_2 b_1 b_0 = 1011$. The string $1101$ would be $8+4+1=13$; $0111 = 7$. An $n$-bit register indeed has $2^n$ states, here $16$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$1011$", "is_correct": true },
+            { "id": "b", "text": "$1101$", "is_correct": false },
+            { "id": "c", "text": "$0111$", "is_correct": false },
+            { "id": "d", "text": "$1110$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-classical-computing.o3",
+          "question_type": "mcq",
+          "text": "An algorithm runs in $T(n) = 3\\cdot 2^{n} + 100\\,n^{3} + 5$ elementary steps. What is its asymptotic complexity class, and is it polynomial or exponential?",
+          "hint": "Big-O keeps the fastest-growing term as $n\\to\\infty$. Compare the growth of $2^n$ against any fixed power $n^k$.",
+          "explanation": "As $n\\to\\infty$, $2^n$ dominates every polynomial term ($2^n / n^3 \\to \\infty$), so $T(n) = O(2^n)$, which is exponential growth. Being distracted by the large coefficient $100$ on $n^3$ into answering $O(n^3)$ is the classic misconception: constants and lower-order terms are irrelevant to the asymptotic class.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$O(2^{n})$ — exponential", "is_correct": true },
+            { "id": "b", "text": "$O(n^{3})$ — polynomial", "is_correct": false },
+            { "id": "c", "text": "$O(2^{n})$ — polynomial", "is_correct": false },
+            { "id": "d", "text": "$O(n\\log n)$ — quasi-linear", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-prereq-classical-computing.o4",
+          "question_type": "mcq",
+          "text": "A classical gate is reversible iff its truth table defines an injective (in fact bijective) map from inputs to outputs, so the input can be recovered from the output. Which of the following gates is reversible?",
+          "hint": "A gate mapping two input bits to one output bit cannot be injective (four inputs, two outputs). Look for a gate whose input and output can be uniquely paired.",
+          "explanation": "NOT maps $0\\leftrightarrow1$ bijectively — one input, one output, invertible, hence reversible. AND, OR, NAND, and XOR each map two input bits to a single output bit: distinct inputs collide on the same output (e.g. AND sends $(0,0),(0,1),(1,0)$ all to $0$), so the map is not injective and the input cannot be recovered. That information loss is precisely why they are irreversible.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "NOT", "is_correct": true },
+            { "id": "b", "text": "AND", "is_correct": false },
+            { "id": "c", "text": "XOR (two inputs, one output)", "is_correct": false },
+            { "id": "d", "text": "NAND", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,599 @@
+{
+  "$comment": "Module 5 - Quantum Error Correction & Noise question bank. One item per objective, tagged by objective_id. Grading matches apps.quizzes.views. JSON backslashes single-escaped -> one literal backslash for KaTeX.",
+  "module": "module-5",
+  "title": "Module 5 - Quantum Error Correction & Noise",
+  "category_slug": "qc-error-correction",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-decoherence-and-noise",
+      "quiz_title": "Decoherence & Noise Channels - Assessment",
+      "difficulty": "advanced",
+      "description": "T1/T2, Pauli and depolarizing channels, Bloch-vector shrinkage, dephasing effect on coherences.",
+      "questions": [
+        {
+          "objective_id": "qc-decoherence-and-noise.o1",
+          "question_type": "mcq",
+          "text": "What is the difference between $T_1$ and $T_2$?",
+          "hint": "Relaxation loses energy; dephasing loses phase coherence.",
+          "explanation": "$T_1$ governs decay of the excited-state population (relaxation); $T_2$ governs decay of the off-diagonal coherences (dephasing), bounded by $T_2 \\le 2T_1$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$T_1$ is the energy-relaxation time ($|1\\rangle\\to|0\\rangle$); $T_2$ is the dephasing time (loss of relative phase), with $T_2 \\le 2T_1$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$T_1$ is dephasing and $T_2$ is relaxation",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "they are two names for the same timescale",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$T_1$ and $T_2$ describe gate speed, not noise",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-decoherence-and-noise.o2",
+          "question_type": "mcq",
+          "text": "Which correctly identifies the bit-flip, phase-flip, and depolarizing channels?",
+          "hint": "Each channel is a probabilistic Pauli (or full mixing) map.",
+          "explanation": "Bit-flip: $\\rho\\mapsto(1-p)\\rho+pX\\rho X$; phase-flip uses $Z$; depolarizing mixes toward $I/2$ by applying a uniformly random Pauli, i.e. $\\rho\\mapsto(1-p)\\rho+p\\,I/2$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "bit-flip applies $X$ w.p. $p$; phase-flip applies $Z$ w.p. $p$; depolarizing sends the state toward $I/2$ (a random Pauli) w.p. $p$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "all three apply only $X$ errors",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "depolarizing applies $H$ with probability $p$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "phase-flip applies $X$ and bit-flip applies $Z$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-decoherence-and-noise.o3",
+          "question_type": "true_false",
+          "text": "A noise channel shrinks the Bloch vector, moving a pure state on the sphere toward the maximally mixed state at the centre of the ball.",
+          "hint": "Mixing reduces $|\\vec r|$ and hence purity.",
+          "explanation": "True. Noise contracts the Bloch vector (e.g. depolarizing scales $\\vec r$ by $(1-p)$), so a pure state ($|\\vec r|=1$) becomes mixed ($|\\vec r|<1$) — coherence is lost.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-decoherence-and-noise.o4",
+          "question_type": "numerical",
+          "text": "A dephasing (phase-flip) channel with error probability $p=0.25$ multiplies the off-diagonal density-matrix elements $\\rho_{01}$ by what factor $(1-2p)$?",
+          "hint": "Dephasing scales coherences by $(1-2p)$.",
+          "explanation": "$1-2p = 1-2(0.25) = 0.5$: the coherences are halved. At $p=0.5$ they vanish entirely (full dephasing).",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.02
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-three-qubit-bit-flip-code",
+      "quiz_title": "The 3-Qubit Bit-Flip Code - Assessment",
+      "difficulty": "advanced",
+      "description": "Repetition encoding, syndrome from parity checks, why measure ancillas, blindness to phase errors.",
+      "questions": [
+        {
+          "objective_id": "qc-three-qubit-bit-flip-code.o1",
+          "question_type": "mcq",
+          "text": "The 3-qubit bit-flip code encodes a logical qubit as:",
+          "hint": "Two CNOTs entangle the data across three qubits — not cloning.",
+          "explanation": "The code maps $|0\\rangle\\to|000\\rangle$, $|1\\rangle\\to|111\\rangle$ (via CNOTs, respecting no-cloning). A single bit flip moves the state to a detectable orthogonal subspace.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\alpha|0\\rangle+\\beta|1\\rangle \\mapsto \\alpha|000\\rangle+\\beta|111\\rangle$, protecting against a single $X$ error",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "three independent copies $(\\alpha|0\\rangle+\\beta|1\\rangle)^{\\otimes 3}$ (cloning)",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\alpha|000\\rangle+\\beta|110\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$|000\\rangle$ regardless of the input",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-three-qubit-bit-flip-code.o2",
+          "question_type": "mcq",
+          "text": "With parity checks $Z_1Z_2$ and $Z_2Z_3$, a single $X$ error on the middle qubit (qubit 2) gives which syndrome?",
+          "hint": "Qubit 2 participates in both parity checks.",
+          "explanation": "An $X$ on qubit 2 flips both $Z_1Z_2$ and $Z_2Z_3$, giving syndrome $(1,1)$. Qubit 1 gives $(1,0)$, qubit 3 gives $(0,1)$, no error gives $(0,0)$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$(1, 1)$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$(1, 0)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$(0, 1)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$(0, 0)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-three-qubit-bit-flip-code.o3",
+          "question_type": "mcq",
+          "text": "Why is the syndrome extracted via ancilla parity measurements rather than by measuring the data qubits?",
+          "hint": "The checks commute with the logical operators.",
+          "explanation": "Measuring $Z_1Z_2$, $Z_2Z_3$ (on ancillas) projects only the error, learning parities but not the logical amplitudes, so the encoded superposition survives.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the parity checks reveal which qubits disagree without revealing $\\alpha,\\beta$, so the encoded superposition is not collapsed",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "measuring the data is faster",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "ancillas are cheaper to build",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "data measurement would give the same information anyway",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-three-qubit-bit-flip-code.o4",
+          "question_type": "mcq",
+          "text": "Why can't the 3-qubit bit-flip code correct a phase-flip ($Z$) error?",
+          "hint": "$Z$ leaves every $ZZ$ parity unchanged.",
+          "explanation": "A $Z$ error commutes with $Z_1Z_2$ and $Z_2Z_3$, so the syndrome stays $(0,0)$ while the logical state acquires an undetected relative phase — the code is blind to phase flips.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a $Z$ error commutes with the $Z$-parity checks and acts within the code space (changing the relative sign), so it produces no syndrome",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "phase flips never occur in practice",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the code has too few qubits to detect any error",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$Z$ errors are automatically corrected by the CNOTs",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-phase-flip-and-shor-code",
+      "quiz_title": "Phase-Flip & the Shor Code - Assessment",
+      "difficulty": "advanced",
+      "description": "Hadamard-conjugated phase-flip code, 9-qubit concatenation, error discretization, code parameters.",
+      "questions": [
+        {
+          "objective_id": "qc-phase-flip-and-shor-code.o1",
+          "question_type": "mcq",
+          "text": "How is a phase-flip code obtained from the bit-flip code?",
+          "hint": "$H$ maps $Z\\leftrightarrow X$, so bit-flip machinery catches phase flips.",
+          "explanation": "Working in the $\\{|+\\rangle,|-\\rangle\\}$ basis (Hadamard-conjugated), a $Z$ error looks like a bit flip and is caught by $X_1X_2$, $X_2X_3$ parity checks.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "conjugate by Hadamards: encode $|{+}{+}{+}\\rangle,|{-}{-}{-}\\rangle$ and check $X$-parities, turning $Z$ errors into detectable flips",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "add three more data qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "measure in the computational basis twice",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "replace all CNOTs with SWAPs",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-flip-and-shor-code.o2",
+          "question_type": "mcq",
+          "text": "The 9-qubit Shor code is built how?",
+          "hint": "Outer phase-flip code, inner bit-flip code.",
+          "explanation": "Shor's code nests a bit-flip (inner) code inside a phase-flip (outer) code; the inner code catches any $X$, the outer any $Z$, and together any $Y=iXZ$ — hence any single-qubit error.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "by concatenation: encode against phase flips into 3 blocks, then encode each block against bit flips",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "as nine independent copies of the input qubit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "by a single layer of Hadamards on 9 qubits",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "as a phase-flip code on 9 physical qubits with no nesting",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-flip-and-shor-code.o3",
+          "question_type": "mcq",
+          "text": "Error discretization explains why:",
+          "hint": "An arbitrary error is a linear combination of Paulis; measuring collapses it.",
+          "explanation": "Any single-qubit error is $E=c_0 I+c_x X+c_y Y+c_z Z$; measuring the syndrome projects the state onto one Pauli branch, so correcting the finite Pauli set corrects the whole continuum.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "correcting the discrete errors $\\{I, X, Y, Z\\}$ suffices to correct any continuous single-qubit error, because syndrome measurement projects the error onto a Pauli",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "errors can only ever be exactly $X$, $Y$, or $Z$ physically",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "continuous errors are uncorrectable",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "measurement creates the errors it detects",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-flip-and-shor-code.o4",
+          "question_type": "mcq",
+          "text": "For the Shor code with parameters $[[9,1,3]]$, what do the three numbers mean?",
+          "hint": "$[[n,k,d]]$: physical, logical, distance.",
+          "explanation": "$[[9,1,3]]$ encodes $k=1$ logical qubit into $n=9$ physical qubits with distance $d=3$, correcting up to $\\lfloor(3-1)/2\\rfloor=1$ arbitrary single-qubit error.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$n=9$ physical qubits, $k=1$ logical qubit, distance $d=3$ (corrects any single error)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "9 logical qubits, 1 physical qubit, 3 gates",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "9 gates, 1 measurement, 3 ancillas",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$n=9$ errors corrected, $k=1$ syndrome, $d=3$ qubits",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-css-and-steane-code",
+      "quiz_title": "Stabilizer & Steane CSS Codes - Assessment",
+      "difficulty": "advanced",
+      "description": "Stabilizer formalism, CSS from Hamming code, distance vs correctable errors, Steane parameters.",
+      "questions": [
+        {
+          "objective_id": "qc-css-and-steane-code.o1",
+          "question_type": "mcq",
+          "text": "A stabilizer code defines its code space as:",
+          "hint": "Errors that anticommute with a stabilizer flip its measured eigenvalue.",
+          "explanation": "The code space is fixed by $S_i|\\psi\\rangle=+|\\psi\\rangle$ for all commuting stabilizers $S_i$; an error anticommuting with some $S_i$ yields a detectable $-1$ syndrome.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the simultaneous $+1$ eigenspace of a set of commuting Pauli operators (the stabilizers)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the kernel of a single non-Hermitian operator",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "any 2-dimensional subspace chosen at random",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the $-1$ eigenspace of the identity",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-css-and-steane-code.o2",
+          "question_type": "mcq",
+          "text": "The 7-qubit Steane code is:",
+          "hint": "CSS uses two classical codes; Steane uses the Hamming code for both.",
+          "explanation": "Steane is the CSS code from the $[7,4,3]$ Hamming code used for both $X$ and $Z$ correction, giving six stabilizer generators and a highly symmetric, transversal-friendly structure.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a CSS code built from the classical $[7,4,3]$ Hamming code, with three $X$-type and three $Z$-type stabilizers",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a repetition code on 7 qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "identical to the 9-qubit Shor code",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a non-stabilizer code with no syndrome",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-css-and-steane-code.o3",
+          "question_type": "numerical",
+          "text": "A stabilizer code of distance $d=7$ can correct how many arbitrary single-qubit errors, $t=\\lfloor(d-1)/2\\rfloor$?",
+          "hint": "$t=\\lfloor(d-1)/2\\rfloor$.",
+          "explanation": "$t=\\lfloor(7-1)/2\\rfloor=\\lfloor 3\\rfloor=3$ errors. Distance sets the correction radius just as in classical coding.",
+          "points": 1,
+          "correct_numerical": 3,
+          "numerical_tolerance": 0.1
+        },
+        {
+          "objective_id": "qc-css-and-steane-code.o4",
+          "question_type": "mcq",
+          "text": "How do the Steane and Shor codes compare?",
+          "hint": "Same $k$ and $d$, fewer physical qubits for Steane.",
+          "explanation": "Both protect one logical qubit at distance 3, correcting any single error; Steane $[[7,1,3]]$ does so with 7 qubits versus Shor's 9, with a more symmetric CSS structure.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Steane is $[[7,1,3]]$ and Shor is $[[9,1,3]]$: both have distance 3 and one logical qubit, but Steane uses two fewer physical qubits",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "Steane is $[[9,1,3]]$ and Shor is $[[7,1,3]]$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "both use exactly 7 physical qubits",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "Steane has distance 5",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-surface-codes-threshold",
+      "quiz_title": "Surface Codes & the Threshold Theorem - Assessment",
+      "difficulty": "advanced",
+      "description": "2D lattice checks, threshold theorem, syndrome matching, overhead.",
+      "questions": [
+        {
+          "objective_id": "qc-surface-codes-threshold.o1",
+          "question_type": "mcq",
+          "text": "The surface code stores a logical qubit using:",
+          "hint": "Only nearest-neighbour checks — that's the hardware appeal.",
+          "explanation": "Qubits sit on a 2D lattice; star operators (products of $X$) and plaquette operators (products of $Z$) are local four-body checks, and the logical qubit is stored non-locally in the lattice topology.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a 2D lattice of qubits with local four-qubit star ($X$-type) and plaquette ($Z$-type) stabilizer checks",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a single long chain of qubits with global parity checks",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "nine qubits in a Shor-code arrangement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "non-local checks spanning the whole chip at once",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-surface-codes-threshold.o2",
+          "question_type": "mcq",
+          "text": "The threshold theorem states that:",
+          "hint": "Below threshold, bigger codes win.",
+          "explanation": "For $p<p_{th}$, increasing distance $d$ drives the logical error rate down as $\\sim(p/p_{th})^{d/2}$ — arbitrarily reliable computation from imperfect components, at the cost of more qubits.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "if the physical error rate is below a threshold $p_{th}$, the logical error rate can be suppressed arbitrarily by increasing the code distance",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "quantum error correction is impossible for any error rate",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "errors vanish entirely once any code is used",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the logical error rate equals the physical error rate always",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-surface-codes-threshold.o3",
+          "question_type": "mcq",
+          "text": "How are errors located and corrected in the surface code?",
+          "hint": "Interior parities cancel; only chain endpoints light up.",
+          "explanation": "A chain of errors flips only its endpoint stabilizers (the interior cancels mod 2); a minimum-weight matching decoder pairs the lit endpoints and applies a correcting chain between them.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "an error chain flips the syndromes at its two endpoints; a matching decoder pairs flipped checks and applies a connecting correction chain",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "every individual erroneous qubit lights its own unique check with no ambiguity",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the data qubits are measured directly to find errors",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "errors are found by measuring the logical qubit repeatedly",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-surface-codes-threshold.o4",
+          "question_type": "mcq",
+          "text": "What is the main practical cost of surface-code fault tolerance?",
+          "hint": "Low error rates demand large code distance, hence many qubits.",
+          "explanation": "Achieving algorithmically useful logical error rates needs large code distance, translating to ~$10^3$ physical qubits per logical qubit — the central scaling challenge of fault-tolerant quantum computing.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "large qubit overhead — often thousands of physical qubits per logical qubit at useful error rates",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "it requires no extra qubits at all",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "it only works at zero temperature with one qubit",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "it eliminates the need for any classical processing",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

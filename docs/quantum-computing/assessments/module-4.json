@@ -1,0 +1,569 @@
+{
+  "$comment": "Module 4 - Programming Quantum Computers question bank. One item per objective, tagged by objective_id. Grading matches apps.quizzes.views. JSON backslashes single-escaped -> one literal backslash for KaTeX.",
+  "module": "module-4",
+  "title": "Module 4 - Programming Quantum Computers",
+  "category_slug": "qc-programming",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-quantum-programming-model",
+      "quiz_title": "The Quantum Programming Model - Assessment",
+      "difficulty": "intermediate",
+      "description": "Registers, gate instructions, measurement, and statevector vs sampling.",
+      "questions": [
+        {
+          "objective_id": "qc-quantum-programming-model.o1",
+          "question_type": "mcq",
+          "text": "Which best describes the quantum circuit programming model?",
+          "hint": "Gates are unitary/reversible; measurement is the probabilistic, irreversible step.",
+          "explanation": "A program allocates a register initialised to all zeros, applies an ordered list of unitary gates, and measures to obtain classical outcomes. Only measurement is irreversible.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a quantum register starts in $|0\\dots0\\rangle$; gates are unitary instructions applied in order; measurement samples the basis and writes classical bits",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "qubits hold classical bits and gates may be irreversible",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "all gates act on every qubit at once and can be cloned",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "measurement is deterministic and reversible",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-programming-model.o2",
+          "question_type": "mcq",
+          "text": "In the program `h q0; cx q0 q1; measure`, what does the second instruction do?",
+          "hint": "`cx a b` = controlled-X with control a, target b.",
+          "explanation": "`cx q0 q1` applies CNOT with q0 as control and q1 as target; combined with the preceding `h q0` it prepares a Bell state.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a CNOT with control q0 and target q1",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a CNOT with control q1 and target q0",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a Hadamard on q1",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a measurement of q0",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-programming-model.o3",
+          "question_type": "mcq",
+          "text": "How do the statevector view and the sampling view of a running circuit differ?",
+          "hint": "Real hardware returns only samples; amplitudes need a simulator.",
+          "explanation": "The statevector is the full amplitude vector, available only in simulation; sampling runs many shots and reports frequencies that approach the Born-rule probabilities.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the statevector gives the exact $2^n$ complex amplitudes (simulator only); sampling gives shot counts approximating $|\\langle x|\\psi\\rangle|^2$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "they always return identical numbers",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the statevector is available on real hardware but sampling is not",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "sampling gives amplitudes and the statevector gives probabilities",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-programming-model.o4",
+          "question_type": "mcq",
+          "text": "Running `h q0; cx q0 q1` over many shots gives approximately which outcome distribution?",
+          "hint": "This is the Bell state $\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$.",
+          "explanation": "The circuit prepares $\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$, so the two qubits are perfectly correlated: only `00` and `11` appear, each ~50%.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "~50% `00` and ~50% `11`, essentially never `01` or `10`",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "25% each of `00`, `01`, `10`, `11`",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "100% `00`",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "~50% `01` and ~50% `10`",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-building-circuits-in-code",
+      "quiz_title": "Building Circuits in Code - Assessment",
+      "difficulty": "intermediate",
+      "description": "Bell/GHZ preparation, composition order, parameterized gates, state equality.",
+      "questions": [
+        {
+          "objective_id": "qc-building-circuits-in-code.o1",
+          "question_type": "mcq",
+          "text": "Which program prepares the 3-qubit GHZ state $\\tfrac{1}{\\sqrt2}(|000\\rangle+|111\\rangle)$?",
+          "hint": "Hadamard the first qubit, then propagate with a CNOT chain.",
+          "explanation": "`h q0` makes $\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$ on q0; the CNOT chain copies that value to q1 and q2, giving the GHZ state. Option (b) makes $|{+}{+}{+}\\rangle$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "`h q0; cx q0 q1; cx q1 q2`",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "`h q0; h q1; h q2`",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "`x q0; x q1; x q2`",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "`cx q0 q1; cx q1 q2`",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-building-circuits-in-code.o2",
+          "question_type": "mcq",
+          "text": "A subcircuit $A$ is applied, then a subcircuit $B$. The overall unitary is:",
+          "hint": "Later-in-time operators multiply on the left.",
+          "explanation": "Acting on $|\\psi\\rangle$, first $A$ then $B$ gives $U_B U_A|\\psi\\rangle$. Because gates generally do not commute, the order matters.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$U_B U_A$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$U_A U_B$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$U_A + U_B$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$U_A U_B U_A$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-building-circuits-in-code.o3",
+          "question_type": "mcq",
+          "text": "What is the role of a parameterized gate such as $R_x(\\theta)$ in building circuits?",
+          "hint": "$\\theta$ is a continuous knob tuned e.g. by a classical optimizer.",
+          "explanation": "Parameterized gates turn a fixed circuit into a family indexed by continuous angles, which variational algorithms (Module 6) optimize over.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a single circuit template with a free angle defines a continuous family of states/unitaries (the basis of variational algorithms)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "it measures a qubit at angle $\\theta$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "it is only a global phase and has no effect",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "it can only take the values $0$ or $\\pi$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-building-circuits-in-code.o4",
+          "question_type": "true_false",
+          "text": "The programs `h q0` and `x q0; h q0` prepare the same single-qubit state.",
+          "hint": "Compute $H|0\\rangle$ and $H(X|0\\rangle)=H|1\\rangle$.",
+          "explanation": "False. $H|0\\rangle=|+\\rangle$ but $H|1\\rangle=|-\\rangle$; the extra $X$ flips $|0\\rangle\\to|1\\rangle$ first, giving a different (orthogonal) output.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": false
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-measurement-and-shots",
+      "quiz_title": "Measurement, Shots & Sampling - Assessment",
+      "difficulty": "intermediate",
+      "description": "Shots, statistical error, expectation values, simulators vs samplers.",
+      "questions": [
+        {
+          "objective_id": "qc-measurement-and-shots.o1",
+          "question_type": "mcq",
+          "text": "What is a measurement 'shot', and why do repeated shots fluctuate?",
+          "hint": "Each shot is one random draw from the output distribution.",
+          "explanation": "A shot is a single execution returning one outcome; estimating probabilities from a finite number of such draws carries Monte-Carlo sampling noise.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "one prepare-run-measure cycle yielding a single bitstring; finite sampling of a probabilistic outcome gives statistical fluctuations",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a shot returns the exact probability, so there are no fluctuations",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a shot measures all amplitudes at once",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "fluctuations come only from gate errors, never from sampling",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-measurement-and-shots.o2",
+          "question_type": "numerical",
+          "text": "To resolve an outcome probability to a statistical error of about $\\pm 0.01$, roughly how many shots are needed (order-of-magnitude, using error $\\sim 1/\\sqrt{N}$)?",
+          "hint": "Set $1/\\sqrt N \\approx 0.01$ and solve for $N$.",
+          "explanation": "$1/\\sqrt N \\approx \\epsilon \\Rightarrow N \\approx 1/\\epsilon^2 = 1/(0.01)^2 = 10{,}000$ shots. Halving the error would quadruple this.",
+          "points": 1,
+          "correct_numerical": 10000,
+          "numerical_tolerance": 0.2
+        },
+        {
+          "objective_id": "qc-measurement-and-shots.o3",
+          "question_type": "numerical",
+          "text": "A qubit is measured in the $Z$ basis over $N=1000$ shots, giving $n_0=750$ zeros and $n_1=250$ ones. Compute $\\langle Z\\rangle$.",
+          "hint": "$\\langle Z\\rangle = (n_0 - n_1)/N$.",
+          "explanation": "$\\langle Z\\rangle = p_0 - p_1 = (750-250)/1000 = 0.5$.",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-measurement-and-shots.o4",
+          "question_type": "mcq",
+          "text": "How does an ideal statevector simulator differ from a shot-based sampler?",
+          "hint": "Exact amplitudes vs finite-shot frequencies.",
+          "explanation": "A statevector simulator computes exact amplitudes/probabilities (memory $\\propto 2^n$); a sampler mimics hardware, returning frequencies with $1/\\sqrt N$ fluctuations.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the statevector simulator returns exact probabilities (no sampling noise) but costs $2^n$ memory; the sampler returns a noisy histogram like real hardware",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "they are identical in cost and output",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the sampler is exact and the statevector simulator is approximate",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the statevector simulator cannot handle entanglement",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-simulators-and-transpilation",
+      "quiz_title": "Simulators, Transpilation & Limits - Assessment",
+      "difficulty": "advanced",
+      "description": "Transpilation, the 2^n wall, stabilizer vs statevector simulation, memory estimates.",
+      "questions": [
+        {
+          "objective_id": "qc-simulators-and-transpilation.o1",
+          "question_type": "mcq",
+          "text": "What does transpilation do?",
+          "hint": "It adapts an abstract circuit to a specific device without changing what it computes.",
+          "explanation": "Transpilation decomposes gates into native ones and routes two-qubit gates onto adjacent physical qubits; it alters gate count/depth but not the logical operation.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "rewrites a circuit into the backend's native gate set and qubit connectivity (inserting SWAPs), preserving the logical unitary",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "measures the circuit to estimate its output",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "deletes redundant qubits to shrink the statevector",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "changes the logical unitary to reduce error",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-simulators-and-transpilation.o2",
+          "question_type": "mcq",
+          "text": "Why is exact statevector simulation limited to roughly 30-50 qubits?",
+          "hint": "Each added qubit doubles the memory.",
+          "explanation": "Storing $2^n$ amplitudes means each extra qubit doubles memory; ~30 qubits already needs ~16 GB, so exact simulation stalls in the 30-50 range.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the statevector has $2^n$ complex amplitudes, so memory grows exponentially with $n$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "floating-point rounding forbids more than 50 qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "quantum gates cannot be represented for large $n$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "transpilation fails above 30 qubits",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-simulators-and-transpilation.o3",
+          "question_type": "mcq",
+          "text": "How does a stabilizer (Clifford) simulator differ from a statevector simulator?",
+          "hint": "Gottesman-Knill: Clifford circuits are classically efficient.",
+          "explanation": "Stabilizer simulators run Clifford circuits (common in error correction) at thousands of qubits in polynomial time; non-Clifford $T$ gates are what make simulation exponentially hard.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "circuits built only from Clifford gates {H, S, CNOT} are simulable in polynomial time (Gottesman-Knill); adding non-Clifford $T$ gates forces exponential cost",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the stabilizer simulator is always slower",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the stabilizer simulator cannot represent entanglement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "they are efficient for exactly the same circuits",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-simulators-and-transpilation.o4",
+          "question_type": "numerical",
+          "text": "How many complex amplitudes are needed to store the exact statevector of a 10-qubit register?",
+          "hint": "The statevector has $2^n$ amplitudes.",
+          "explanation": "$2^{10} = 1024$ complex amplitudes. Each additional qubit doubles this count.",
+          "points": 1,
+          "correct_numerical": 1024,
+          "numerical_tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-coding-quantum-algorithms",
+      "quiz_title": "Coding Quantum Algorithms - Assessment",
+      "difficulty": "advanced",
+      "description": "Coding Deutsch-Jozsa and Grover, reading histograms, oracles as gate abstractions.",
+      "questions": [
+        {
+          "objective_id": "qc-coding-quantum-algorithms.o1",
+          "question_type": "mcq",
+          "text": "A Deutsch-Jozsa program applies, in order:",
+          "hint": "$H^{\\otimes n}$, oracle, $H^{\\otimes n}$, measure.",
+          "explanation": "DJ Hadamards the input register and a $|-\\rangle$ ancilla, applies the phase oracle $(-1)^{f(x)}$, Hadamards again, and measures: constant $f$ yields all-zeros, balanced yields anything else.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Hadamards on the input register (and $|-\\rangle$ ancilla), the phase oracle, Hadamards again, then measure",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the oracle, then a single Hadamard, then measure the ancilla",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "only Hadamards with no oracle",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "Grover iterations followed by an inverse QFT",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-coding-quantum-algorithms.o2",
+          "question_type": "mcq",
+          "text": "One Grover iteration in code consists of:",
+          "hint": "Mark, then reflect about the mean.",
+          "explanation": "$G = D\\,O_f$: the oracle flips the marked amplitude's phase, and diffusion reflects about the uniform state, amplifying the marked amplitude. Repeat $\\approx\\tfrac{\\pi}{4}\\sqrt N$ times.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the phase oracle $O_f$ followed by the diffusion operator $D = 2|s\\rangle\\langle s| - I$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the diffusion operator alone, applied twice",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a single Hadamard layer",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "an inverse QFT then a measurement",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-coding-quantum-algorithms.o3",
+          "question_type": "mcq",
+          "text": "After running Grover, how do you read the answer from the output histogram?",
+          "hint": "Amplitude amplification concentrates probability on the marked state.",
+          "explanation": "Grover drives probability onto the marked item, so it dominates the histogram; the most frequent outcome is the answer, and additional shots reduce sampling noise.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the tallest bar (most frequent bitstring) is the marked item; more shots sharpen it",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the shortest bar is the answer",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the answer is the average of all bitstrings",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the histogram is irrelevant; only the statevector phase matters",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-coding-quantum-algorithms.o4",
+          "question_type": "true_false",
+          "text": "An oracle such as $O_f$ is an abstraction that, to run on hardware, must itself be compiled into elementary gates whose cost counts.",
+          "hint": "Hardware has no built-in 'oracle' instruction.",
+          "explanation": "True. Oracles are black boxes in the algorithm's analysis, but a real device implements them as concrete gate sequences, and that synthesis cost is part of the true resource count.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

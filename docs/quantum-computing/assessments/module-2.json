@@ -1,0 +1,799 @@
+{
+  "$comment": "Module 2 - Quantum Gates & Circuits question bank. One item per objective, tagged by objective_id. Grading matches apps.quizzes.views: mcq/true_false compare lowercased answer to the unique is_correct option id; numerical uses |ans-correct| <= |correct|*tolerance. JSON backslashes single-escaped -> one literal backslash for KaTeX.",
+  "module": "module-2",
+  "title": "Module 2 - Quantum Gates & Circuits",
+  "category_slug": "qc-gates-circuits",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-single-qubit-gates",
+      "quiz_title": "Single-Qubit Gates - Assessment",
+      "difficulty": "intermediate",
+      "description": "Pauli/Hadamard/phase gates, rotation operators, Bloch-sphere action, unitarity and inverses, and commutation.",
+      "questions": [
+        {
+          "objective_id": "qc-single-qubit-gates.o1",
+          "question_type": "mcq",
+          "text": "In the computational basis, which is the correct matrix of the Pauli-$Y$ gate?",
+          "hint": "$Y = iXZ$; its off-diagonal entries carry $\\mp i$ with the $-i$ in the top-right.",
+          "explanation": "$Y=\\begin{pmatrix}0&-i\\\\ i&0\\end{pmatrix}$. Option (b) is $X$, (c) is $Z$, and (d) has the signs of $Y$ transposed.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\begin{pmatrix}0&-i\\\\ i&0\\end{pmatrix}$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\begin{pmatrix}0&1\\\\ 1&0\\end{pmatrix}$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\begin{pmatrix}1&0\\\\ 0&-1\\end{pmatrix}$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\begin{pmatrix}0&i\\\\ -i&0\\end{pmatrix}$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-single-qubit-gates.o2",
+          "question_type": "mcq",
+          "text": "Applying the Hadamard gate to $|1\\rangle$ gives which state?",
+          "hint": "$H=\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1&1\\\\ 1&-1\\end{pmatrix}$ acting on the column $(0,1)^T$.",
+          "explanation": "$H|1\\rangle=\\tfrac{1}{\\sqrt2}(|0\\rangle-|1\\rangle)=|-\\rangle$. $H|0\\rangle$ gives the $+$ combination.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\tfrac{1}{\\sqrt2}(|0\\rangle-|1\\rangle)$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|1\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\tfrac{1}{\\sqrt2}(|1\\rangle-|0\\rangle)\\,i$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-single-qubit-gates.o3",
+          "question_type": "mcq",
+          "text": "Writing $R_z(\\theta)=e^{-i\\theta Z/2}$, its matrix is:",
+          "hint": "Diagonalize in the $Z$-eigenbasis: $e^{-i\\theta Z/2}$ acts as $e^{\\mp i\\theta/2}$ on $|0\\rangle,|1\\rangle$.",
+          "explanation": "Because $Z|0\\rangle=+|0\\rangle$ and $Z|1\\rangle=-|1\\rangle$, $R_z(\\theta)=\\mathrm{diag}(e^{-i\\theta/2},e^{+i\\theta/2})$. Option (c) is the phase gate $P(\\theta)$, which differs from $R_z$ by a global phase.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\begin{pmatrix}e^{-i\\theta/2}&0\\\\ 0&e^{i\\theta/2}\\end{pmatrix}$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\begin{pmatrix}\\cos\\theta&-\\sin\\theta\\\\ \\sin\\theta&\\cos\\theta\\end{pmatrix}$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\begin{pmatrix}1&0\\\\ 0&e^{i\\theta}\\end{pmatrix}$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\begin{pmatrix}e^{i\\theta/2}&0\\\\ 0&e^{i\\theta/2}\\end{pmatrix}$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-single-qubit-gates.o4",
+          "question_type": "mcq",
+          "text": "On the Bloch sphere, the Hadamard gate acts as a rotation by $\\pi$ about which axis?",
+          "hint": "$H$ swaps $\\hat x\\leftrightarrow\\hat z$ and negates $\\hat y$; that is a $\\pi$ rotation about the diagonal in the $xz$-plane.",
+          "explanation": "$H=\\tfrac{1}{\\sqrt2}(X+Z)$, so it is a $\\pi$ rotation about $(\\hat x+\\hat z)/\\sqrt2$: it maps $|0\\rangle\\!\\to\\!|+\\rangle$ (north pole to the $+x$ equator) and exchanges the $x$ and $z$ axes.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the $\\hat x+\\hat z$ axis (i.e. $(\\hat x+\\hat z)/\\sqrt2$)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the $\\hat z$ axis",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the $\\hat y$ axis",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the $\\hat x$ axis",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-single-qubit-gates.o5",
+          "question_type": "mcq",
+          "text": "The $T$ gate is $\\mathrm{diag}(1,e^{i\\pi/4})$. Its inverse $T^{\\dagger}$ is:",
+          "hint": "For a unitary, $U^{\\dagger}=U^{-1}$; for a diagonal gate that conjugates each phase.",
+          "explanation": "$T$ is unitary, so $T^{\\dagger}=\\mathrm{diag}(1,e^{-i\\pi/4})$ and $T T^{\\dagger}=I$. Note $T^2=S$ and $T^8=I$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\mathrm{diag}(1,e^{-i\\pi/4})$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\mathrm{diag}(1,e^{i\\pi/4})$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\mathrm{diag}(1,-1)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\mathrm{diag}(e^{-i\\pi/4},1)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-single-qubit-gates.o6",
+          "question_type": "mcq",
+          "text": "Do the Pauli gates $X$ and $Z$ commute, and what is $[X,Z]=XZ-ZX$?",
+          "hint": "Use $XZ=-iY$ and $ZX=+iY$.",
+          "explanation": "$XZ=-iY$ and $ZX=iY$, so $\\{X,Z\\}=0$ (anticommute) and $[X,Z]=XZ-ZX=-2iY\\neq0$. Distinct Paulis always anticommute.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "They anticommute; $[X,Z]=-2iY$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "They commute; $[X,Z]=0$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "They anticommute; $[X,Z]=+2iY$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "They commute; $[X,Z]=2Z$",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-multi-qubit-gates",
+      "quiz_title": "Multi-Qubit Gates - Assessment",
+      "difficulty": "intermediate",
+      "description": "CNOT/CZ/SWAP action, entanglement generation, phase kickback, and the SWAP = 3 CNOT identity.",
+      "questions": [
+        {
+          "objective_id": "qc-multi-qubit-gates.o1",
+          "question_type": "mcq",
+          "text": "With the first qubit as control and the second as target, CNOT maps $|10\\rangle$ to:",
+          "hint": "CNOT flips the target iff the control is $|1\\rangle$.",
+          "explanation": "Control $=1$, so the target flips $0\\to1$: $|10\\rangle\\to|11\\rangle$. On $|0x\\rangle$ the target is unchanged.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$|11\\rangle$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$|10\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|01\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$|00\\rangle$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-gates.o2",
+          "question_type": "mcq",
+          "text": "What is $\\mathrm{SWAP}\\,|01\\rangle$?",
+          "hint": "SWAP exchanges the two qubits' values.",
+          "explanation": "SWAP exchanges the basis labels: $|01\\rangle\\to|10\\rangle$. It fixes $|00\\rangle$ and $|11\\rangle$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$|10\\rangle$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$|01\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|11\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\tfrac{1}{\\sqrt2}(|01\\rangle+|10\\rangle)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-gates.o3",
+          "question_type": "mcq",
+          "text": "Applying $H$ to the first qubit of $|00\\rangle$ and then CNOT (control = first) produces:",
+          "hint": "$H$ makes $\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)|0\\rangle$; CNOT copies the control into the target.",
+          "explanation": "$H\\otimes I:|00\\rangle\\to\\tfrac{1}{\\sqrt2}(|00\\rangle+|10\\rangle)$, then CNOT flips the target on the $|1\\rangle$ branch giving the Bell state $|\\Phi^+\\rangle=\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle+|01\\rangle)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\tfrac{1}{\\sqrt2}(|01\\rangle+|10\\rangle)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$|00\\rangle$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-gates.o4",
+          "question_type": "mcq",
+          "text": "Applying CNOT (control = first) to the product state $|+\\rangle|0\\rangle$ yields a state that is:",
+          "hint": "Write $|+\\rangle|0\\rangle=\\tfrac{1}{\\sqrt2}(|00\\rangle+|10\\rangle)$ and apply CNOT.",
+          "explanation": "CNOT gives $\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$, which cannot be factored as a tensor product — it is maximally entangled.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "entangled (the Bell state $|\\Phi^+\\rangle$)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "still a product state $|+\\rangle|0\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the product state $|+\\rangle|+\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a product state $|1\\rangle|1\\rangle$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-gates.o5",
+          "question_type": "mcq",
+          "text": "Phase kickback refers to which effect of a controlled-$U$ when the target is an eigenstate $|u\\rangle$ with $U|u\\rangle=e^{i\\phi}|u\\rangle$?",
+          "hint": "$C\\text{-}U\\,(\\alpha|0\\rangle+\\beta|1\\rangle)|u\\rangle = (\\alpha|0\\rangle+\\beta e^{i\\phi}|1\\rangle)|u\\rangle$.",
+          "explanation": "Because $|u\\rangle$ is an eigenstate, controlled-$U$ multiplies only the $|1\\rangle_{\\text{control}}$ branch by $e^{i\\phi}$: the phase 'kicks back' to the control while the target is untouched. This drives Deutsch-Jozsa and phase estimation.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the eigenphase $e^{i\\phi}$ is transferred onto the control qubit's amplitude, leaving $|u\\rangle$ unchanged",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the target is measured and collapses",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the control and target are swapped",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the target acquires a bit flip",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-gates.o6",
+          "question_type": "true_false",
+          "text": "The identity $\\mathrm{SWAP}=\\mathrm{CNOT}_{1\\to2}\\,\\mathrm{CNOT}_{2\\to1}\\,\\mathrm{CNOT}_{1\\to2}$ holds (three alternating CNOTs implement SWAP).",
+          "hint": "Check it on the four computational-basis states, or recall the standard three-CNOT SWAP.",
+          "explanation": "True. Three CNOTs alternating control/target exchange the two qubits; e.g. on $|10\\rangle$: $\\to|11\\rangle\\to|01\\rangle\\to|01\\rangle$, matching SWAP.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-circuit-model",
+      "quiz_title": "The Circuit Model - Assessment",
+      "difficulty": "intermediate",
+      "description": "Wires/gates/time-ordering, composition as matrix products, tensor products on parallel wires, and circuit identities.",
+      "questions": [
+        {
+          "objective_id": "qc-circuit-model.o1",
+          "question_type": "mcq",
+          "text": "In the quantum circuit model, which statement is correct?",
+          "hint": "Gates are unitary and reversible; time flows left to right in the diagram.",
+          "explanation": "Each wire is a qubit; gates are unitaries applied in temporal order (drawn left to right); no-cloning forbids copying; measurement extracts classical outcomes at the end.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "wires carry qubits and gates (unitaries) act left-to-right in time; measurement typically ends a wire",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "wires carry classical bits only and gates may be irreversible",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "gates act right-to-left in time and can clone qubits",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "every gate must act on all qubits simultaneously",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-circuit-model.o2",
+          "question_type": "mcq",
+          "text": "A circuit applies gate $A$, then $B$, then $C$ (in time). The overall unitary is:",
+          "hint": "Later-in-time operators sit to the left when multiplying a column vector.",
+          "explanation": "Acting on $|\\psi\\rangle$: first $A$, then $B$, then $C$ gives $C(B(A|\\psi\\rangle))=CBA|\\psi\\rangle$. Time order reverses in the matrix product.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$C\\,B\\,A$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$A\\,B\\,C$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$B\\,A\\,C$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$A\\,C\\,B$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-circuit-model.o3",
+          "question_type": "mcq",
+          "text": "$H$ acts on the top wire and $X$ on the bottom wire in the same time slice. The two-qubit operator is:",
+          "hint": "Parallel (simultaneous) gates on distinct wires combine by tensor product, top wire first.",
+          "explanation": "Gates on disjoint wires in the same layer tensor together: top$\\,\\otimes\\,$bottom $=H\\otimes X$, a $4\\times4$ unitary.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$H\\otimes X$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$X\\otimes H$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$HX$ (a $2\\times2$ matrix)",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$H+X$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-circuit-model.o4",
+          "question_type": "mcq",
+          "text": "The circuit identity $HXH$ equals which single-qubit gate?",
+          "hint": "$H$ conjugation exchanges $X\\leftrightarrow Z$.",
+          "explanation": "$HXH=Z$ (and $HZH=X$): the Hadamard interchanges the $X$ and $Z$ bases, so conjugating $X$ by $H$ yields $Z$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$Z$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$X$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$Y$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$I$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-circuit-model.o5",
+          "question_type": "mcq",
+          "text": "Two circuits on the same $n$ qubits are guaranteed to implement the same operation iff:",
+          "hint": "Equality on one input is necessary but not sufficient; equality of the full unitary is.",
+          "explanation": "Two circuits are equivalent exactly when their unitaries match (a global phase is unobservable). Agreeing on one basis state, or having equal gate count/depth, does not guarantee equal action on superpositions.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "their overall unitary matrices are equal (up to an irrelevant global phase)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "they use the same number of gates",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "they agree on the single input $|0\\dots0\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "they have the same circuit depth",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-universal-gate-sets",
+      "quiz_title": "Universal Gate Sets - Assessment",
+      "difficulty": "advanced",
+      "description": "Universality definitions, exact vs approximate, Solovay-Kitaev scaling, exact gate synthesis, and Gottesman-Knill.",
+      "questions": [
+        {
+          "objective_id": "qc-universal-gate-sets.o1",
+          "question_type": "mcq",
+          "text": "Which of the following is a standard universal gate set for quantum computation?",
+          "hint": "You need a non-Clifford gate to escape the Clifford group.",
+          "explanation": "$\\{H,T,\\mathrm{CNOT}\\}$ is universal: it approximates any unitary to arbitrary accuracy. $\\{H,S,\\mathrm{CNOT}\\}$ is Clifford (not universal); $\\{X,Z,\\mathrm{CNOT}\\}$ is even weaker.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\{H, T, \\mathrm{CNOT}\\}$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\{H, S, \\mathrm{CNOT}\\}$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\{X, Z, \\mathrm{CNOT}\\}$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\{\\mathrm{CNOT}\\}$ alone",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-universal-gate-sets.o2",
+          "question_type": "mcq",
+          "text": "What distinguishes exact universality from approximate universality?",
+          "hint": "A finite gate set generates only a countable group, so it cannot hit every (uncountable) unitary exactly.",
+          "explanation": "A finite set like $\\{H,T,\\mathrm{CNOT}\\}$ generates a dense but countable subgroup, giving approximate universality (any $\\epsilon$). Exact universality needs a continuum of gates (e.g. all single-qubit rotations plus CNOT).",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "an exactly universal set generates every unitary precisely; an approximately universal (finite) set can reach any unitary only to within arbitrary $\\epsilon$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "they are the same thing",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "approximate universality requires infinitely many qubits",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "exact universality forbids the use of CNOT",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-universal-gate-sets.o3",
+          "question_type": "mcq",
+          "text": "The Solovay-Kitaev theorem says any single-qubit unitary can be approximated to accuracy $\\epsilon$ using how many gates from a universal set?",
+          "hint": "Solovay-Kitaev gives polylogarithmic overhead in $1/\\epsilon$.",
+          "explanation": "Solovay-Kitaev: $O(\\log^{c}(1/\\epsilon))$ gates, with a small constant $c\\approx2$ (as quoted by Nielsen & Chuang; the basic Dawson-Nielsen construction gives $\\approx4$). The overhead in accuracy is only polylogarithmic, which is why finite gate sets are practical.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$O\\!\\left(\\log^{c}(1/\\epsilon)\\right)$ for a small constant $c$ (polylogarithmic)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$O(1/\\epsilon)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$O(1/\\epsilon^2)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$O(2^{1/\\epsilon})$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-universal-gate-sets.o4",
+          "question_type": "numerical",
+          "text": "Using only the $T$ gate ($T=\\mathrm{diag}(1,e^{i\\pi/4})$), the Pauli-$Z$ gate is realized exactly as $T^{n}$. Give the smallest positive integer $n$.",
+          "hint": "$Z=\\mathrm{diag}(1,e^{i\\pi})$; each $T$ adds a phase of $\\pi/4$ to the $|1\\rangle$ amplitude.",
+          "explanation": "$T^n=\\mathrm{diag}(1,e^{in\\pi/4})$; setting $e^{in\\pi/4}=e^{i\\pi}=-1$ needs $n=4$. (Also $T^2=S$ and $T^8=I$.)",
+          "points": 1,
+          "correct_numerical": 4,
+          "numerical_tolerance": 0.1
+        },
+        {
+          "objective_id": "qc-universal-gate-sets.o5",
+          "question_type": "mcq",
+          "text": "By the Gottesman-Knill theorem, why is the Clifford group $\\{H,S,\\mathrm{CNOT}\\}$ not universal?",
+          "hint": "Gottesman-Knill: stabilizer (Clifford) circuits admit efficient classical simulation.",
+          "explanation": "Gottesman-Knill shows Clifford circuits (on stabilizer inputs, with computational-basis measurement) are classically efficiently simulable, so they cannot be universal. Adding any non-Clifford gate such as $T$ restores universality. (Clifford gates do create entanglement, e.g. CNOT.)",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Clifford circuits are efficiently simulable on a classical computer, so alone they cannot achieve quantum advantage; a non-Clifford gate (e.g. $T$) is required",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "Clifford gates are not unitary",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "Clifford circuits cannot create entanglement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the Clifford group is infinite",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-density-matrices-mixed-states",
+      "quiz_title": "Density Matrices & Mixed States - Assessment",
+      "difficulty": "advanced",
+      "description": "Density-matrix properties, purity, partial trace, measurement statistics from rho, and the Bloch-ball picture.",
+      "questions": [
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o1",
+          "question_type": "mcq",
+          "text": "Which set of properties characterizes a valid density matrix $\\rho$?",
+          "hint": "Probabilities live on the diagonal (sum to 1, non-negative) in every basis.",
+          "explanation": "$\\rho=\\sum_i p_i|\\psi_i\\rangle\\langle\\psi_i|$ is Hermitian, unit-trace, and positive semidefinite. These guarantee real non-negative outcome probabilities summing to 1.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Hermitian, $\\mathrm{Tr}\\,\\rho=1$, and positive semidefinite ($\\rho\\succeq0$)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "unitary and traceless",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "Hermitian with $\\mathrm{Tr}\\,\\rho=0$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "any matrix with real diagonal",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o2",
+          "question_type": "numerical",
+          "text": "For the pure state $|+\\rangle$, the density matrix is $\\rho=\\tfrac12\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$. Compute the purity $\\mathrm{Tr}(\\rho^2)$.",
+          "hint": "Pure states satisfy $\\rho^2=\\rho$, hence $\\mathrm{Tr}(\\rho^2)=\\mathrm{Tr}\\,\\rho$.",
+          "explanation": "$\\rho^2=\\rho$ for any pure state, so $\\mathrm{Tr}(\\rho^2)=\\mathrm{Tr}\\,\\rho=1$. Purity $=1$ certifies a pure state.",
+          "points": 1,
+          "correct_numerical": 1.0,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o3",
+          "question_type": "numerical",
+          "text": "The maximally mixed single-qubit state is $\\rho=I/2$. Compute its purity $\\mathrm{Tr}(\\rho^2)$.",
+          "hint": "$\\rho^2=(I/2)^2=I/4$; take the trace over a 2-dimensional space.",
+          "explanation": "$\\mathrm{Tr}((I/2)^2)=\\mathrm{Tr}(I/4)=2\\cdot\\tfrac14=\\tfrac12$. For a qubit, purity ranges from $1$ (pure) down to $1/2$ (maximally mixed).",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o4",
+          "question_type": "mcq",
+          "text": "Take the Bell state $|\\Phi^+\\rangle=\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$. The reduced density matrix of qubit A (partial trace over B) is:",
+          "hint": "Trace out B: $\\rho_A=\\tfrac12(|0\\rangle\\langle0|+|1\\rangle\\langle1|)$.",
+          "explanation": "$\\rho_A=\\mathrm{Tr}_B|\\Phi^+\\rangle\\langle\\Phi^+|=\\tfrac12(|0\\rangle\\langle0|+|1\\rangle\\langle1|)=I/2$. Maximal entanglement makes each local state maximally mixed.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$I/2$ (maximally mixed)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$|0\\rangle\\langle0|$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|+\\rangle\\langle+|$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o5",
+          "question_type": "numerical",
+          "text": "For $\\rho=\\mathrm{diag}(0.75,\\,0.25)$ in the computational basis, compute the expectation value $\\langle Z\\rangle=\\mathrm{Tr}(\\rho Z)$.",
+          "hint": "$\\langle Z\\rangle=\\rho_{00}-\\rho_{11}$ for a diagonal $\\rho$.",
+          "explanation": "$\\mathrm{Tr}(\\rho Z)=0.75(+1)+0.25(-1)=0.5$. Diagonal entries are the outcome probabilities $P(0),P(1)$.",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-density-matrices-mixed-states.o6",
+          "question_type": "mcq",
+          "text": "Writing $\\rho=(I+\\vec r\\cdot\\vec\\sigma)/2$ with Bloch vector $\\vec r$, a state with $|\\vec r|=0.6$ is:",
+          "hint": "Pure $\\Leftrightarrow |\\vec r|=1$ (surface); $|\\vec r|=0$ is maximally mixed (center).",
+          "explanation": "$|\\vec r|=1$ is the pure-state sphere; $0\\le|\\vec r|<1$ is a mixed state inside the ball. $|\\vec r|=0.6$ is a valid mixed state with purity $\\tfrac12(1+|\\vec r|^2)=0.68$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "mixed and strictly inside the Bloch ball ($|\\vec r|<1$)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "pure and on the Bloch sphere",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "unphysical ($|\\vec r|$ must equal 1)",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "maximally mixed",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
