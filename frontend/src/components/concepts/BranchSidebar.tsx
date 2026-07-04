@@ -5,7 +5,13 @@ import { useParams } from 'next/navigation'
 import { useAllConcepts, useBranches } from '@/lib/hooks/useConcepts'
 import { useConceptsStore } from '@/lib/store/concepts'
 import { cn } from '@/lib/utils'
-import type { Branch, Concept } from '@/types'
+import type { Branch, Concept, Track } from '@/types'
+
+// Branches are grouped into these tracks (Category.track). Order is display order.
+const TRACKS: { id: Track; label: string }[] = [
+  { id: 'quantum-physics', label: 'Quantum Physics' },
+  { id: 'quantum-computing', label: 'Quantum Computing' },
+]
 
 function BranchSection({
   branch,
@@ -109,22 +115,33 @@ export default function BranchSidebar() {
       >
         ◈ All concepts
       </Link>
-      {(branches ?? [])
-        .slice()
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-        .map((branch) => {
-          const topics = topicsByBranch(branch.slug)
-          return (
-            <BranchSection
-              key={branch.id}
-              branch={branch}
-              topics={topics}
-              activeSlug={activeSlug}
-              // Auto-open the branch that contains the active topic.
-              defaultOpen={topics.some((t) => t.slug === activeSlug)}
-            />
-          )
-        })}
+      {TRACKS.map(({ id, label }) => {
+        const trackBranches = (branches ?? [])
+          .filter((b) => (b.track ?? 'quantum-physics') === id)
+          .slice()
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        if (trackBranches.length === 0) return null
+        return (
+          <div key={id} className="mt-3 first:mt-0">
+            <h3 className="text-[10px] font-mono uppercase tracking-widest text-slate-600 py-1.5">
+              {label}
+            </h3>
+            {trackBranches.map((branch) => {
+              const topics = topicsByBranch(branch.slug)
+              return (
+                <BranchSection
+                  key={branch.id}
+                  branch={branch}
+                  topics={topics}
+                  activeSlug={activeSlug}
+                  // Auto-open the branch that contains the active topic.
+                  defaultOpen={topics.some((t) => t.slug === activeSlug)}
+                />
+              )
+            })}
+          </div>
+        )
+      })}
     </nav>
   )
 }

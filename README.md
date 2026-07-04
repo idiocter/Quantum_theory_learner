@@ -94,6 +94,11 @@ docker compose up --build
 # 4. Run migrations (first boot)
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py createsuperuser
+
+# 5. Seed the curriculum (idempotent). Content lives in management commands +
+#    docs/quantum-computing/, so it is fully reproducible on a clean clone.
+docker compose exec backend python manage.py seed_qc_course   # Quantum Computing course
+docker compose exec backend python manage.py seed_concepts    # Quantum Physics topics
 ```
 
 | Service | URL |
@@ -116,6 +121,8 @@ pip install -r requirements.txt
 
 # Requires a reachable PostgreSQL + Redis (DATABASE_URL / REDIS_URL in .env)
 python manage.py migrate
+python manage.py seed_qc_course       # seed the Quantum Computing course (content + assessments)
+python manage.py seed_concepts        # seed the Quantum Physics topics
 python manage.py runserver            # http://localhost:8000
 
 # In separate shells — the Celery worker & scheduler:

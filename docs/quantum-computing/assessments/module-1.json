@@ -1,0 +1,453 @@
+{
+  "$comment": "Module 1 - Foundations of QM for Computing question bank. One item per objective, tagged by objective_id. Flagged analyze/evaluate objectives (qc-superposition.o4, qc-bloch-sphere.o4, qc-measurement-born-rule.o5, qc-entanglement-bell-states.o5, qc-no-cloning.o2, qc-no-cloning.o4) are constructed MCQ items, not plain numeric answers, per curriculum-architect. Grading: MCQ/true_false compare lowercased submitted answer to the unique is_correct option id; numerical uses |ans-correct| <= |correct|*tolerance. JSON backslashes single-escaped -> one literal backslash for KaTeX.",
+  "module": "module-1",
+  "title": "Module 1 - Foundations of Quantum Mechanics for Computing",
+  "category_slug": "qc-foundations",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-qubit-state-vector",
+      "quiz_title": "Qubits and State Vectors - Assessment",
+      "difficulty": "intermediate",
+      "description": "Qubit as a unit vector in C^2, normalization, Dirac vs column form, computational-basis states, and qubit vs classical bit.",
+      "questions": [
+        {
+          "objective_id": "qc-qubit-state-vector.o1",
+          "question_type": "mcq",
+          "text": "A pure qubit state must be a unit vector in $\\mathbb{C}^2$: $|\\psi\\rangle = \\alpha|0\\rangle + \\beta|1\\rangle$ with $|\\alpha|^2 + |\\beta|^2 = 1$. Which of the following is a valid pure qubit state?",
+          "hint": "Compute $|\\alpha|^2 + |\\beta|^2$ for each. Remember $|i/\\sqrt2|^2 = 1/2$ (the $i$ does not change the modulus).",
+          "explanation": "For $\\tfrac{1}{\\sqrt2}|0\\rangle + \\tfrac{i}{\\sqrt2}|1\\rangle$: $|\\tfrac{1}{\\sqrt2}|^2 + |\\tfrac{i}{\\sqrt2}|^2 = \\tfrac12 + \\tfrac12 = 1$ — valid. $\\tfrac12|0\\rangle+\\tfrac12|1\\rangle$ gives $\\tfrac14+\\tfrac14=\\tfrac12 \\ne 1$; $|0\\rangle+|1\\rangle$ gives $2$; $\\tfrac35|0\\rangle+\\tfrac35|1\\rangle$ gives $\\tfrac{9}{25}+\\tfrac{9}{25}=\\tfrac{18}{25}\\ne1$. Complex amplitudes are fine as long as the sum of squared moduli is $1$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{\\sqrt2}|0\\rangle + \\tfrac{i}{\\sqrt2}|1\\rangle$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{2}|0\\rangle + \\tfrac{1}{2}|1\\rangle$", "is_correct": false },
+            { "id": "c", "text": "$|0\\rangle + |1\\rangle$", "is_correct": false },
+            { "id": "d", "text": "$\\tfrac{3}{5}|0\\rangle + \\tfrac{3}{5}|1\\rangle$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-qubit-state-vector.o2",
+          "question_type": "mcq",
+          "text": "Write the state $|\\psi\\rangle = \\tfrac{1}{\\sqrt2}|0\\rangle - \\tfrac{i}{\\sqrt2}|1\\rangle$ as a column vector in the computational basis (with $|0\\rangle=(1,0)^T$, $|1\\rangle=(0,1)^T$), and confirm it is normalized.",
+          "hint": "The coefficient of $|0\\rangle$ is the top entry, the coefficient of $|1\\rangle$ the bottom entry. Then check $|\\alpha|^2+|\\beta|^2$.",
+          "explanation": "By definition the amplitudes are the vector components: $|\\psi\\rangle = \\tfrac{1}{\\sqrt2}\\begin{pmatrix}1\\\\-i\\end{pmatrix}$. Normalization: $|\\tfrac{1}{\\sqrt2}|^2 + |{-\\tfrac{i}{\\sqrt2}}|^2 = \\tfrac12 + \\tfrac12 = 1$. Dropping the $\\tfrac{1}{\\sqrt2}$ (option b) is unnormalized; flipping the sign of $i$ (option c) or swapping the entries (option d) both change the physical state.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1\\\\-i\\end{pmatrix}$", "is_correct": true },
+            { "id": "b", "text": "$\\begin{pmatrix}1\\\\-i\\end{pmatrix}$", "is_correct": false },
+            { "id": "c", "text": "$\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1\\\\i\\end{pmatrix}$", "is_correct": false },
+            { "id": "d", "text": "$\\tfrac{1}{\\sqrt2}\\begin{pmatrix}-i\\\\1\\end{pmatrix}$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-qubit-state-vector.o3",
+          "question_type": "mcq",
+          "text": "Which column vector correctly represents the state $|-\\rangle$?",
+          "hint": "$|-\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle - |1\\rangle)$. Watch the sign and the $\\tfrac{1}{\\sqrt2}$ normalization.",
+          "explanation": "$|-\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle - |1\\rangle) = \\tfrac{1}{\\sqrt2}(1,-1)^T$. Option b is $|+\\rangle=\\tfrac{1}{\\sqrt2}(1,1)^T$; option c is $|1\\rangle=(0,1)^T$; option d is unnormalized. For reference $|0\\rangle=(1,0)^T$ and $|1\\rangle=(0,1)^T$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{\\sqrt2}(1,\\,-1)^T$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{\\sqrt2}(1,\\,1)^T$", "is_correct": false },
+            { "id": "c", "text": "$(0,\\,1)^T$", "is_correct": false },
+            { "id": "d", "text": "$(1,\\,-1)^T$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-qubit-state-vector.o4",
+          "question_type": "mcq",
+          "text": "Which statement best explains why a qubit's pure-state space is a continuum, whereas a classical bit has only two states?",
+          "hint": "A classical bit is exactly one of $\\{0,1\\}$. A qubit is any unit vector $\\alpha|0\\rangle+\\beta|1\\rangle$; the amplitudes vary continuously subject to only normalization (and an unphysical global phase).",
+          "explanation": "A classical bit occupies one of two discrete values. A qubit's state is specified by two complex amplitudes $\\alpha,\\beta$ constrained only by $|\\alpha|^2+|\\beta|^2=1$ (and with global phase unobservable), leaving two continuous real degrees of freedom — the surface of the Bloch sphere. So the pure-state space is a continuum. It does NOT mean a qubit 'stores infinite classical information': measurement yields just one bit, and the amplitudes are not classically readable. Nor is a qubit a probabilistic mixture of $0$ and $1$ — that would be a classical coin, missing the phase/interference structure.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "The amplitudes $\\alpha,\\beta$ vary continuously subject only to normalization, giving a continuum of pure states (the Bloch sphere), while a classical bit is one of two discrete values.", "is_correct": true },
+            { "id": "b", "text": "A qubit physically stores an infinite amount of classical information that can be read out by a single measurement.", "is_correct": false },
+            { "id": "c", "text": "A qubit is simply a classical bit that is $0$ with some probability and $1$ with the complementary probability (a random mixture).", "is_correct": false },
+            { "id": "d", "text": "There is no real difference; 'qubit' is just terminology for a classical bit used inside a quantum computer.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-superposition",
+      "quiz_title": "Superposition - Assessment",
+      "difficulty": "intermediate",
+      "description": "Superposition and amplitudes, constructing |+>, basis-change amplitudes, global vs relative phase, and coherent superposition vs classical mixture.",
+      "questions": [
+        {
+          "objective_id": "qc-superposition.o1",
+          "question_type": "numerical",
+          "text": "A qubit is in the normalized superposition $|\\psi\\rangle = \\tfrac{1}{\\sqrt3}\\,|0\\rangle + \\sqrt{\\tfrac{2}{3}}\\,|1\\rangle$. What is the value of the amplitude on $|1\\rangle$? Give a decimal.",
+          "hint": "The amplitude is the coefficient multiplying $|1\\rangle$ itself, namely $\\sqrt{2/3}$ — not its square.",
+          "explanation": "The amplitude on $|1\\rangle$ is the coefficient $\\beta = \\sqrt{2/3} \\approx 0.8165$. (Its modulus squared $|\\beta|^2 = 2/3 \\approx 0.667$ would be the measurement probability, a different quantity.) Normalization check: $\\tfrac13 + \\tfrac23 = 1$.",
+          "points": 1,
+          "correct_numerical": 0.8165,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-superposition.o2",
+          "question_type": "numerical",
+          "text": "Express the computational-basis state $|1\\rangle$ in the Hadamard basis $\\{|+\\rangle, |-\\rangle\\}$ where $|\\pm\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle \\pm |1\\rangle)$. What is the amplitude on $|-\\rangle$? Give a decimal (include the sign).",
+          "hint": "Invert the definitions: adding and subtracting gives $|0\\rangle = \\tfrac{1}{\\sqrt2}(|+\\rangle+|-\\rangle)$ and $|1\\rangle = \\tfrac{1}{\\sqrt2}(|+\\rangle-|-\\rangle)$. Equivalently the amplitude is $\\langle -|1\\rangle$.",
+          "explanation": "$\\langle -|1\\rangle = \\tfrac{1}{\\sqrt2}(\\langle0| - \\langle1|)\\,|1\\rangle = \\tfrac{1}{\\sqrt2}(0 - 1) = -\\tfrac{1}{\\sqrt2} \\approx -0.7071$. So $|1\\rangle = \\tfrac{1}{\\sqrt2}|+\\rangle - \\tfrac{1}{\\sqrt2}|-\\rangle$. Forgetting the minus sign (answering $+0.7071$) loses the relative phase that distinguishes $|1\\rangle$ from $|0\\rangle$ in this basis.",
+          "points": 1,
+          "correct_numerical": -0.7071,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-superposition.o3",
+          "question_type": "mcq",
+          "text": "Consider $|\\psi\\rangle = \\dfrac{e^{i\\pi/4}}{\\sqrt2}\\big(|0\\rangle + e^{i\\pi/2}|1\\rangle\\big)$. Which factor is the (unobservable) global phase, and which is the (observable) relative phase?",
+          "hint": "A global phase multiplies the entire state; a relative phase sits between the $|0\\rangle$ and $|1\\rangle$ components. Only the latter affects measurements in bases other than $Z$.",
+          "explanation": "The overall factor $e^{i\\pi/4}$ multiplies both components equally, so it is a global phase and is physically unobservable. The factor $e^{i\\pi/2}=i$ multiplies only the $|1\\rangle$ component, so it is the relative phase between $|0\\rangle$ and $|1\\rangle$; it is observable (e.g. it distinguishes this state from $\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$ under an $X$- or $Y$-basis measurement).",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Global phase $e^{i\\pi/4}$ (unobservable); relative phase $e^{i\\pi/2}$ between $|0\\rangle$ and $|1\\rangle$ (observable)", "is_correct": true },
+            { "id": "b", "text": "Global phase $e^{i\\pi/2}$ (unobservable); relative phase $e^{i\\pi/4}$ (observable)", "is_correct": false },
+            { "id": "c", "text": "Both factors are global phases, so both are unobservable", "is_correct": false },
+            { "id": "d", "text": "Both factors are relative phases, so both are observable", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-superposition.o4",
+          "question_type": "mcq",
+          "text": "The coherent superposition $|+\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$ and a classical 50/50 probabilistic mixture of $|0\\rangle$ and $|1\\rangle$ give identical outcome statistics when measured in the computational ($Z$) basis. Which single measurement distinguishes them?",
+          "hint": "The coherent state has a definite relative phase; the mixture has none. Measure in a basis that is sensitive to that phase.",
+          "explanation": "In the $Z$ basis both give $50\\%/50\\%$, so $Z$ cannot tell them apart. Measure instead in the $X$ basis $\\{|+\\rangle,|-\\rangle\\}$: the coherent state $|+\\rangle$ yields outcome '+' with probability $|\\langle+|+\\rangle|^2 = 1$ (deterministic), whereas the 50/50 mixture yields '+' with probability $\\tfrac12|\\langle+|0\\rangle|^2 + \\tfrac12|\\langle+|1\\rangle|^2 = \\tfrac12\\cdot\\tfrac12 + \\tfrac12\\cdot\\tfrac12 = \\tfrac12$. The differing $X$-basis statistics reveal the relative phase (coherence) that the mixture lacks.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Measure in the $X$ basis $\\{|+\\rangle,|-\\rangle\\}$: the coherent state gives '+' with certainty, the mixture gives 50/50.", "is_correct": true },
+            { "id": "b", "text": "Measure again in the $Z$ basis $\\{|0\\rangle,|1\\rangle\\}$: the coherent state is deterministic there.", "is_correct": false },
+            { "id": "c", "text": "No projective measurement can ever distinguish a coherent superposition from a classical mixture.", "is_correct": false },
+            { "id": "d", "text": "Measure the energy of the qubit; the coherent state has higher energy.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-bloch-sphere",
+      "quiz_title": "The Bloch Sphere - Assessment",
+      "difficulty": "intermediate",
+      "description": "Bloch parametrization and angle ranges, angle/Cartesian conversions, cardinal-state locations, and orthogonality as antipodality.",
+      "questions": [
+        {
+          "objective_id": "qc-bloch-sphere.o1",
+          "question_type": "mcq",
+          "text": "In the Bloch parametrization $|\\psi\\rangle = \\cos\\tfrac{\\theta}{2}|0\\rangle + e^{i\\phi}\\sin\\tfrac{\\theta}{2}|1\\rangle$, what are the correct ranges of the polar angle $\\theta$ and azimuthal angle $\\phi$?",
+          "hint": "Because the amplitudes use $\\theta/2$, letting $\\theta$ run over $[0,\\pi]$ already covers $|0\\rangle$ (top) to $|1\\rangle$ (bottom). $\\phi$ is a full azimuth.",
+          "explanation": "The half-angle $\\theta/2$ means $\\theta \\in [0,\\pi]$ sweeps the amplitude of $|1\\rangle$ from $0$ (at $\\theta=0$, giving $|0\\rangle$) to $1$ (at $\\theta=\\pi$, giving $|1\\rangle$); the azimuth $\\phi \\in [0,2\\pi)$ goes once around. Allowing $\\theta$ up to $2\\pi$ would double-cover the sphere and misassign states.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\theta \\in [0,\\pi]$ and $\\phi \\in [0,2\\pi)$", "is_correct": true },
+            { "id": "b", "text": "$\\theta \\in [0,2\\pi)$ and $\\phi \\in [0,\\pi]$", "is_correct": false },
+            { "id": "c", "text": "$\\theta \\in [0,2\\pi)$ and $\\phi \\in [0,2\\pi)$", "is_correct": false },
+            { "id": "d", "text": "$\\theta \\in [0,\\tfrac{\\pi}{2}]$ and $\\phi \\in [0,\\pi]$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-bloch-sphere.o2",
+          "question_type": "numerical",
+          "text": "A qubit is in the state $|\\psi\\rangle = \\cos\\tfrac{\\pi}{6}\\,|0\\rangle + \\sin\\tfrac{\\pi}{6}\\,|1\\rangle$. Compute the $z$-component of its Bloch vector, $z = \\cos\\theta$.",
+          "hint": "Match the amplitude to $\\cos(\\theta/2)$: here $\\theta/2 = \\pi/6$, so $\\theta = \\pi/3$. Then $z=\\cos\\theta$.",
+          "explanation": "Comparing $\\cos\\tfrac{\\theta}{2} = \\cos\\tfrac{\\pi}{6}$ gives $\\tfrac{\\theta}{2} = \\tfrac{\\pi}{6}$, so $\\theta = \\tfrac{\\pi}{3}$. Then $z = \\cos\\theta = \\cos\\tfrac{\\pi}{3} = 0.5$. (Equivalently $z = |\\alpha|^2 - |\\beta|^2 = \\cos^2\\tfrac{\\pi}{6} - \\sin^2\\tfrac{\\pi}{6} = \\tfrac34 - \\tfrac14 = 0.5$.) Forgetting the half-angle and using $z=\\cos(\\pi/6)\\approx0.866$ is the common error.",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-bloch-sphere.o3",
+          "question_type": "mcq",
+          "text": "Which single-qubit state sits at the $+y$ axis (the point $(0,1,0)$) of the Bloch sphere?",
+          "hint": "The $\\pm x$ axis holds $|\\pm\\rangle$ and the $\\pm z$ axis holds $|0\\rangle,|1\\rangle$. The $y$ axis carries the relative phase $\\pm i$.",
+          "explanation": "The $+y$ pole corresponds to $\\theta=\\pi/2,\\ \\phi=\\pi/2$, i.e. $|{+i}\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle + i|1\\rangle)$. Meanwhile $|+\\rangle$ is at $+x$, $|-\\rangle$ at $-x$, and $|0\\rangle$ at $+z$. The imaginary relative phase is exactly what places a state on the $y$ axis.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$|{+i}\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle + i|1\\rangle)$", "is_correct": true },
+            { "id": "b", "text": "$|+\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle + |1\\rangle)$", "is_correct": false },
+            { "id": "c", "text": "$|0\\rangle$", "is_correct": false },
+            { "id": "d", "text": "$|-\\rangle = \\tfrac{1}{\\sqrt2}(|0\\rangle - |1\\rangle)$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-bloch-sphere.o4",
+          "question_type": "mcq",
+          "text": "Two qubit states that are orthogonal in Hilbert space ($\\langle\\psi|\\phi\\rangle = 0$) map to which relative position on the Bloch sphere, and why?",
+          "hint": "The Bloch-sphere opening angle $\\gamma$ between two pure states relates to their overlap by $|\\langle\\psi|\\phi\\rangle|^2 = \\cos^2(\\gamma/2)$. Set the overlap to zero and solve for $\\gamma$.",
+          "explanation": "For pure states the geometric (Bloch) angle $\\gamma$ satisfies $|\\langle\\psi|\\phi\\rangle|^2 = \\cos^2(\\gamma/2)$. Orthogonality $\\langle\\psi|\\phi\\rangle=0$ forces $\\cos^2(\\gamma/2)=0$, i.e. $\\gamma/2 = \\pi/2$, so $\\gamma = \\pi$: the states are antipodal (diametrically opposite). The factor-of-two between the Hilbert-space angle and the Bloch angle is why a $90^\\circ$ separation in the abstract space becomes a full $180^\\circ$ on the sphere.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Antipodal ($\\gamma=\\pi$), because $|\\langle\\psi|\\phi\\rangle|^2 = \\cos^2(\\gamma/2) = 0$ forces $\\gamma/2 = \\pi/2$.", "is_correct": true },
+            { "id": "b", "text": "At $90^\\circ$ on the sphere, because orthogonal vectors are perpendicular.", "is_correct": false },
+            { "id": "c", "text": "At the same point, because orthogonal states are physically indistinguishable.", "is_correct": false },
+            { "id": "d", "text": "At an arbitrary angle; the inner product places no constraint on Bloch geometry.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-multi-qubit-tensor",
+      "quiz_title": "Multi-Qubit Systems and Tensor Products - Assessment",
+      "difficulty": "advanced",
+      "description": "Dimension of n-qubit Hilbert space, tensor products to column vectors, reading amplitudes, and product vs entangled states.",
+      "questions": [
+        {
+          "objective_id": "qc-multi-qubit-tensor.o1",
+          "question_type": "numerical",
+          "text": "How many complex amplitudes are needed to specify a general pure state of a $4$-qubit system in the computational basis (before imposing normalization or discarding global phase)?",
+          "hint": "An $n$-qubit system lives in a $2^n$-dimensional Hilbert space, with one amplitude per computational-basis string.",
+          "explanation": "A $4$-qubit system has Hilbert-space dimension $2^4 = 16$, with basis strings $|0000\\rangle, \\ldots, |1111\\rangle$. A general pure state $\\sum_{x}c_x|x\\rangle$ therefore has $16$ complex amplitudes $c_x$. (The counting $4$ or $2\\times4=8$ mistakes the number of qubits for the dimension.)",
+          "points": 1,
+          "correct_numerical": 16,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-multi-qubit-tensor.o2",
+          "question_type": "mcq",
+          "text": "Compute the two-qubit state $|0\\rangle \\otimes |+\\rangle$ as a column vector in the ordered basis $\\{|00\\rangle,|01\\rangle,|10\\rangle,|11\\rangle\\}$.",
+          "hint": "$|+\\rangle=\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)$, so $|0\\rangle\\otimes|+\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle+|01\\rangle)$. Only the components whose first qubit is $0$ can be nonzero.",
+          "explanation": "$|0\\rangle\\otimes|+\\rangle = |0\\rangle\\otimes\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle) = \\tfrac{1}{\\sqrt2}(|00\\rangle + |01\\rangle) = \\tfrac{1}{\\sqrt2}(1,1,0,0)^T$. Option b, $(1,0,1,0)^T/\\sqrt2$, is $|+\\rangle\\otimes|0\\rangle$ (wrong tensor order). The Kronecker rule places the second factor's entries inside each block set by the first factor.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{\\sqrt2}(1,\\,1,\\,0,\\,0)^T$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{\\sqrt2}(1,\\,0,\\,1,\\,0)^T$", "is_correct": false },
+            { "id": "c", "text": "$\\tfrac{1}{\\sqrt2}(0,\\,0,\\,1,\\,1)^T$", "is_correct": false },
+            { "id": "d", "text": "$\\tfrac{1}{2}(1,\\,1,\\,1,\\,1)^T$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-multi-qubit-tensor.o3",
+          "question_type": "numerical",
+          "text": "A three-term two-qubit state is $|\\psi\\rangle = \\tfrac{1}{\\sqrt2}|00\\rangle + \\tfrac{1}{2}|01\\rangle + \\tfrac{1}{2}|11\\rangle$. Read off the amplitude associated with the basis string $|01\\rangle$. Give a decimal.",
+          "hint": "The amplitude of a basis string is simply the coefficient written in front of it in the expansion.",
+          "explanation": "The coefficient of $|01\\rangle$ is $\\tfrac12 = 0.5$. (Normalization check: $|\\tfrac{1}{\\sqrt2}|^2 + |\\tfrac12|^2 + |\\tfrac12|^2 = \\tfrac12 + \\tfrac14 + \\tfrac14 = 1$.) The measurement probability for $|01\\rangle$ would be $|0.5|^2 = 0.25$, a distinct quantity from the amplitude itself.",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-multi-qubit-tensor.o4",
+          "question_type": "mcq",
+          "text": "Which of the following two-qubit states is a product state (factorable as $|a\\rangle \\otimes |b\\rangle$)?",
+          "hint": "Try to factor each. A state $\\sum c_{ij}|ij\\rangle$ is a product iff the $2\\times2$ coefficient matrix $[c_{ij}]$ has zero determinant ($c_{00}c_{11} = c_{01}c_{10}$).",
+          "explanation": "$\\tfrac12(|00\\rangle+|01\\rangle+|10\\rangle+|11\\rangle)$ factors as $\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle)\\otimes\\tfrac{1}{\\sqrt2}(|0\\rangle+|1\\rangle) = |+\\rangle\\otimes|+\\rangle$; its coefficient matrix $\\tfrac12\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$ has determinant $0$, confirming a product. For $\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$ the matrix is $\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$ ($\\det \\ne 0$) and for $\\tfrac{1}{\\sqrt2}(|01\\rangle+|10\\rangle)$ it is $\\tfrac{1}{\\sqrt2}\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$ ($\\det \\ne 0$) — both entangled (Bell states).",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{2}(|00\\rangle+|01\\rangle+|10\\rangle+|11\\rangle)$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$", "is_correct": false },
+            { "id": "c", "text": "$\\tfrac{1}{\\sqrt2}(|01\\rangle+|10\\rangle)$", "is_correct": false },
+            { "id": "d", "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle-|11\\rangle)$", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-measurement-born-rule",
+      "quiz_title": "Measurement and the Born Rule - Assessment",
+      "difficulty": "intermediate",
+      "description": "Born rule, outcome probabilities in Z and arbitrary bases, post-measurement collapse, expectation values, and measurement irreversibility.",
+      "questions": [
+        {
+          "objective_id": "qc-measurement-born-rule.o1",
+          "question_type": "mcq",
+          "text": "For a projective measurement of a normalized state $|\\psi\\rangle$ in an orthonormal basis $\\{|i\\rangle\\}$, the Born rule gives the probability of outcome $i$ as:",
+          "hint": "Probability must be real, non-negative, and sum to $1$. That rules out a bare (possibly complex) amplitude.",
+          "explanation": "The Born rule is $P(i) = |\\langle i|\\psi\\rangle|^2$: the squared modulus of the amplitude $\\langle i|\\psi\\rangle$. This is real and non-negative, and $\\sum_i |\\langle i|\\psi\\rangle|^2 = \\langle\\psi|\\psi\\rangle = 1$. The bare amplitude $\\langle i|\\psi\\rangle$ (option b) can be complex or negative; the un-squared modulus $|\\langle i|\\psi\\rangle|$ (option c) would not normalize correctly.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$P(i) = |\\langle i|\\psi\\rangle|^2$", "is_correct": true },
+            { "id": "b", "text": "$P(i) = \\langle i|\\psi\\rangle$", "is_correct": false },
+            { "id": "c", "text": "$P(i) = |\\langle i|\\psi\\rangle|$", "is_correct": false },
+            { "id": "d", "text": "$P(i) = \\langle\\psi|\\psi\\rangle$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-measurement-born-rule.o2",
+          "question_type": "numerical",
+          "text": "The state $|\\psi\\rangle = \\tfrac{\\sqrt3}{2}|0\\rangle + \\tfrac{1}{2}|1\\rangle$ is measured in the $X$ basis $\\{|+\\rangle,|-\\rangle\\}$. Compute the probability of outcome '+', i.e. $P(+) = |\\langle +|\\psi\\rangle|^2$. Give a decimal.",
+          "hint": "$\\langle +| = \\tfrac{1}{\\sqrt2}(\\langle0|+\\langle1|)$, so $\\langle+|\\psi\\rangle = \\tfrac{1}{\\sqrt2}(\\tfrac{\\sqrt3}{2} + \\tfrac12)$. Then square the modulus.",
+          "explanation": "$\\langle +|\\psi\\rangle = \\tfrac{1}{\\sqrt2}\\big(\\tfrac{\\sqrt3}{2} + \\tfrac12\\big) = \\tfrac{\\sqrt3 + 1}{2\\sqrt2}$. Then $P(+) = \\Big(\\tfrac{\\sqrt3+1}{2\\sqrt2}\\Big)^2 = \\tfrac{(\\sqrt3+1)^2}{8} = \\tfrac{4 + 2\\sqrt3}{8} = \\tfrac{2+\\sqrt3}{4} \\approx 0.9330$. (Consistency: $P(-) = \\tfrac{2-\\sqrt3}{4}\\approx 0.0670$ and $P(+)+P(-)=1$.)",
+          "points": 1,
+          "correct_numerical": 0.933,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-measurement-born-rule.o3",
+          "question_type": "mcq",
+          "text": "The two-qubit state $|\\psi\\rangle = \\tfrac{1}{\\sqrt3}\\big(|00\\rangle + |01\\rangle + |11\\rangle\\big)$ is measured on the first qubit only, in the computational basis, and the outcome is $0$. What is the (renormalized) post-measurement state?",
+          "hint": "Keep only the terms whose first qubit is $0$, then renormalize so the surviving state has norm $1$.",
+          "explanation": "Project onto first-qubit-$=0$: the surviving terms are $\\tfrac{1}{\\sqrt3}(|00\\rangle + |01\\rangle)$, with norm-squared $\\tfrac13+\\tfrac13 = \\tfrac23$ (this is $P(\\text{outcome }0)$). Renormalize by dividing by $\\sqrt{2/3}$: $\\dfrac{\\tfrac{1}{\\sqrt3}(|00\\rangle+|01\\rangle)}{\\sqrt{2/3}} = \\tfrac{1}{\\sqrt2}(|00\\rangle+|01\\rangle) = |0\\rangle\\otimes|+\\rangle$. Forgetting to renormalize (option b) or collapsing to a single term (option c) are the usual errors.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$|0\\rangle \\otimes |+\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle+|01\\rangle)$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{\\sqrt3}(|00\\rangle+|01\\rangle)$ (not renormalized)", "is_correct": false },
+            { "id": "c", "text": "$|00\\rangle$", "is_correct": false },
+            { "id": "d", "text": "$|0\\rangle \\otimes |-\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle-|01\\rangle)$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-measurement-born-rule.o4",
+          "question_type": "numerical",
+          "text": "For the state $|\\psi\\rangle = \\tfrac{\\sqrt3}{2}|0\\rangle + \\tfrac{1}{2}|1\\rangle$ and the observable $Z = \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}$, compute the expectation value $\\langle\\psi|Z|\\psi\\rangle$. Give a decimal.",
+          "hint": "For a diagonal observable, $\\langle Z\\rangle = (+1)|\\alpha|^2 + (-1)|\\beta|^2 = |\\alpha|^2 - |\\beta|^2$.",
+          "explanation": "$Z|0\\rangle = +|0\\rangle$ and $Z|1\\rangle = -|1\\rangle$, so $\\langle\\psi|Z|\\psi\\rangle = |\\alpha|^2 - |\\beta|^2 = \\big(\\tfrac{\\sqrt3}{2}\\big)^2 - \\big(\\tfrac12\\big)^2 = \\tfrac34 - \\tfrac14 = 0.5$. This equals $(+1)\\,P(0) + (-1)\\,P(1) = 0.75 - 0.25$, the probability-weighted average of the eigenvalues.",
+          "points": 1,
+          "correct_numerical": 0.5,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-measurement-born-rule.o5",
+          "question_type": "mcq",
+          "text": "Why is projective measurement irreversible, whereas unitary evolution is reversible?",
+          "hint": "A unitary $U$ has an inverse $U^\\dagger$ with $U^\\dagger U = I$. Ask whether the collapse map $|\\psi\\rangle \\mapsto |i\\rangle$ can be undone without knowing the original state.",
+          "explanation": "Unitary evolution is reversible because every unitary $U$ satisfies $U^\\dagger U = I$, so $U^\\dagger$ exactly undoes it — no information is lost. Projective measurement collapses $|\\psi\\rangle$ onto an eigenstate $|i\\rangle$ and discards the amplitudes of all other components; the map is a non-invertible projection (many different input states collapse to the same $|i\\rangle$), so the pre-measurement state cannot be recovered from the outcome. Remembering the classical outcome label does not restore the lost quantum amplitudes, and irreversibility here is intrinsic to the projection, not merely due to environmental decoherence.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Measurement is a non-invertible projection that discards the other amplitudes (many states collapse to the same outcome), while a unitary $U$ has an inverse $U^\\dagger$ with $U^\\dagger U = I$.", "is_correct": true },
+            { "id": "b", "text": "Measurement is reversible too, as long as you record which outcome occurred.", "is_correct": false },
+            { "id": "c", "text": "Unitary evolution is actually irreversible because of unavoidable decoherence.", "is_correct": false },
+            { "id": "d", "text": "Both are reversible; the Born rule guarantees the original state can always be reconstructed.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-entanglement-bell-states",
+      "quiz_title": "Entanglement and Bell States - Assessment",
+      "difficulty": "advanced",
+      "description": "Definition of entanglement, the four Bell states, proving non-factorability, measurement correlations, and no-signaling.",
+      "questions": [
+        {
+          "objective_id": "qc-entanglement-bell-states.o1",
+          "question_type": "mcq",
+          "text": "A pure joint state of two subsystems $A$ and $B$ is called entangled precisely when:",
+          "hint": "The definition is structural, about factorability, not about classical correlation or spatial separation.",
+          "explanation": "By definition a pure bipartite state is entangled iff it CANNOT be written as a single tensor product $|a\\rangle_A \\otimes |b\\rangle_B$. Entanglement is not the same as ordinary classical correlation, is not merely 'being in a superposition' (a single qubit can superpose without any entanglement), and has nothing to do with the physical distance between the subsystems.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "It cannot be written as a tensor product $|a\\rangle_A \\otimes |b\\rangle_B$ of subsystem states.", "is_correct": true },
+            { "id": "b", "text": "The two subsystems are classically correlated, like two coins glued to land the same way.", "is_correct": false },
+            { "id": "c", "text": "At least one subsystem is in a superposition of $|0\\rangle$ and $|1\\rangle$.", "is_correct": false },
+            { "id": "d", "text": "The two subsystems are physically separated by a large distance.", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-entanglement-bell-states.o2",
+          "question_type": "mcq",
+          "text": "The four Bell states form an orthonormal basis of the two-qubit space. Which expression is the correct Bell state $|\\Psi^-\\rangle$?",
+          "hint": "The $\\Phi$ states pair $|00\\rangle$ with $|11\\rangle$; the $\\Psi$ states pair $|01\\rangle$ with $|10\\rangle$. The superscript is the relative sign.",
+          "explanation": "The Bell basis is $|\\Phi^\\pm\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle \\pm |11\\rangle)$ and $|\\Psi^\\pm\\rangle = \\tfrac{1}{\\sqrt2}(|01\\rangle \\pm |10\\rangle)$. Hence $|\\Psi^-\\rangle = \\tfrac{1}{\\sqrt2}(|01\\rangle - |10\\rangle)$. Option b is $|\\Phi^-\\rangle$, option c is $|\\Psi^+\\rangle$. One checks orthonormality via inner products, e.g. $\\langle\\Psi^-|\\Psi^+\\rangle = \\tfrac12(1 - 1) = 0$ and $\\langle\\Psi^-|\\Psi^-\\rangle = \\tfrac12(1+1)=1$.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\tfrac{1}{\\sqrt2}(|01\\rangle - |10\\rangle)$", "is_correct": true },
+            { "id": "b", "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle - |11\\rangle)$", "is_correct": false },
+            { "id": "c", "text": "$\\tfrac{1}{\\sqrt2}(|01\\rangle + |10\\rangle)$", "is_correct": false },
+            { "id": "d", "text": "$\\tfrac{1}{\\sqrt2}(|00\\rangle + |01\\rangle)$", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-entanglement-bell-states.o3",
+          "question_type": "mcq",
+          "text": "To prove $|\\Phi^+\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$ is entangled, assume it factors as $(a|0\\rangle+b|1\\rangle)\\otimes(c|0\\rangle+d|1\\rangle)$. Which condition exposes the contradiction?",
+          "hint": "Expand the product to get coefficients $ac,ad,bc,bd$ for $|00\\rangle,|01\\rangle,|10\\rangle,|11\\rangle$, then match to $\\tfrac{1}{\\sqrt2},0,0,\\tfrac{1}{\\sqrt2}$.",
+          "explanation": "Expanding gives $ac|00\\rangle + ad|01\\rangle + bc|10\\rangle + bd|11\\rangle$. Matching $|\\Phi^+\\rangle$ requires $ac = bd = \\tfrac{1}{\\sqrt2}$ (both nonzero) but $ad = 0$ and $bc = 0$. From $ac \\ne 0$ we need $a\\ne0$ and $c\\ne0$; from $bd\\ne0$ we need $b\\ne0$ and $d\\ne0$. But then $ad\\ne0$ and $bc\\ne0$, contradicting $ad=bc=0$. No single-qubit factorization exists, so $|\\Phi^+\\rangle$ is entangled. (Equivalently, the coefficient matrix $\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$ has nonzero determinant.)",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$ad = bc = 0$ forces one of $a,d$ and one of $b,c$ to vanish, yet $ac = bd = \\tfrac{1}{\\sqrt2} \\ne 0$ needs all four nonzero — contradiction.", "is_correct": true },
+            { "id": "b", "text": "Normalization $a^2+b^2=1$ cannot be satisfied, so no factorization exists.", "is_correct": false },
+            { "id": "c", "text": "The factorization works fine with $a=c=d=b=\\tfrac{1}{\\sqrt2}$, so $|\\Phi^+\\rangle$ is actually a product state.", "is_correct": false },
+            { "id": "d", "text": "A tensor product of two qubits cannot contain the term $|00\\rangle$, which appears in $|\\Phi^+\\rangle$.", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-entanglement-bell-states.o4",
+          "question_type": "numerical",
+          "text": "Both qubits of $|\\Phi^+\\rangle = \\tfrac{1}{\\sqrt2}(|00\\rangle+|11\\rangle)$ are measured in the computational ($Z$) basis. Compute the correlation $\\langle Z \\otimes Z\\rangle = P(00) + P(11) - P(01) - P(10)$.",
+          "hint": "Use the Born rule for each joint outcome. Which of $|00\\rangle,|01\\rangle,|10\\rangle,|11\\rangle$ have nonzero amplitude in $|\\Phi^+\\rangle$?",
+          "explanation": "The Born rule gives $P(00)=|\\tfrac{1}{\\sqrt2}|^2=\\tfrac12$, $P(11)=\\tfrac12$, and $P(01)=P(10)=0$. So $\\langle Z\\otimes Z\\rangle = \\tfrac12 + \\tfrac12 - 0 - 0 = 1$: the outcomes are perfectly correlated (always $00$ or $11$, never $01$ or $10$). Because each local marginal is still $50/50$, this correlation only appears when the two outcomes are compared; it holds regardless of the spatial separation of the qubits, since the correlation is encoded in the shared state, not transmitted between them.",
+          "points": 1,
+          "correct_numerical": 1,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-entanglement-bell-states.o5",
+          "question_type": "mcq",
+          "text": "Alice and Bob share $|\\Phi^+\\rangle$. Someone claims: 'When Alice measures her qubit, Bob's qubit instantly collapses, so Alice has transmitted information to Bob faster than light.' Where does this argument fail?",
+          "hint": "Ask what Bob, looking only at his own qubit, actually sees. Compute his local outcome statistics with and without Alice's measurement.",
+          "explanation": "Bob's local statistics are unchanged by Alice's action: whether or not Alice measures (and whatever she gets), Bob's reduced state is the maximally mixed $\\tfrac12(|0\\rangle\\langle0| + |1\\rangle\\langle1|)$, giving $P_B(0)=P_B(1)=\\tfrac12$ every time. The correlation only becomes visible after Alice and Bob compare results over a classical channel, which is itself limited by light speed. So no observable local change occurs at Bob's end — the step 'Bob can tell that Alice measured' is false. This is the no-signaling principle: entanglement produces correlations, not communication.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "Bob's local marginal stays $50/50$ regardless of Alice's measurement, so nothing observable changes on his side; the correlation is only revealed by later classical comparison (no-signaling).", "is_correct": true },
+            { "id": "b", "text": "The argument is correct: entanglement does transmit one bit of information instantaneously.", "is_correct": false },
+            { "id": "c", "text": "It fails only because special relativity forbids it, even though Bob's statistics would otherwise change.", "is_correct": false },
+            { "id": "d", "text": "It fails because entanglement decays too quickly for Bob's qubit to still be correlated.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-no-cloning",
+      "quiz_title": "The No-Cloning Theorem - Assessment",
+      "difficulty": "advanced",
+      "description": "Statement of the theorem, the linearity/inner-product proof, why orthogonal states are copyable, and diagnosing proposed cloning schemes.",
+      "questions": [
+        {
+          "objective_id": "qc-no-cloning.o1",
+          "question_type": "mcq",
+          "text": "Which statement most accurately expresses the no-cloning theorem?",
+          "hint": "The theorem concerns a single fixed operation that must work for every unknown input state. Preparing many copies of a known state is not forbidden.",
+          "explanation": "The no-cloning theorem states there is no single unitary $U$ that maps $|\\psi\\rangle\\otimes|0\\rangle \\to |\\psi\\rangle\\otimes|\\psi\\rangle$ for every (unknown, arbitrary) input $|\\psi\\rangle$. It does NOT forbid copying a set of mutually orthogonal states (those can be cloned), nor does it forbid preparing many copies of a known state (just prepare it again). It also is not about measurement being impossible.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "No unitary operation can copy an arbitrary unknown state $|\\psi\\rangle$ onto a blank register for all $|\\psi\\rangle$.", "is_correct": true },
+            { "id": "b", "text": "It is impossible to make even a single copy of any quantum state, known or unknown.", "is_correct": false },
+            { "id": "c", "text": "Orthogonal quantum states cannot be copied.", "is_correct": false },
+            { "id": "d", "text": "Quantum states cannot be measured without disturbing them.", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-no-cloning.o2",
+          "question_type": "mcq",
+          "text": "Suppose a universal cloner $U$ exists with $U(|\\psi\\rangle|0\\rangle) = |\\psi\\rangle|\\psi\\rangle$ and $U(|\\phi\\rangle|0\\rangle) = |\\phi\\rangle|\\phi\\rangle$ for two arbitrary states. Taking inner products of the two output equations and using that $U$ preserves inner products, which equation embodies the contradiction?",
+          "hint": "Unitaries preserve inner products: $\\langle\\text{out}_1|\\text{out}_2\\rangle = \\langle\\text{in}_1|\\text{in}_2\\rangle$. The blank ancillae contribute $\\langle0|0\\rangle=1$, and $\\langle\\psi\\psi|\\phi\\phi\\rangle = \\langle\\psi|\\phi\\rangle^2$.",
+          "explanation": "The inputs give $\\langle\\psi|\\phi\\rangle\\langle0|0\\rangle = \\langle\\psi|\\phi\\rangle$. The outputs give $\\langle\\psi|\\phi\\rangle\\langle\\psi|\\phi\\rangle = \\langle\\psi|\\phi\\rangle^2$. Unitarity forces these equal: $\\langle\\psi|\\phi\\rangle = \\langle\\psi|\\phi\\rangle^2$. Writing $x=\\langle\\psi|\\phi\\rangle$, $x = x^2 \\Rightarrow x(x-1)=0 \\Rightarrow x\\in\\{0,1\\}$. But two arbitrary states can have any overlap $0 < |\\langle\\psi|\\phi\\rangle| < 1$ — contradiction. Hence no universal cloner exists.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$\\langle\\psi|\\phi\\rangle = \\langle\\psi|\\phi\\rangle^2$, forcing the overlap to be $0$ or $1$, which fails for general states.", "is_correct": true },
+            { "id": "b", "text": "$\\langle\\psi|\\phi\\rangle = 0$ always, so all states are orthogonal.", "is_correct": false },
+            { "id": "c", "text": "$\\langle\\psi|\\phi\\rangle = 2\\langle\\psi|\\phi\\rangle$, so the overlap must be zero.", "is_correct": false },
+            { "id": "d", "text": "$U$ turns out to be non-linear, which is the sole contradiction.", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-no-cloning.o3",
+          "question_type": "mcq",
+          "text": "The cloning-consistency condition derived in the proof is $\\langle\\psi|\\phi\\rangle = \\langle\\psi|\\phi\\rangle^2$. Why does this permit cloning a fixed set of mutually orthogonal states but forbid cloning non-orthogonal ones?",
+          "hint": "Solve $x = x^2$. Which overlap values are allowed? Orthogonal means overlap $0$; identical means overlap $1$.",
+          "explanation": "$x=x^2$ holds only for $x=0$ or $x=1$. Mutually orthogonal states have pairwise overlap $0$, satisfying the condition, so a fixed orthonormal set can be copied (a measure-then-reprepare, or a CNOT-style circuit tuned to that basis, works). Non-orthogonal states have overlap with $0 < |x| < 1$, which violates $x=x^2$; no unitary can clone them. This is exactly why quantum key distribution can use non-orthogonal states to detect eavesdropping.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "$x=x^2$ is satisfied only by overlaps $0$ (orthogonal, copyable) or $1$ (identical); any $0<|x|<1$ (non-orthogonal) violates it.", "is_correct": true },
+            { "id": "b", "text": "Orthogonal states have overlap $1$, which uniquely satisfies the condition.", "is_correct": false },
+            { "id": "c", "text": "The condition permits any overlap, so all states including non-orthogonal ones can be cloned.", "is_correct": false },
+            { "id": "d", "text": "Only non-orthogonal states satisfy $x=x^2$, so those are the copyable ones.", "is_correct": false }
+          ]
+        },
+        {
+          "objective_id": "qc-no-cloning.o4",
+          "question_type": "mcq",
+          "text": "A student proposes copying an unknown qubit by applying a CNOT with the unknown qubit $|\\psi\\rangle = \\alpha|0\\rangle+\\beta|1\\rangle$ as control and a $|0\\rangle$ target: 'CNOT copies $|0\\rangle\\to|00\\rangle$ and $|1\\rangle\\to|11\\rangle$, so it copies any state.' Evaluate the scheme.",
+          "hint": "Apply CNOT to the full superposition by linearity, then compare the result to the intended two independent copies $|\\psi\\rangle\\otimes|\\psi\\rangle$.",
+          "explanation": "By linearity, CNOT$(\\alpha|0\\rangle+\\beta|1\\rangle)|0\\rangle = \\alpha|00\\rangle + \\beta|11\\rangle$. But a genuine clone would be $|\\psi\\rangle\\otimes|\\psi\\rangle = \\alpha^2|00\\rangle + \\alpha\\beta|01\\rangle + \\alpha\\beta|10\\rangle + \\beta^2|11\\rangle$. These agree only when $\\alpha\\beta=0$, i.e. for the basis states $|0\\rangle$ or $|1\\rangle$. For a genuine superposition CNOT produces an entangled state, not two independent copies. CNOT is perfectly unitary; the flaw is that it clones only in the computational basis, so the scheme does NOT circumvent the no-cloning theorem.",
+          "points": 1,
+          "options": [
+            { "id": "a", "text": "It fails: CNOT gives $\\alpha|00\\rangle+\\beta|11\\rangle$ (an entangled state), which equals $|\\psi\\rangle\\otimes|\\psi\\rangle$ only when $\\alpha\\beta=0$; it copies only basis states, so no-cloning stands.", "is_correct": true },
+            { "id": "b", "text": "It works: CNOT is unitary and reversible, so it genuinely clones any input state and beats the theorem.", "is_correct": false },
+            { "id": "c", "text": "It fails because CNOT is not a unitary operation.", "is_correct": false },
+            { "id": "d", "text": "It works after you also measure the target qubit to project out the extra terms.", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,689 @@
+{
+  "$comment": "Module 3 - Core Quantum Algorithms question bank. One item per objective, tagged by objective_id. Grading matches apps.quizzes.views. JSON backslashes single-escaped -> one literal backslash for KaTeX.",
+  "module": "module-3",
+  "title": "Module 3 - Core Quantum Algorithms",
+  "category_slug": "qc-algorithms",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-deutsch-jozsa",
+      "quiz_title": "Deutsch-Jozsa Algorithm - Assessment",
+      "difficulty": "advanced",
+      "description": "Problem statement, phase oracle and kickback, circuit trace, the all-zeros amplitude, and honest advantage claims.",
+      "questions": [
+        {
+          "objective_id": "qc-deutsch-jozsa.o1",
+          "question_type": "mcq",
+          "text": "The Deutsch-Jozsa problem asks you to decide, for a promised $f:\\{0,1\\}^n\\to\\{0,1\\}$, whether $f$ is:",
+          "hint": "The promise is 'constant or balanced'; the task is to tell which.",
+          "explanation": "$f$ is promised constant (same value on all inputs) or balanced ($1$ on exactly half). DJ decides which with a single quantum query.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "constant or balanced (exactly half the inputs give 1), promised to be one of these",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "injective or surjective",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "linear or nonlinear",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "increasing or decreasing",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-deutsch-jozsa.o2",
+          "question_type": "mcq",
+          "text": "With the target qubit prepared in $|-\\rangle$, the oracle $U_f:|x\\rangle|y\\rangle\\to|x\\rangle|y\\oplus f(x)\\rangle$ acts on the input register as:",
+          "hint": "$|-\\rangle$ is an eigenstate of the bit-flip $X^{f(x)}$ with eigenvalue $(-1)^{f(x)}$.",
+          "explanation": "$X|-\\rangle=-|-\\rangle$, so $|y\\oplus f(x)\\rangle$ contributes $(-1)^{f(x)}$: the oracle becomes the phase oracle $|x\\rangle\\to(-1)^{f(x)}|x\\rangle$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$|x\\rangle\\to(-1)^{f(x)}|x\\rangle$ (phase kickback)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$|x\\rangle\\to|x\\oplus f(x)\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|x\\rangle\\to f(x)|x\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "it leaves $|x\\rangle$ and the phase unchanged",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-deutsch-jozsa.o3",
+          "question_type": "mcq",
+          "text": "In the Deutsch-Jozsa circuit ($H^{\\otimes n}$, oracle, $H^{\\otimes n}$), what is the state just before the final Hadamards?",
+          "hint": "$H^{\\otimes n}|0\\rangle=$ uniform superposition; the phase oracle stamps $(-1)^{f(x)}$.",
+          "explanation": "After the first Hadamards the register is uniform; the phase oracle multiplies each $|x\\rangle$ by $(-1)^{f(x)}$, giving $\\tfrac{1}{\\sqrt{2^n}}\\sum_x(-1)^{f(x)}|x\\rangle$. The final $H^{\\otimes n}$ then interferes these phases.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\tfrac{1}{\\sqrt{2^n}}\\sum_x(-1)^{f(x)}|x\\rangle$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\tfrac{1}{\\sqrt{2^n}}\\sum_x|x\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|0\\rangle^{\\otimes n}$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\tfrac{1}{\\sqrt{2^n}}\\sum_x f(x)|x\\rangle$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-deutsch-jozsa.o4",
+          "question_type": "numerical",
+          "text": "If $f$ is constant, what is the probability of measuring the all-zeros outcome $|0\\dots0\\rangle$ at the end of the Deutsch-Jozsa algorithm?",
+          "hint": "The amplitude of $|0\\dots0\\rangle$ is $\\tfrac{1}{2^n}\\sum_x(-1)^{f(x)}$.",
+          "explanation": "For constant $f$ the amplitude of $|0\\dots0\\rangle$ is $\\tfrac{1}{2^n}\\sum_x(\\pm1)=\\pm1$, so $P=1$. For balanced $f$ it is $0$, so any nonzero outcome certifies 'balanced'.",
+          "points": 1,
+          "correct_numerical": 1.0,
+          "numerical_tolerance": 0.01
+        },
+        {
+          "objective_id": "qc-deutsch-jozsa.o5",
+          "question_type": "mcq",
+          "text": "Which is the most accurate statement of Deutsch-Jozsa's advantage?",
+          "hint": "Compare against bounded-error randomized classical query complexity, not just deterministic.",
+          "explanation": "DJ needs $2^{n-1}+1$ queries for a deterministic exact classical solver but only $1$ quantum query — an exponential gap in that model. A randomized classical algorithm, however, decides it with bounded error in a constant number of queries, so the 'exponential advantage' is model-dependent.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "it gives an exponential separation only against deterministic exact classical algorithms; a randomized classical algorithm decides it with high probability in $O(1)$ queries",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "it exponentially beats every possible classical algorithm, including randomized ones",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "it provides no advantage of any kind",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "it factors integers exponentially faster",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-quantum-fourier-transform",
+      "quiz_title": "Quantum Fourier Transform - Assessment",
+      "difficulty": "advanced",
+      "description": "QFT action, small cases, product form, gate complexity, and the terminal swaps.",
+      "questions": [
+        {
+          "objective_id": "qc-quantum-fourier-transform.o1",
+          "question_type": "mcq",
+          "text": "The QFT on $n$ qubits ($N=2^n$) acts on a basis state as:",
+          "hint": "It is the discrete Fourier transform on amplitudes, with roots of unity $e^{2\\pi i xk/N}$.",
+          "explanation": "The QFT is the unitary DFT: $|x\\rangle\\mapsto\\tfrac{1}{\\sqrt N}\\sum_k e^{2\\pi i xk/N}|k\\rangle$. Option (b) is the Hadamard/Walsh transform.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$|x\\rangle\\to\\tfrac{1}{\\sqrt N}\\sum_{k=0}^{N-1}e^{2\\pi i xk/N}|k\\rangle$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$|x\\rangle\\to\\tfrac{1}{\\sqrt N}\\sum_k(-1)^{xk}|k\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$|x\\rangle\\to|N-x\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$|x\\rangle\\to e^{2\\pi i x}|x\\rangle$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-fourier-transform.o2",
+          "question_type": "true_false",
+          "text": "For a single qubit ($N=2$), the QFT equals the Hadamard gate $H$.",
+          "hint": "Write the $N=2$ DFT matrix with $\\omega=e^{2\\pi i/2}=-1$.",
+          "explanation": "True. The $N=2$ QFT is $\\tfrac{1}{\\sqrt2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}=H$, since $e^{2\\pi i\\cdot1\\cdot1/2}=-1$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-fourier-transform.o3",
+          "question_type": "mcq",
+          "text": "The product (tensor-factored) form of the QFT output shows each output qubit is:",
+          "hint": "The QFT output is a product state; each factor carries a binary-fraction phase.",
+          "explanation": "The QFT factorizes: output qubit $j$ is $\\tfrac{1}{\\sqrt2}(|0\\rangle+e^{2\\pi i\\,0.x_j x_{j+1}\\dots x_n}|1\\rangle)$. This unentangled product form is what makes the $O(n^2)$ circuit (Hadamards + controlled phase rotations) possible.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "an unentangled single-qubit state $\\tfrac{1}{\\sqrt2}(|0\\rangle+e^{2\\pi i 0.x_j x_{j+1}\\dots}|1\\rangle)$ encoding successive binary digits of the phase",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "maximally entangled with all the others",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "always exactly $|+\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a classical bit",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-fourier-transform.o4",
+          "question_type": "mcq",
+          "text": "How does the QFT's gate complexity compare with the classical FFT?",
+          "hint": "Count gates in $n$; the FFT counts operations in $N=2^n$.",
+          "explanation": "The QFT needs $O(n^2)$ gates, exponentially fewer than the FFT's $O(N\\log N)=O(n\\,2^n)$. But the QFT does not output the amplitudes classically, so this is not a direct speedup for computing a DFT.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "QFT uses $O(n^2)$ gates on $n$ qubits; classical FFT uses $O(n\\,2^n)$ operations for $N=2^n$ amplitudes",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "both are $O(n^2)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "QFT is $O(2^n)$ and FFT is $O(n^2)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "QFT is $O(n)$ and FFT is $O(n^2)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-fourier-transform.o5",
+          "question_type": "true_false",
+          "text": "The swap gates at the end of the standard QFT circuit are needed because the phase-rotation network produces the output qubits in reverse bit order.",
+          "hint": "Without the swaps, output qubit $1$ holds the least-significant phase digit.",
+          "explanation": "True. The Hadamard-and-controlled-phase network yields the transformed register with qubits in reversed order, so terminal SWAPs restore the conventional ordering (or one relabels the outputs).",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-grover-search",
+      "quiz_title": "Grover's Search - Assessment",
+      "difficulty": "advanced",
+      "description": "Quadratic speedup, the Grover iterate, geometric rotation picture, optimal iteration count, and over-rotation.",
+      "questions": [
+        {
+          "objective_id": "qc-grover-search.o1",
+          "question_type": "mcq",
+          "text": "For unstructured search over $N$ items with one marked, Grover's algorithm uses how many oracle queries?",
+          "hint": "Grover gives a quadratic, not exponential, speedup.",
+          "explanation": "Grover needs $O(\\sqrt N)$ queries versus $O(N)$ classically — a quadratic speedup, provably optimal for unstructured search.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$O(\\sqrt N)$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$O(\\log N)$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$O(N)$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$O(1)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-grover-search.o2",
+          "question_type": "mcq",
+          "text": "The Grover iterate $G$ is built from the phase oracle $O_f$ and the diffusion operator as:",
+          "hint": "Diffusion = reflection about the uniform state $|s\\rangle$; apply it after the oracle reflection.",
+          "explanation": "$G=D\\,O_f$ with $D=2|s\\rangle\\langle s|-I$: the oracle reflects about the target, then diffusion reflects about the mean $|s\\rangle$. Two reflections compose to a rotation in the 2D span of target/uniform states.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$G=(2|s\\rangle\\langle s|-I)\\,O_f$, i.e. inversion about the mean after the oracle marks the target",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$G=O_f$ applied twice",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$G=H^{\\otimes n}$ alone",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$G=I-2|s\\rangle\\langle s|$ with no oracle",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-grover-search.o3",
+          "question_type": "mcq",
+          "text": "In the two-dimensional (target, non-target) picture, each Grover iterate rotates the state by a fixed angle $2\\theta$ where:",
+          "hint": "The initial angle from the non-target axis satisfies $\\sin\\theta=\\sqrt{M/N}$.",
+          "explanation": "The uniform state makes angle $\\theta$ with the non-target axis, $\\sin\\theta=\\sqrt{M/N}$; each iterate is a fixed rotation by $2\\theta$ toward the target, so amplitude grows linearly in the number of iterations.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$\\sin\\theta=\\sqrt{M/N}$ ($M$ marked items of $N$)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$\\theta=\\pi/N$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$\\cos\\theta=1/\\sqrt N$ independent of $M$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$\\theta$ grows with each iteration",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-grover-search.o4",
+          "question_type": "numerical",
+          "text": "For a single marked item ($M=1$) among $N=10^6$, the optimal number of Grover iterations is about $\\lfloor(\\pi/4)\\sqrt{N/M}\\rfloor$. Give this count (integer).",
+          "hint": "$(\\pi/4)\\sqrt{10^6}=(\\pi/4)\\cdot1000$.",
+          "explanation": "$(\\pi/4)\\sqrt{10^6}=785.398\\dots$, so $\\lfloor\\cdot\\rfloor=785$ iterations maximize the success probability.",
+          "points": 1,
+          "correct_numerical": 785,
+          "numerical_tolerance": 0.02
+        },
+        {
+          "objective_id": "qc-grover-search.o5",
+          "question_type": "true_false",
+          "text": "Running significantly more than the optimal number of Grover iterations lowers the success probability (the amplitude 'over-rotates' past the target).",
+          "hint": "The state rotates at constant angular rate; it passes the target and continues.",
+          "explanation": "True. Because each iterate rotates by a fixed $2\\theta$, exceeding the optimal count rotates past the target axis, so $P(\\text{success})$ oscillates and decreases — more iterations is not better.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-phase-estimation",
+      "quiz_title": "Quantum Phase Estimation - Assessment",
+      "difficulty": "advanced",
+      "description": "Problem statement, circuit, kickback encoding, resource counting, and role as a subroutine.",
+      "questions": [
+        {
+          "objective_id": "qc-phase-estimation.o1",
+          "question_type": "mcq",
+          "text": "Quantum phase estimation solves which problem?",
+          "hint": "QPE extracts the eigenphase of an eigenstate.",
+          "explanation": "QPE outputs an $n$-bit estimate of $\\varphi$ where $U|u\\rangle=e^{2\\pi i\\varphi}|u\\rangle$. It is the workhorse behind order-finding, Shor, and quantum simulation energy estimates.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "given a unitary $U$ and eigenstate $|u\\rangle$ with $U|u\\rangle=e^{2\\pi i\\varphi}|u\\rangle$, estimate the phase $\\varphi$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "given $U$, compute its determinant",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "given $|u\\rangle$, decide whether it is entangled",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "given $U$, find its inverse",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-estimation.o2",
+          "question_type": "mcq",
+          "text": "The QPE circuit consists of, in order:",
+          "hint": "Superpose the counting register, apply controlled powers of $U$, then invert the QFT.",
+          "explanation": "QPE: $H^{\\otimes t}$ prepares the counting register; controlled-$U^{2^j}$ writes the phase into it via kickback; the inverse QFT converts the phase into a binary readout $m$, giving $\\varphi\\approx m/2^t$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Hadamards on the counting register, controlled-$U^{2^j}$ gates, then the inverse QFT on the counting register",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the QFT, then Hadamards, then measurement of $|u\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "only controlled-$U$ gates with no Hadamards",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "Grover iterates followed by a swap network",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-estimation.o3",
+          "question_type": "mcq",
+          "text": "How do the controlled-$U^{2^j}$ gates encode $\\varphi$?",
+          "hint": "Since $|u\\rangle$ is an eigenstate, each controlled power contributes a relative phase to the control qubit.",
+          "explanation": "Controlled-$U^{2^j}$ on eigenstate $|u\\rangle$ kicks back $e^{2\\pi i\\,2^j\\varphi}$ onto counting qubit $j$, leaving $\\tfrac{1}{\\sqrt{2^t}}\\sum_y e^{2\\pi i\\varphi y}|y\\rangle\\otimes|u\\rangle$ — a Fourier basis state the inverse QFT decodes.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "phase kickback writes $e^{2\\pi i\\,2^j\\varphi}$ onto counting qubit $j$, building the state $\\tfrac{1}{\\sqrt{2^t}}\\sum_y e^{2\\pi i\\varphi y}|y\\rangle$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "they measure $|u\\rangle$ and store the bit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "they entangle $|u\\rangle$ with the counting register permanently",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "they apply Grover diffusion to the phase",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-estimation.o4",
+          "question_type": "mcq",
+          "text": "To read $\\varphi$ to $n$ bits of accuracy with success probability at least $1-\\epsilon$, the number of counting qubits is:",
+          "hint": "You need $n$ bits plus a few extra to boost the probability of rounding correctly.",
+          "explanation": "$t=n+\\lceil\\log_2(2+1/(2\\epsilon))\\rceil$: the extra qubits beyond $n$ suppress the chance that a non-dyadic $\\varphi$ is rounded to the wrong $n$-bit value. $t=n$ suffices only when $\\varphi$ is exactly a $t$-bit dyadic fraction.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$t=n+\\lceil\\log_2(2+\\tfrac{1}{2\\epsilon})\\rceil$ — $n$ plus a small constant overhead",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "exactly $t=n$ always",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$t=2^n$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$t=n\\cdot 2^{n}$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-phase-estimation.o5",
+          "question_type": "mcq",
+          "text": "Why is QPE described as the core subroutine of Shor's algorithm?",
+          "hint": "The period $r$ appears as the denominator of the eigenphases of the 'multiply by $a$' operator.",
+          "explanation": "The multiply-by-$a$ operator has eigenphases $s/r$; QPE estimates one, and continued fractions recover $r$. The same eigenvalue-estimation primitive underlies quantum simulation and the HHL linear-systems algorithm.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "order-finding is phase estimation on the modular-multiplication unitary $U|y\\rangle=|ay\\bmod N\\rangle$, whose eigenphases are $s/r$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "Shor's algorithm calls Grover's search internally",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "QPE performs the classical continued-fraction step",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "QPE replaces the need for any classical processing in Shor",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-shor-factoring",
+      "quiz_title": "Shor's Factoring Algorithm - Assessment",
+      "difficulty": "advanced",
+      "description": "Reduction to order-finding, computing the order, the phase-estimation core, complexity, and a worked N=15 instance.",
+      "questions": [
+        {
+          "objective_id": "qc-shor-factoring.o1",
+          "question_type": "mcq",
+          "text": "Shor's algorithm factors $N$ by reducing the problem to:",
+          "hint": "Factoring reduces (classically, with high probability) to finding the multiplicative order.",
+          "explanation": "Pick random $a$ with $\\gcd(a,N)=1$, find the order $r$ of $a$ (quantumly). If $r$ is even and $a^{r/2}\\not\\equiv-1$, then $\\gcd(a^{r/2}\\pm1,N)$ are nontrivial factors.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "order-finding: find the period $r$ of $a^x\\bmod N$ for a random $a$ coprime to $N$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "searching an unstructured database of divisors",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "estimating the determinant of a large matrix",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "sorting the prime candidates below $\\sqrt N$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-shor-factoring.o2",
+          "question_type": "numerical",
+          "text": "For $N=15$ and $a=7$, the order $r$ is the least positive integer with $a^r\\equiv1\\pmod{N}$. Compute $r$.",
+          "hint": "Compute $7^1,7^2,7^3,7^4\\bmod15$ until you reach $1$.",
+          "explanation": "$7^1=7,\\;7^2=49\\equiv4,\\;7^3\\equiv28\\equiv13,\\;7^4\\equiv91\\equiv1\\pmod{15}$, so $r=4$.",
+          "points": 1,
+          "correct_numerical": 4,
+          "numerical_tolerance": 0.1
+        },
+        {
+          "objective_id": "qc-shor-factoring.o3",
+          "question_type": "mcq",
+          "text": "In Shor's algorithm, phase estimation is applied to the unitary $U|y\\rangle=|ay\\bmod N\\rangle$. Its measured phase is an estimate of:",
+          "hint": "The eigenphases of the modular-multiplication operator are multiples of $1/r$.",
+          "explanation": "$U$ has eigenphases $s/r$; QPE returns an approximation to some $s/r$, and the continued-fraction expansion of the measured $m/2^t$ yields $r$ (when $2^t\\gtrsim N^2$).",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a fraction $s/r$ (integer $s$), from which continued fractions recover the period $r$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the value $a^N\\bmod N$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the number of qubits used",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the greatest common divisor $\\gcd(a,N)$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-shor-factoring.o4",
+          "question_type": "mcq",
+          "text": "How does Shor's runtime compare with the best known classical factoring algorithm?",
+          "hint": "Shor is polynomial; the GNFS is super-polynomial but sub-exponential.",
+          "explanation": "Shor factors in polynomial time in the number of digits, while the GNFS runs in sub-exponential (super-polynomial) time. This exponential-vs-subexponential gap is what threatens RSA.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Shor is polynomial in $\\log N$ (roughly $\\tilde O((\\log N)^2)$); the general number field sieve is sub-exponential, $\\exp(O((\\log N)^{1/3}(\\log\\log N)^{2/3}))$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "both are polynomial in $\\log N$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "Shor is exponential and the sieve is polynomial",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "both are exponential in $\\log N$",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-shor-factoring.o5",
+          "question_type": "numerical",
+          "text": "Continuing $N=15,\\ a=7,\\ r=4$: the factors are $\\gcd(a^{r/2}\\pm1,\\,N)$. Give the smaller nontrivial factor.",
+          "hint": "$a^{r/2}=7^2=49\\equiv4\\pmod{15}$; compute $\\gcd(4-1,15)$ and $\\gcd(4+1,15)$.",
+          "explanation": "$7^2\\equiv4$, so $\\gcd(3,15)=3$ and $\\gcd(5,15)=5$: the factors are $3$ and $5$. The smaller is $3$.",
+          "points": 1,
+          "correct_numerical": 3,
+          "numerical_tolerance": 0.1
+        }
+      ]
+    }
+  ]
+}

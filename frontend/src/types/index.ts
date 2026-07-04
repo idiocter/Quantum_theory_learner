@@ -20,6 +20,8 @@ export interface UserProgress {
 }
 
 // ── Concepts ─────────────────────────────────────────────────────────────────
+export type Track = 'quantum-physics' | 'quantum-computing'
+
 export interface Category {
   id: string
   name: string
@@ -28,6 +30,7 @@ export interface Category {
   color: string
   icon: string
   order?: number
+  track?: Track
 }
 
 // A branch is a Category enriched with its published-topic count

@@ -1,0 +1,501 @@
+{
+  "$comment": "Module 7 - Quantum Communication & Cryptography. One item per objective. Grading matches apps.quizzes.views.",
+  "module": "module-7",
+  "title": "Module 7 - Quantum Communication & Cryptography",
+  "category_slug": "qc-communication",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-quantum-teleportation",
+      "quiz_title": "Quantum Teleportation - Assessment",
+      "difficulty": "advanced",
+      "description": "Protocol, no-cloning/no-signaling, resources.",
+      "questions": [
+        {
+          "objective_id": "qc-quantum-teleportation.o1",
+          "question_type": "mcq",
+          "text": "Quantum teleportation transfers an unknown state using:",
+          "hint": "Entanglement plus a classical message.",
+          "explanation": "Teleportation consumes one shared Bell pair (ebit) and two classical bits to move an unknown qubit state — no qubit is physically transmitted.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a pre-shared Bell pair and two classical bits",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a faster-than-light quantum channel",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a copy of the unknown state",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "only classical communication, no entanglement",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-teleportation.o2",
+          "question_type": "mcq",
+          "text": "The correct order of the teleportation protocol is:",
+          "hint": "Measure, communicate, correct.",
+          "explanation": "Alice performs a Bell-basis measurement on the unknown qubit and her half of the pair, sends the two outcome bits, and Bob applies the indicated Pauli ($I,X,Z,ZX$) to recover the state.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Bell measurement on the unknown qubit + Alice's half → send 2 classical bits → Bob applies a Pauli correction",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "Bob measures first, then Alice sends her qubit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "Alice clones the qubit and mails it",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a joint measurement of all three qubits at the end only",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-teleportation.o3",
+          "question_type": "mcq",
+          "text": "Why does teleportation violate neither no-cloning nor causality?",
+          "hint": "One copy ever exists; classical bits gate the result.",
+          "explanation": "The Bell measurement destroys Alice's copy, so only one $|\\psi\\rangle$ exists; and without the two classical bits Bob's half is maximally mixed, so no information moves faster than light.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "Alice's measurement destroys the original (no clone), and Bob's qubit is useless until the classical bits arrive (no faster-than-light signal)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "it does violate no-cloning but not causality",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the classical bits travel faster than light",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "two copies of the state briefly exist, which is allowed",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-teleportation.o4",
+          "question_type": "numerical",
+          "text": "How many classical bits must be communicated to teleport one qubit?",
+          "hint": "One per Bell-measurement outcome bit.",
+          "explanation": "Exactly 2 classical bits (the Bell-measurement result) are needed, alongside one shared ebit, to teleport a single qubit.",
+          "points": 1,
+          "correct_numerical": 2,
+          "numerical_tolerance": 0.1
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-superdense-coding",
+      "quiz_title": "Superdense Coding - Assessment",
+      "difficulty": "advanced",
+      "description": "Two bits per qubit, Bell-state encoding, duality, resources.",
+      "questions": [
+        {
+          "objective_id": "qc-superdense-coding.o1",
+          "question_type": "mcq",
+          "text": "Superdense coding lets Alice send:",
+          "hint": "Entanglement doubles the classical capacity of the qubit.",
+          "explanation": "With shared entanglement, transmitting a single qubit conveys two classical bits — the dual of teleportation.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "two classical bits by transmitting one qubit, using a pre-shared Bell pair",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "one classical bit using two qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "an unknown quantum state using two classical bits",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "two qubits using one classical bit",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-superdense-coding.o2",
+          "question_type": "mcq",
+          "text": "How does Alice encode her two bits?",
+          "hint": "The four Paulis map $|\\Phi^+\\rangle$ to the four Bell states.",
+          "explanation": "Applying $I,X,Z$, or $ZX$ to one half of $|\\Phi^+\\rangle$ produces one of the four mutually orthogonal Bell states, which Bob distinguishes with a Bell measurement.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "she applies one of $\\{I, X, Z, ZX\\}$ to her half, mapping the shared pair to one of the four orthogonal Bell states",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "she measures her half in the computational basis",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "she clones her qubit twice",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "she applies a random unitary Bob cannot invert",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-superdense-coding.o3",
+          "question_type": "mcq",
+          "text": "Superdense coding is best described as:",
+          "hint": "Teleportation: 1 ebit + 2 cbits → 1 qubit; superdense: 1 ebit + 1 qubit → 2 cbits.",
+          "explanation": "The two protocols are duals: teleportation spends entanglement + classical bits to send a qubit; superdense coding spends entanglement + a qubit to send classical bits.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the dual of teleportation — trading the roles of the quantum and classical channels",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "identical to teleportation in every respect",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a form of quantum error correction",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "unrelated to entanglement",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-superdense-coding.o4",
+          "question_type": "mcq",
+          "text": "The resource ledger for superdense coding is:",
+          "hint": "Entanglement is the enabling resource.",
+          "explanation": "One shared ebit plus one physically sent qubit deliver two classical bits — without the shared entanglement a single qubit carries only one bit (Holevo).",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "one ebit + one transmitted qubit convey two classical bits",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "two ebits convey one classical bit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "one qubit alone conveys two classical bits with no entanglement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "one ebit conveys four classical bits",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-bb84-qkd",
+      "quiz_title": "BB84 & QKD - Assessment",
+      "difficulty": "advanced",
+      "description": "Conjugate bases, sifting, eavesdropping detection, security assumptions.",
+      "questions": [
+        {
+          "objective_id": "qc-bb84-qkd.o1",
+          "question_type": "mcq",
+          "text": "BB84 establishes a shared secret key by:",
+          "hint": "Two mutually unbiased bases underpin the protocol.",
+          "explanation": "Alice encodes random bits in a random basis ($\\{|0\\rangle,|1\\rangle\\}$ or $\\{|+\\rangle,|-\\rangle\\}$); after transmission the parties publicly compare bases (not values) to build a shared key.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "encoding random bits in randomly chosen conjugate bases ($Z$ or $X$) and comparing bases publicly",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "sending the key in plaintext over a classical channel",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "cloning qubits to distribute copies of the key",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "factoring a large number the eavesdropper cannot",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-bb84-qkd.o2",
+          "question_type": "mcq",
+          "text": "During basis reconciliation (sifting), Alice and Bob:",
+          "hint": "Matched bases give correlated bits; mismatched are random.",
+          "explanation": "They announce their bases and retain the ~50% of rounds where the bases agreed (the sifted key); mismatched-basis rounds are uncorrelated and discarded.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "keep only the bits where their randomly chosen bases matched and discard the rest",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "keep every bit regardless of basis",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "reveal all the bit values publicly",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "keep only the bits where the bases differed",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-bb84-qkd.o3",
+          "question_type": "mcq",
+          "text": "How is an eavesdropper detected in BB84?",
+          "hint": "No-cloning + measurement disturbance = detectable errors.",
+          "explanation": "Because Eve cannot clone the unknown states, intercept-resend forces her to guess the basis; wrong guesses disturb the states, elevating the QBER above the noise floor and revealing her.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "unable to clone the qubits, Eve must measure and guess the basis, disturbing states and raising the quantum bit-error rate (QBER)",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "Eve's presence changes the classical bits in transit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the protocol slows down measurably",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "Eve cannot be detected at all",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-bb84-qkd.o4",
+          "question_type": "mcq",
+          "text": "Which assumption is essential for BB84's security?",
+          "hint": "QKD gives key exchange, not authentication.",
+          "explanation": "BB84 is information-theoretically secure only with an authenticated classical channel; without authentication an active attacker can impersonate the parties. QKD provides a key, which then feeds a classical cipher.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "the classical channel must be authenticated, or a man-in-the-middle can defeat the protocol",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the quantum channel must be lossless",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "Alice and Bob must share a prior secret as long as the message",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the eavesdropper must obey classical physics only",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-quantum-networks-repeaters",
+      "quiz_title": "Quantum Networks & Repeaters - Assessment",
+      "difficulty": "advanced",
+      "description": "Photon loss, entanglement swapping, repeaters, outlook.",
+      "questions": [
+        {
+          "objective_id": "qc-quantum-networks-repeaters.o1",
+          "question_type": "mcq",
+          "text": "Why is direct long-distance quantum communication so hard?",
+          "hint": "Exponential loss + no amplification.",
+          "explanation": "Fiber attenuation makes the transmission probability drop exponentially with length, and the no-cloning theorem rules out classical-style signal amplification.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "photon survival in fiber falls exponentially with distance, and no-cloning forbids amplifying the signal",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "quantum states travel slower than classical signals",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "fiber cannot carry single photons at all",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "entanglement decays only linearly with distance",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-networks-repeaters.o2",
+          "question_type": "mcq",
+          "text": "Entanglement swapping does what?",
+          "hint": "It teleports entanglement across a node.",
+          "explanation": "If A-M and M-B are each entangled, a Bell measurement at M entangles A and B directly — the primitive for extending entanglement over distance.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a Bell measurement at a midpoint links two independently entangled segments so the endpoints become entangled",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "copies an entangled pair to make more pairs",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "measures the endpoints to destroy entanglement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "amplifies a photon without cloning",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-networks-repeaters.o3",
+          "question_type": "mcq",
+          "text": "A quantum repeater combines:",
+          "hint": "Swap to extend, purify for fidelity, memory to synchronize.",
+          "explanation": "Repeaters chain entanglement swapping across short segments, use purification to raise fidelity, and quantum memories to synchronize the probabilistic steps — beating direct-transmission loss.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "entanglement swapping, entanglement purification, and quantum memory",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a laser amplifier and a classical repeater only",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "cloning and measurement",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a single long fiber with no intermediate nodes",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-quantum-networks-repeaters.o4",
+          "question_type": "mcq",
+          "text": "What is the honest status of the quantum internet?",
+          "hint": "Early experiments exist; large-scale networks do not yet.",
+          "explanation": "Metropolitan QKD and small experimental networks are real today, but a large-scale, memory-based quantum internet remains an active long-term research goal.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "small networks and metropolitan QKD links exist; a full memory-based quantum internet is a long-term goal",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a global quantum internet is already deployed",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "it is physically impossible in principle",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "it requires no quantum memory or repeaters",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

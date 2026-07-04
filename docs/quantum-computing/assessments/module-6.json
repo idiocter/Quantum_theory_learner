@@ -1,0 +1,481 @@
+{
+  "$comment": "Module 6 - Variational & Near-Term Algorithms. One item per objective. Grading matches apps.quizzes.views. JSON backslashes single-escaped.",
+  "module": "module-6",
+  "title": "Module 6 - Variational & Near-Term Algorithms",
+  "category_slug": "qc-variational",
+  "graded": true,
+  "quizzes": [
+    {
+      "concept_slug": "qc-variational-principle",
+      "quiz_title": "The Variational Principle & NISQ - Assessment",
+      "difficulty": "advanced",
+      "description": "Hybrid loop, ansatz & cost, optimizer, the variational bound.",
+      "questions": [
+        {
+          "objective_id": "qc-variational-principle.o1",
+          "question_type": "mcq",
+          "text": "Which best describes a hybrid variational algorithm?",
+          "hint": "The loop alternates a quantum cost evaluation with a classical parameter update.",
+          "explanation": "Variational algorithms split work: the quantum device evaluates a cost (expectation value) for the current parameters, and a classical optimizer proposes better ones, iterating to convergence.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a quantum device prepares an ansatz and measures a cost, and a classical optimizer updates the parameters — repeated in a loop",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "a purely classical optimization with no quantum circuit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "a single quantum circuit run once with no optimization",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "a quantum computer that trains itself with no classical help",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-variational-principle.o2",
+          "question_type": "mcq",
+          "text": "In $|\\psi(\\vec\\theta)\\rangle = U(\\vec\\theta)|0\\rangle$, what are $U(\\vec\\theta)$ and the cost?",
+          "hint": "The ansatz is the tunable circuit; the cost is what you minimize.",
+          "explanation": "$U(\\vec\\theta)$ is the trainable ansatz preparing the trial state; the cost function is an expectation value (e.g. energy) estimated from measurements.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$U(\\vec\\theta)$ is the parameterized ansatz circuit; the cost is an expectation value measured on the device",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$U(\\vec\\theta)$ is a measurement; the cost is the number of qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$U(\\vec\\theta)$ is the classical optimizer; the cost is the circuit depth",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$U(\\vec\\theta)$ is a random unitary that is never changed",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-variational-principle.o3",
+          "question_type": "mcq",
+          "text": "Why is each optimizer iteration expensive on real hardware?",
+          "hint": "Shot noise means each cost value needs many repetitions.",
+          "explanation": "Estimating an expectation value to useful precision needs many shots ($\\sim 1/\\epsilon^2$), and gradient-based optimizers evaluate the cost multiple times per step — a major overhead.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "each expectation value must be estimated from many shots, and gradient methods need several such evaluations",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the classical optimizer is exponentially slow",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the ansatz cannot be changed between iterations",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "measurement is free, so there is no cost",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-variational-principle.o4",
+          "question_type": "true_false",
+          "text": "For any Hamiltonian $H$ with ground energy $E_0$, every trial state obeys $\\langle\\psi(\\vec\\theta)|H|\\psi(\\vec\\theta)\\rangle \\ge E_0$.",
+          "hint": "This is the variational principle.",
+          "explanation": "True. The Rayleigh quotient is bounded below by the smallest eigenvalue, so the measured energy can never dip below $E_0$; equality holds only at the ground state.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-vqe",
+      "quiz_title": "The Variational Quantum Eigensolver - Assessment",
+      "difficulty": "advanced",
+      "description": "VQE goal, Pauli decomposition, measuring expectations, chemistry.",
+      "questions": [
+        {
+          "objective_id": "qc-vqe.o1",
+          "question_type": "mcq",
+          "text": "What does VQE compute?",
+          "hint": "Minimize the energy expectation; the variational principle makes it an upper bound.",
+          "explanation": "VQE minimizes $E(\\vec\\theta)=\\langle\\psi(\\vec\\theta)|H|\\psi(\\vec\\theta)\\rangle$; by the variational principle the result upper-bounds the true ground energy $E_0$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "an upper bound on the ground-state energy of $H$, by minimizing $\\langle H\\rangle$ over the ansatz",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the exact excited-state spectrum in one shot",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the time evolution of a state under $H$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the factorization of a large integer",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-vqe.o2",
+          "question_type": "mcq",
+          "text": "Writing $H=\\sum_i w_i P_i$ as a sum of Pauli strings, the energy is:",
+          "hint": "Expectation is linear, so it distributes over the sum.",
+          "explanation": "By linearity, $\\langle H\\rangle=\\sum_i w_i\\langle P_i\\rangle$; each $\\langle P_i\\rangle$ is measured separately and combined classically.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$E = \\sum_i w_i \\langle P_i\\rangle$ — a weighted sum of Pauli expectation values",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "$E = \\prod_i \\langle P_i\\rangle$",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "$E = \\sum_i w_i$ regardless of the state",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "$E = \\langle P_1\\rangle$ only",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-vqe.o3",
+          "question_type": "mcq",
+          "text": "How do you measure $\\langle X\\rangle$ on hardware that only measures in the $Z$ basis?",
+          "hint": "$H X H = Z$, so a Hadamard maps an $X$ measurement to a $Z$ measurement.",
+          "explanation": "Since $HXH=Z$, applying $H$ before a $Z$-basis measurement yields $\\langle X\\rangle$. $Y$ is handled similarly with an $S^\\dagger$ then $H$.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "apply a Hadamard first (rotating $X$ into $Z$), then measure in the computational basis",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "you cannot measure $\\langle X\\rangle$ at all",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "measure $\\langle Z\\rangle$ and negate it",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "apply a $T$ gate first",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-vqe.o4",
+          "question_type": "mcq",
+          "text": "What is VQE's flagship application?",
+          "hint": "Chemistry Hamiltonians map naturally onto qubit Paulis.",
+          "explanation": "VQE targets electronic-structure problems — molecular ground-state energies — which map onto qubit Hamiltonians and suit shallow near-term circuits.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "estimating molecular ground-state energies in quantum chemistry",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "sorting large classical databases",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "breaking RSA encryption",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "rendering 3D graphics",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-qaoa",
+      "quiz_title": "QAOA - Assessment",
+      "difficulty": "advanced",
+      "description": "MaxCut objective, cost & mixer unitaries, depth, cut values.",
+      "questions": [
+        {
+          "objective_id": "qc-qaoa.o1",
+          "question_type": "mcq",
+          "text": "QAOA is designed to:",
+          "hint": "It is a near-term optimization heuristic.",
+          "explanation": "QAOA is a variational heuristic for combinatorial optimization, canonically MaxCut, producing good (not always optimal) solutions.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "approximately solve combinatorial optimization problems such as MaxCut",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "factor integers exactly",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "simulate continuous-time dynamics exactly",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "transmit quantum states over long distances",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qaoa.o2",
+          "question_type": "mcq",
+          "text": "One QAOA layer applies which two unitaries?",
+          "hint": "Cost phases the basis states; the mixer spreads amplitude.",
+          "explanation": "Each layer alternates the diagonal cost unitary $e^{-i\\gamma C}$ with the transverse-field mixer $e^{-i\\beta B}$, $B=\\sum_j X_j$; $p$ layers use $2p$ angles.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "a cost unitary $e^{-i\\gamma C}$ and a mixer $e^{-i\\beta B}$ with $B=\\sum_j X_j$",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "two Hadamard layers",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "an oracle and a diffusion operator",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "an inverse QFT and a measurement",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qaoa.o3",
+          "question_type": "true_false",
+          "text": "Increasing the number of QAOA layers $p$ can only improve (never worsen) the best achievable approximation, and as $p\\to\\infty$ it can reproduce adiabatic evolution.",
+          "hint": "More layers = a strictly larger variational family.",
+          "explanation": "True. A depth-$p$ circuit is a special case of depth-$(p{+}1)$, so the optimum is non-decreasing in $p$; the $p\\to\\infty$ limit can Trotterize adiabatic evolution toward the optimum.",
+          "points": 1,
+          "options": [
+            {
+              "id": "true",
+              "text": "True",
+              "is_correct": true
+            },
+            {
+              "id": "false",
+              "text": "False",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qaoa.o4",
+          "question_type": "numerical",
+          "text": "For MaxCut on a 4-vertex ring (cycle graph $C_4$), what is the maximum number of edges that can be cut?",
+          "hint": "$C_4$ is bipartite — 2-colour it.",
+          "explanation": "$C_4$ is bipartite (colour vertices 0101), so all 4 edges can be cut: the maximum cut is 4.",
+          "points": 1,
+          "correct_numerical": 4,
+          "numerical_tolerance": 0.1
+        }
+      ]
+    },
+    {
+      "concept_slug": "qc-qml-and-barren-plateaus",
+      "quiz_title": "Quantum ML & Barren Plateaus - Assessment",
+      "difficulty": "advanced",
+      "description": "Feature maps, quantum kernels, barren plateaus, honest advantage.",
+      "questions": [
+        {
+          "objective_id": "qc-qml-and-barren-plateaus.o1",
+          "question_type": "mcq",
+          "text": "In a typical quantum machine-learning model, a feature map:",
+          "hint": "Data is embedded into Hilbert space, then processed variationally.",
+          "explanation": "A feature map $x\\mapsto|\\phi(x)\\rangle$ embeds classical data into a quantum state; a trainable circuit then acts as a classifier on that embedding.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "encodes a classical data point into a quantum state $|\\phi(x)\\rangle$, which a variational circuit then classifies",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "measures the qubits before any gates",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "is the classical optimizer",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "removes entanglement from the data",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qml-and-barren-plateaus.o2",
+          "question_type": "mcq",
+          "text": "A quantum kernel is defined as:",
+          "hint": "It is the squared overlap of the feature states.",
+          "explanation": "The quantum kernel is the state overlap $|\\langle\\phi(x)|\\phi(x')\\rangle|^2$; if the feature map is classically hard to simulate, the kernel may capture structure classical kernels cannot.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "$K(x,x') = |\\langle\\phi(x)|\\phi(x')\\rangle|^2$, a similarity measure that may be hard to compute classically",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the number of qubits in the circuit",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the classical Euclidean distance between $x$ and $x'$",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "the depth of the feature-map circuit",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qml-and-barren-plateaus.o3",
+          "question_type": "mcq",
+          "text": "The barren-plateau problem is that:",
+          "hint": "$\\mathrm{Var}[\\partial_\\theta E]\\sim 2^{-n}$.",
+          "explanation": "For sufficiently random/expressive deep circuits the gradient concentrates exponentially around zero ($\\mathrm{Var}\\sim 2^{-n}$), making the landscape essentially flat and the model untrainable.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "for random, deep ansätze the cost gradient's variance vanishes exponentially in the qubit number, so training stalls",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "the circuit runs out of qubits",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "the classical optimizer converges too quickly",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "gradients grow without bound",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "objective_id": "qc-qml-and-barren-plateaus.o4",
+          "question_type": "mcq",
+          "text": "What is the honest status of NISQ variational quantum advantage?",
+          "hint": "Barren plateaus, noise, and shot cost temper the claims.",
+          "explanation": "Despite active research, no NISQ variational algorithm has shown a clear practical advantage; barren plateaus, hardware noise, and measurement overhead remain open obstacles.",
+          "points": 1,
+          "options": [
+            {
+              "id": "a",
+              "text": "no clear, practical quantum advantage has yet been demonstrated; the approaches are promising but unproven",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text": "exponential advantage is proven for all machine-learning tasks",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text": "variational methods are known to be useless",
+              "is_correct": false
+            },
+            {
+              "id": "d",
+              "text": "advantage has been rigorously proven for MaxCut",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
