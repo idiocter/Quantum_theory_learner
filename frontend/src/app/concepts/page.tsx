@@ -12,7 +12,7 @@ function ConceptCard({ c }: { c: Concept }) {
   return (
     <Link href={`/concepts/${c.slug}`} className="card-quantum p-6 group flex flex-col gap-3 h-full">
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-base font-semibold text-white group-hover:text-quantum-300 transition-colors">
+        <h3 className="text-base font-semibold leading-snug text-white group-hover:text-quantum-300 transition-colors">
           {c.title}
         </h3>
         <span className={`text-xs px-2 py-0.5 rounded-md shrink-0 badge-${c.difficulty}`}>
