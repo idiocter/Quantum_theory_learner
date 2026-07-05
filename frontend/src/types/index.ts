@@ -255,6 +255,9 @@ export interface PaginatedResponse<T> {
   count: number
   next: string | null
   previous: string | null
+  // Provided by StandardResultsPagination (see backend/apps/core/pagination.py).
+  total_pages: number
+  current_page: number
   results: T[]
 }
 
