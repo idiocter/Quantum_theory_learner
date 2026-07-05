@@ -38,6 +38,10 @@ class BranchListView(generics.ListAPIView):
         ).order_by("order")
 
 
+# Server-side cache (skips the DB entirely on repeat requests) + browser/CDNControl header. cache_page
+# Cache- keys on the full URL, so each page / filter /
+# search / ordering combination is cached independently for 5 minutes.
+@method_decorator(cache_page(300), name="dispatch")
 @method_decorator(cache_control(public=True, max_age=300), name="dispatch")
 class ConceptListView(generics.ListAPIView):
     # Annotate the prerequisite count in the single list query instead of firing
@@ -86,7 +90,7 @@ class ConceptSearchView(generics.ListAPIView):
     serializer_class = ConceptSearchResultSerializer
     permission_classes = [permissions.AllowAny]
 
-    def get_queryset(self):
+    def get_queryset(self): # type: ignore
         query = (self.request.query_params.get("q") or "").strip()
         if not query:
             return Concept.objects.none()
