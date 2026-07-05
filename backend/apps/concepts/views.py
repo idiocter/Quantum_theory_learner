@@ -40,7 +40,14 @@ class BranchListView(generics.ListAPIView):
 
 @method_decorator(cache_control(public=True, max_age=300), name="dispatch")
 class ConceptListView(generics.ListAPIView):
-    queryset = Concept.objects.filter(is_published=True).select_related("category")
+    # Annotate the prerequisite count in the single list query instead of firing
+    # one COUNT per row in the serializer (an N+1 that was ~20 extra round-trips
+    # to the remote Neon DB per page).
+    queryset = (
+        Concept.objects.filter(is_published=True)
+        .select_related("category")
+        .annotate(prerequisites_count=Count("prerequisites", distinct=True))
+    )
     serializer_class = ConceptListSerializer
     permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

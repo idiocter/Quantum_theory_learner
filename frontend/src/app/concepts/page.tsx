@@ -196,7 +196,7 @@ export default function ConceptsPage() {
 
       {data && data.total_pages > 1 && (
         <Pagination
-          page={data.current_page}
+          page={page}
           totalPages={data.total_pages}
           onChange={(p) => {
             setPage(p)

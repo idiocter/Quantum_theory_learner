@@ -44,6 +44,8 @@ class ConceptListSerializer(serializers.ModelSerializer):
     # model's `summary` and a difficulty-based estimate.
     description = serializers.CharField(source="summary", read_only=True)
     estimated_minutes = serializers.SerializerMethodField()
+    # Read the annotation from the view's queryset (Count("prerequisites")).
+    # Falls back to a live count if the queryset wasn't annotated.
     prerequisites_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -56,7 +58,8 @@ class ConceptListSerializer(serializers.ModelSerializer):
         return _estimated_minutes(obj)
 
     def get_prerequisites_count(self, obj):
-        return obj.prerequisites.count()
+        annotated = getattr(obj, "prerequisites_count", None)
+        return annotated if annotated is not None else obj.prerequisites.count()
 
 
 class ConceptDetailSerializer(serializers.ModelSerializer):
