@@ -94,6 +94,8 @@ function TutorUI() {
     searchParams.get('mode') === 'guided' ? 'guided' : 'chat'
   )
   const [guidedSlug, setGuidedSlug] = useState<string | null>(null)
+  // Mobile-only: the sidebar collapses into a slide-in drawer.
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Roadmap data for guided mode (public topic list grouped by track → branch → order).
   const { data: topicsPage } = useAllConcepts()
@@ -233,8 +235,24 @@ function TutorUI() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)]">
-      {/* Sidebar — mode toggle + conversation list / guided roadmap */}
-      <aside className="w-64 border-r border-quantum-800/20 flex flex-col bg-void-950/60 shrink-0 hidden md:flex">
+      {/* Mobile drawer backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 top-16 z-30 bg-void-950/70 backdrop-blur-sm md:hidden"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden
+        />
+      )}
+      {/* Sidebar — mode toggle + conversation list / guided roadmap.
+          Static column on desktop; slide-in drawer on mobile. */}
+      <aside
+        className={cn(
+          'w-64 border-r border-quantum-800/20 flex flex-col shrink-0',
+          'fixed top-16 bottom-0 left-0 z-40 bg-void-950/95 transition-transform duration-200',
+          'md:static md:top-auto md:bottom-auto md:z-auto md:translate-x-0 md:bg-void-950/60',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
         <div className="p-3 border-b border-quantum-800/20 grid grid-cols-2 gap-1">
           {(['chat', 'guided'] as const).map((m) => (
             <button
@@ -254,7 +272,10 @@ function TutorUI() {
           <>
             <div className="p-4 border-b border-quantum-800/20">
               <button
-                onClick={() => createConv.mutate()}
+                onClick={() => {
+                  createConv.mutate()
+                  setSidebarOpen(false)
+                }}
                 disabled={createConv.isPending}
                 className="btn-quantum w-full text-xs py-2"
               >
@@ -265,7 +286,10 @@ function TutorUI() {
               {convList?.map((c: Conversation) => (
                 <button
                   key={c.id}
-                  onClick={() => setActiveConvId(c.id)}
+                  onClick={() => {
+                    setActiveConvId(c.id)
+                    setSidebarOpen(false)
+                  }}
                   className={cn(
                     'w-full text-left px-3 py-2.5 rounded-lg text-xs transition-all',
                     c.id === activeConvId
@@ -293,7 +317,10 @@ function TutorUI() {
               domains={domains}
               activeSlug={guidedSlug ?? undefined}
               visited={visitedSet}
-              onPick={startGuided}
+              onPick={(t) => {
+                setSidebarOpen(false)
+                startGuided(t)
+              }}
               disabled={!!pendingMsgId || sendMsg.isPending}
             />
           </div>
@@ -302,6 +329,21 @@ function TutorUI() {
 
       {/* Main chat area */}
       <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Mobile top bar — opens the drawer (mode toggle, conversations, roadmap) */}
+        <div className="md:hidden flex items-center gap-3 px-4 py-2.5 border-b border-quantum-800/20 bg-void-950/80 shrink-0">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-slate-300 hover:border-white/20 transition-colors"
+          >
+            ☰
+          </button>
+          <span className="text-xs text-slate-400 truncate">
+            {mode === 'guided'
+              ? orderedTopics[guidedIndex]?.title ?? 'Guided path'
+              : activeConv?.title || 'Conversations'}
+          </span>
+        </div>
         {activeConv ? (
           <>
             {mode === 'guided' && guidedSlug && (
