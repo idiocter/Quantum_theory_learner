@@ -10,7 +10,7 @@ import { difficultyLabel } from '@/lib/utils'
 import { TexProse } from '@/components/ui/Tex'
 import { GlossaryText } from '@/components/ui/GlossaryText'
 import FormulaBlock from '@/components/concepts/FormulaBlock'
-import ConnectionsPanel from '@/components/concepts/ConnectionsPanel'
+import TopicPath from '@/components/concepts/TopicPath'
 import AnimationSlot from '@/components/concepts/AnimationSlot'
 
 // Log a server-side visit only after the reader has dwelled this long.
@@ -187,9 +187,13 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
-      {/* Prerequisites and the topics this one unlocks. */}
+      {/* Where this topic sits on the learning roadmap. */}
       <div className="mb-6">
-        <ConnectionsPanel prerequisites={concept.prerequisites} unlocks={concept.unlocks} />
+        <TopicPath
+          currentTitle={concept.title}
+          prerequisites={concept.prerequisites}
+          unlocks={concept.unlocks}
+        />
       </div>
 
       <div className="flex gap-3 mt-8 flex-wrap">

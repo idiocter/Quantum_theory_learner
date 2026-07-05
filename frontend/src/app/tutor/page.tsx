@@ -1,15 +1,24 @@
 'use client'
-import { useState, useEffect, useRef, useCallback, Suspense } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import AuthGuard from '@/components/auth/AuthGuard'
 import { aiApi } from '@/lib/api/ai'
+import { useAllConcepts, useBranches } from '@/lib/hooks/useConcepts'
+import { useConceptsStore } from '@/lib/store/concepts'
+import GuidedRoadmap, { type RoadmapDomain } from '@/components/tutor/GuidedRoadmap'
 import { relativeTime, cn } from '@/lib/utils'
-import type { Conversation, Message } from '@/types'
+import type { Conversation, Message, Concept } from '@/types'
 
 const POLL_INTERVAL = 1500
 const MAX_POLLS = 40 // 60s timeout
+
+// Guided mode segregates topics into two independent learning domains.
+const GUIDED_TRACKS = [
+  { id: 'quantum-physics', label: 'Quantum Physics' },
+  { id: 'quantum-computing', label: 'Quantum Computing' },
+] as const
 
 function KatexMessage({ content }: { content: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -81,6 +90,45 @@ function TutorUI() {
   const [pollCount, setPollCount] = useState(0)
   const bottomRef = useRef<HTMLDivElement>(null)
 
+  const [mode, setMode] = useState<'chat' | 'guided'>(
+    searchParams.get('mode') === 'guided' ? 'guided' : 'chat'
+  )
+  const [guidedSlug, setGuidedSlug] = useState<string | null>(null)
+
+  // Roadmap data for guided mode (public topic list grouped by track → branch → order).
+  const { data: topicsPage } = useAllConcepts()
+  const { data: branches } = useBranches()
+  const visitedTopics = useConceptsStore((s) => s.visitedTopics)
+  const visitedSet = useMemo(() => new Set(visitedTopics), [visitedTopics])
+
+  const domains = useMemo<RoadmapDomain[]>(() => {
+    const topics = topicsPage?.results ?? []
+    const bs = branches ?? []
+    return GUIDED_TRACKS.map(({ id, label }) => ({
+      id,
+      label,
+      branches: bs
+        .filter((b) => (b.track ?? 'quantum-physics') === id)
+        .slice()
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .map((b) => ({
+          slug: b.slug,
+          name: b.name,
+          color: b.color,
+          topics: topics
+            .filter((t) => t.category?.slug === b.slug)
+            .slice()
+            .sort((x, y) => (x.order ?? 0) - (y.order ?? 0)),
+        }))
+        .filter((b) => b.topics.length > 0),
+    })).filter((d) => d.branches.length > 0)
+  }, [topicsPage, branches])
+
+  const orderedTopics = useMemo(
+    () => domains.flatMap((d) => d.branches.flatMap((b) => b.topics)),
+    [domains]
+  )
+
   const { data: convList } = useQuery({
     queryKey: ['conversations'],
     queryFn: () => aiApi.listConversations().then((r) => r.data.results),
@@ -143,6 +191,32 @@ function TutorUI() {
     onError: () => toast.error('Failed to send message. Please try again.'),
   })
 
+  // Guided mode: start (or restart) a lesson on a roadmap topic. Seeds a
+  // concept-scoped conversation and sends a step-by-step teaching prompt.
+  const startGuided = useCallback(
+    async (topic: Concept) => {
+      if (pendingMsgId || sendMsg.isPending || createConv.isPending) return
+      setGuidedSlug(topic.slug)
+      try {
+        const conv = await aiApi
+          .createConversation({ concept: topic.id, difficulty })
+          .then((r) => r.data)
+        setActiveConvId(conv.id)
+        qc.invalidateQueries({ queryKey: ['conversations'] })
+        const prompt = `Guide me through the topic "${topic.title}" at a ${difficulty} level. Teach it step by step: start from what I need to know first, then the core idea, a short derivation where it helps, and a concrete example.`
+        const res = await aiApi.sendMessage(conv.id, prompt).then((r) => r.data)
+        setPendingMsgId(res.assistant_message_id)
+        qc.invalidateQueries({ queryKey: ['conversation', conv.id] })
+      } catch {
+        toast.error('Could not start the guided lesson. Please try again.')
+      }
+    },
+    [pendingMsgId, sendMsg.isPending, createConv.isPending, difficulty, qc]
+  )
+
+  const guidedIndex = orderedTopics.findIndex((t) => t.slug === guidedSlug)
+  const nextTopic = guidedIndex >= 0 ? orderedTopics[guidedIndex + 1] : undefined
+
   const handleSend = useCallback(() => {
     const content = input.trim()
     if (!content || sendMsg.isPending || !!pendingMsgId) return
@@ -159,45 +233,96 @@ function TutorUI() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)]">
-      {/* Sidebar — conversation list */}
+      {/* Sidebar — mode toggle + conversation list / guided roadmap */}
       <aside className="w-64 border-r border-quantum-800/20 flex flex-col bg-void-950/60 shrink-0 hidden md:flex">
-        <div className="p-4 border-b border-quantum-800/20">
-          <button
-            onClick={() => createConv.mutate()}
-            disabled={createConv.isPending}
-            className="btn-quantum w-full text-xs py-2"
-          >
-            + New conversation
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto p-2 space-y-1">
-          {convList?.map((c: Conversation) => (
+        <div className="p-3 border-b border-quantum-800/20 grid grid-cols-2 gap-1">
+          {(['chat', 'guided'] as const).map((m) => (
             <button
-              key={c.id}
-              onClick={() => setActiveConvId(c.id)}
+              key={m}
+              onClick={() => setMode(m)}
               className={cn(
-                'w-full text-left px-3 py-2.5 rounded-lg text-xs transition-all',
-                c.id === activeConvId
-                  ? 'bg-quantum-500/10 border border-quantum-500/20 text-quantum-300'
-                  : 'text-slate-500 hover:bg-void-800 hover:text-slate-300'
+                'py-1.5 rounded-md text-xs font-medium capitalize transition-colors',
+                mode === m ? 'bg-quantum-500/15 text-quantum-300' : 'text-slate-500 hover:text-slate-300'
               )}
             >
-              <div className="font-medium truncate">{c.title || 'Untitled conversation'}</div>
-              <div className="text-slate-600 mt-0.5">{relativeTime(c.updated_at)}</div>
+              {m}
             </button>
           ))}
-          {!convList?.length && (
-            <p className="text-xs text-slate-700 text-center mt-4 px-3">
-              No conversations yet. Ask the AI tutor something!
-            </p>
-          )}
         </div>
+
+        {mode === 'chat' ? (
+          <>
+            <div className="p-4 border-b border-quantum-800/20">
+              <button
+                onClick={() => createConv.mutate()}
+                disabled={createConv.isPending}
+                className="btn-quantum w-full text-xs py-2"
+              >
+                + New conversation
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+              {convList?.map((c: Conversation) => (
+                <button
+                  key={c.id}
+                  onClick={() => setActiveConvId(c.id)}
+                  className={cn(
+                    'w-full text-left px-3 py-2.5 rounded-lg text-xs transition-all',
+                    c.id === activeConvId
+                      ? 'bg-quantum-500/10 border border-quantum-500/20 text-quantum-300'
+                      : 'text-slate-500 hover:bg-void-800 hover:text-slate-300'
+                  )}
+                >
+                  <div className="font-medium truncate">{c.title || 'Untitled conversation'}</div>
+                  <div className="text-slate-600 mt-0.5">{relativeTime(c.updated_at)}</div>
+                </button>
+              ))}
+              {!convList?.length && (
+                <p className="text-xs text-slate-700 text-center mt-4 px-3">
+                  No conversations yet. Ask the AI tutor something!
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="flex-1 overflow-y-auto p-3">
+            <p className="text-[11px] text-slate-500 mb-4 leading-relaxed">
+              Pick a topic — the tutor teaches it step by step, then walks you to the next one.
+            </p>
+            <GuidedRoadmap
+              domains={domains}
+              activeSlug={guidedSlug ?? undefined}
+              visited={visitedSet}
+              onPick={startGuided}
+              disabled={!!pendingMsgId || sendMsg.isPending}
+            />
+          </div>
+        )}
       </aside>
 
       {/* Main chat area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {activeConv ? (
           <>
+            {mode === 'guided' && guidedSlug && (
+              <div className="border-b border-quantum-800/20 px-6 py-2.5 flex items-center justify-between gap-3 bg-void-950/60">
+                <div className="min-w-0">
+                  <span className="text-[10px] uppercase tracking-widest text-slate-600">Guided lesson</span>
+                  <div className="text-sm text-quantum-200 font-medium truncate">
+                    {orderedTopics[guidedIndex]?.title ?? 'Lesson'}
+                  </div>
+                </div>
+                {nextTopic && (
+                  <button
+                    onClick={() => startGuided(nextTopic)}
+                    disabled={!!pendingMsgId || sendMsg.isPending}
+                    className="btn-ghost text-xs shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Next: {nextTopic.title} →
+                  </button>
+                )}
+              </div>
+            )}
             {/* Messages */}
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-5">
               {activeConv.messages?.map((msg) => (
@@ -228,6 +353,37 @@ function TutorUI() {
               </div>
             </div>
           </>
+        ) : mode === 'guided' ? (
+          // Guided empty state — prompt to pick a topic from the roadmap
+          <div className="flex-1 flex flex-col items-center justify-center gap-5 px-6 text-center">
+            <div className="text-5xl text-quantum-400/30">◈</div>
+            <div>
+              <h2 className="text-xl font-semibold text-white mb-2">Guided learning path</h2>
+              <p className="text-sm text-slate-500 max-w-sm">
+                Choose a topic from the roadmap on the left. The tutor teaches it step by step and
+                then guides you to the next — Quantum Physics and Quantum Computing tracked separately.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-[10px] text-slate-600 font-mono uppercase tracking-widest">Teach at this level</span>
+              <div className="flex gap-1.5">
+                {DIFFICULTIES.map((d) => (
+                  <button
+                    key={d}
+                    onClick={() => setDifficulty(d)}
+                    className={cn(
+                      'px-3 py-1.5 rounded-lg text-xs font-medium border capitalize transition-all',
+                      difficulty === d
+                        ? 'border-quantum-500/50 bg-quantum-500/10 text-quantum-300'
+                        : 'border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
+                    )}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         ) : (
           // Empty state
           <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6 text-center">
