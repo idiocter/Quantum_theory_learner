@@ -5,7 +5,9 @@ from rest_framework.response import Response
 class StandardResultsPagination(PageNumberPagination):
     page_size = 20
     page_size_query_param = "page_size"
-    max_page_size = 100
+    # Large enough that the concepts sidebar can pull the whole catalogue in one
+    # page (the full curriculum is ~110 topics and growing). Default stays 20.
+    max_page_size = 500
 
     def get_paginated_response(self, data):
         return Response(
