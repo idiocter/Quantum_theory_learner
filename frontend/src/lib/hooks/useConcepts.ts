@@ -28,10 +28,12 @@ export function useConceptList(params?: {
   })
 }
 
-// The full topic list (page_size 100 covers all ~65 topics) used by the sidebar
-// and connections panel to group topics by branch and resolve slug → title.
+// The full topic list used by the sidebar and connections panel to group topics
+// by branch and resolve slug → title. page_size must exceed the total topic
+// count (~110 across the physics + quantum-computing tracks) so every topic is
+// reachable through the branch navigation; the backend caps this at 500.
 export function useAllConcepts() {
-  return useConceptList({ page_size: 100 })
+  return useConceptList({ page_size: 500 })
 }
 
 export function useConcept(slug: string | undefined) {
