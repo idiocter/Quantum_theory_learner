@@ -32,7 +32,7 @@ export default function GlobalSearch({ open, onClose }: { open: boolean; onClose
   }, [open])
 
   const { data: results, isFetching } = useConceptSearch(debounced)
-  const flat = useMemo<ConceptSearchResult[]>(() => results ?? [], [results])
+  const flat = useMemo<ConceptSearchResult[]>(() => (Array.isArray(results) ? results : []), [results])
 
   // Reset highlight when the result set changes.
   useEffect(() => setActive(0), [debounced])
