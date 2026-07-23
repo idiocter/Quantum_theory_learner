@@ -92,6 +92,37 @@
   --border-plasma: 1px solid rgba(255, 94, 196, 0.2);
 }
 
+/* ── Skip navigation ─────────────────────────────────────────────────────── */
+.skip-nav {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: #7522c9;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  transition: top 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.skip-nav:focus {
+  top: 0;
+  outline: 2px solid #c098ff;
+  outline-offset: 2px;
+}
+
+/* ── Focus-visible improvements ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(162, 89, 255, 0.8);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* ── Base reset ───────────────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;

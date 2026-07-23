@@ -22,15 +22,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="quantum-mesh scanlines min-h-screen">
+        <a href="#main-content" className="skip-nav">
+          Skip to main content
+        </a>
         <Providers>
-          {/* Animated Fibonacci/quantum canvas background */}
           <FibonacciBackground />
-
-          {/* Navigation */}
           <Navbar />
-
-          {/* Main content — offset for fixed navbar */}
-          <main className="relative z-10 pt-16 min-h-screen">
+          <main id="main-content" className="relative z-10 pt-16 min-h-screen">
             {children}
           </main>
         </Providers>
