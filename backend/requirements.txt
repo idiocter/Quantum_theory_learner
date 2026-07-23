@@ -49,7 +49,5 @@ pytest==9.0.3
 pytest-django==4.12.0
 pytest-cov==7.1.0
 
-# ── Scientific Computing ──────────────────────────────────────────────────────
+# ── Scientific Computing (Celery worker only — not imported at web-server startup) ──
 numpy==2.4.6
-scipy==1.17.1
-scikit-learn==1.9.0

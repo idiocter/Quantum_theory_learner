@@ -5,7 +5,6 @@ All physics runs server-side so the browser Three.js renderer just receives data
 import logging
 import math
 
-import numpy as np
 from celery import shared_task
 
 logger = logging.getLogger(__name__)
@@ -13,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 @shared_task(bind=True, queue="simulations", max_retries=2)
 def run_particle_box_simulation(self, result_id: str, params: dict):
+    import numpy as np
     from .models import SimulationResult
 
     try:
@@ -48,6 +48,7 @@ def run_particle_box_simulation(self, result_id: str, params: dict):
 
 @shared_task(bind=True, queue="simulations", max_retries=2)
 def run_tunneling_simulation(self, result_id: str, params: dict):
+    import numpy as np
     from .models import SimulationResult
 
     try:
