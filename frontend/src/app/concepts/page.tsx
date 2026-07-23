@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { conceptsApi } from '@/lib/api/concepts'
 import { cn, difficultyLabel } from '@/lib/utils'
 import { useDebounce } from '@/lib/hooks/useDebounce'
+import { SkeletonCard } from '@/components/ui/Skeleton'
 import type { Concept } from '@/types'
 
 const DIFFICULTIES = ['', 'beginner', 'intermediate', 'advanced'] as const
@@ -160,13 +161,9 @@ export default function ConceptsPage() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" aria-label="Loading concepts" aria-busy="true">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="card-quantum p-6 animate-pulse h-44">
-              <div className="h-4 bg-void-700 rounded w-3/4 mb-3" />
-              <div className="h-3 bg-void-700 rounded w-full mb-2" />
-              <div className="h-3 bg-void-700 rounded w-5/6" />
-            </div>
+            <SkeletonCard key={i} />
           ))}
         </div>
       ) : data?.results.length === 0 ? (
