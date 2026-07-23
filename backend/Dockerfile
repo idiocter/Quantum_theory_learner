@@ -21,8 +21,11 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN addgroup --system qls && adduser --system --ingroup qls qls
-RUN chown -R qls:qls /app
+RUN addgroup --system qls && adduser --system --ingroup qls qls \
+    && chown -R qls:qls /app \
+    && chmod +x /app/docker-entrypoint.sh
+
 USER qls
 
 EXPOSE 8000
+CMD ["/app/docker-entrypoint.sh"]
