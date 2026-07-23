@@ -3,6 +3,7 @@ import './globals.css'
 import Providers from './providers'
 import Navbar from '@/components/layout/Navbar'
 import FibonacciBackground from '@/components/layout/FibonacciBackground'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 
 export const metadata: Metadata = {
   title: {
@@ -11,6 +12,17 @@ export const metadata: Metadata = {
   },
   description: 'Master quantum mechanics through interactive simulations, adaptive quizzes, and AI-powered tutoring.',
   keywords: ['quantum mechanics', 'physics', 'learning', 'simulations', 'AI tutor'],
+  openGraph: {
+    type: 'website',
+    siteName: 'Quantum Learning System',
+    title: 'Quantum Learning System',
+    description: 'Master quantum mechanics through interactive simulations, adaptive quizzes, and AI-powered tutoring.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Quantum Learning System',
+    description: 'Master quantum mechanics through interactive simulations, adaptive quizzes, and AI-powered tutoring.',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,7 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <FibonacciBackground />
           <Navbar />
           <main id="main-content" className="relative z-10 pt-16 min-h-screen">
-            {children}
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
           </main>
         </Providers>
       </body>
