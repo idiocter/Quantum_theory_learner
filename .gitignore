@@ -61,3 +61,5 @@ CLAUDE.md
 # seed. Everything else under docs/ stays local.
 /docs/*
 !/docs/quantum-computing/
+.env.production.backend
+.env.production.frontend
