@@ -26,3 +26,16 @@ export function relativeTime(iso: string): string {
   const d = Math.floor(h / 24)
   return `${d}d ago`
 }
+
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
+}
+
+export function pluralize(count: number, singular: string, plural = `${singular}s`): string {
+  return count === 1 ? singular : plural
+}
+
+export function truncate(str: string, maxLength: number): string {
+  if (str.length <= maxLength) return str
+  return `${str.slice(0, maxLength - 1)}…`
+}
