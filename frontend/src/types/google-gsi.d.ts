@@ -10,6 +10,7 @@ declare global {
           initialize: (config: {
             client_id: string
             callback: (response: { credential: string }) => void
+            use_fedcm_for_prompt?: boolean
           }) => void
           renderButton: (
             parent: HTMLElement,
@@ -22,6 +23,8 @@ declare global {
             }
           ) => void
           prompt: () => void
+          /** Cancels the current sign-in flow and clears the One Tap prompt. */
+          cancel: () => void
         }
       }
     }

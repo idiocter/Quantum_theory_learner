@@ -9,11 +9,10 @@ interface GoogleCredentialResponse {
 }
 
 interface Props {
-  /** Called with the Google ID token when the user completes sign-in. */
   onCredential: (credential: string) => void
 }
 
-// Load the Google Identity Services script once, shared across mounts.
+// Script is loaded once per page lifetime — shared across every mount/remount.
 let gsiPromise: Promise<void> | null = null
 function loadGsi(): Promise<void> {
   if (gsiPromise) return gsiPromise
@@ -27,7 +26,10 @@ function loadGsi(): Promise<void> {
     script.async = true
     script.defer = true
     script.onload = () => resolve()
-    script.onerror = () => reject(new Error('Failed to load Google Identity Services'))
+    script.onerror = () => {
+      gsiPromise = null // allow retry on next mount
+      reject(new Error('Failed to load Google Identity Services'))
+    }
     document.head.appendChild(script)
   })
   return gsiPromise
@@ -36,7 +38,8 @@ function loadGsi(): Promise<void> {
 export function GoogleSignInButton({ onCredential }: Props) {
   const buttonRef = useRef<HTMLDivElement>(null)
   const [error, setError] = useState<string | null>(null)
-  // Keep the latest callback without re-initializing GIS on every render.
+  // Stable ref so the GIS callback always sees the latest handler without
+  // triggering a re-initialize.
   const callbackRef = useRef(onCredential)
   callbackRef.current = onCredential
 
@@ -47,13 +50,23 @@ export function GoogleSignInButton({ onCredential }: Props) {
     }
 
     let cancelled = false
+
     loadGsi()
       .then(() => {
-        if (cancelled || !buttonRef.current || !window.google) return
+        if (cancelled || !buttonRef.current || !window.google?.accounts?.id) return
+
+        // Cancel any existing GIS session before re-initializing — prevents the
+        // "called multiple times" warning when this component remounts (e.g.
+        // when the login page's loading state toggles it in and out of the tree).
+        window.google.accounts.id.cancel()
+
         window.google.accounts.id.initialize({
           client_id: CLIENT_ID,
-          callback: (response: GoogleCredentialResponse) => callbackRef.current(response.credential),
+          callback: (response: GoogleCredentialResponse) =>
+            callbackRef.current(response.credential),
+          use_fedcm_for_prompt: true,
         })
+
         window.google.accounts.id.renderButton(buttonRef.current, {
           theme: 'filled_black',
           size: 'large',
@@ -68,6 +81,9 @@ export function GoogleSignInButton({ onCredential }: Props) {
 
     return () => {
       cancelled = true
+      // Cancel the GIS session when the component unmounts so it's clean for
+      // the next mount.
+      window.google?.accounts?.id?.cancel()
     }
   }, [])
 
