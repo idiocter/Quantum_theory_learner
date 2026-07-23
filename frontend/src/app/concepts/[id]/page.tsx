@@ -12,6 +12,7 @@ import { GlossaryText } from '@/components/ui/GlossaryText'
 import FormulaBlock from '@/components/concepts/FormulaBlock'
 import TopicPath from '@/components/concepts/TopicPath'
 import AnimationSlot from '@/components/concepts/AnimationSlot'
+import { Skeleton, SkeletonText } from '@/components/ui/Skeleton'
 
 // Log a server-side visit only after the reader has dwelled this long.
 const VISIT_DELAY_MS = 10_000
@@ -47,10 +48,17 @@ export default function ConceptDetailPage({ params }: { params: Promise<{ id: st
 
   if (isLoading) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-10 animate-pulse space-y-4">
-        <div className="h-8 bg-void-800 rounded w-2/3" />
-        <div className="h-4 bg-void-800 rounded w-1/3" />
-        <div className="h-40 bg-void-800 rounded" />
+      <div className="max-w-3xl mx-auto px-6 py-10 space-y-5" aria-busy="true" aria-label="Loading concept">
+        <Skeleton className="h-8 w-2/3" />
+        <div className="flex gap-3">
+          <Skeleton className="h-5 w-20 rounded-md" />
+          <Skeleton className="h-5 w-24 rounded-md" />
+          <Skeleton className="h-5 w-16" />
+        </div>
+        <div className="card-quantum p-6">
+          <SkeletonText lines={3} />
+        </div>
+        <Skeleton className="h-48 rounded-xl" />
       </div>
     )
   }
