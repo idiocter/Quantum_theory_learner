@@ -8,6 +8,7 @@ import { quizzesApi } from '@/lib/api/quizzes'
 import { conceptsApi } from '@/lib/api/concepts'
 import { useProgress } from '@/lib/hooks/useConcepts'
 import ProgressRing from '@/components/concepts/ProgressRing'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { formatXP, difficultyLabel, relativeTime } from '@/lib/utils'
 
 const NAV_CARDS = [
@@ -20,20 +21,29 @@ const NAV_CARDS = [
 
 function XPBar({ xp }: { xp: number }) {
   const level = Math.floor(xp / 1000) + 1
-  const progress = (xp % 1000) / 10 // %
+  const xpInLevel = xp % 1000
+  const progress = xpInLevel / 10
+  const toNext = 1000 - xpInLevel
   return (
     <div className="card-quantum p-6">
       <div className="flex justify-between items-center mb-3">
-        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">XP · Level {level}</span>
-        <span className="text-sm font-mono text-quantum-400">{formatXP(xp)} XP</span>
+        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">Level {level}</span>
+        <span className="text-sm font-mono text-quantum-400 tabular-nums">{formatXP(xp)} XP</span>
       </div>
-      <div className="w-full h-1.5 bg-void-800 rounded-full overflow-hidden">
+      <div
+        className="w-full h-2 bg-void-800 rounded-full overflow-hidden"
+        role="progressbar"
+        aria-valuenow={Math.round(progress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${Math.round(progress)}% progress to level ${level + 1}`}
+      >
         <div
           className="h-full bg-gradient-to-r from-quantum-600 to-quantum-400 rounded-full transition-all duration-700"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="text-xs text-slate-600 mt-2">{1000 - (xp % 1000)} XP to level {level + 1}</div>
+      <div className="text-xs text-slate-600 mt-2">{toNext} XP to level {level + 1}</div>
     </div>
   )
 }
