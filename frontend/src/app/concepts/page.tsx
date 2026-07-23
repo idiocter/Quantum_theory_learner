@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { conceptsApi } from '@/lib/api/concepts'
 import { cn, difficultyLabel } from '@/lib/utils'
+import { useDebounce } from '@/lib/hooks/useDebounce'
 import type { Concept } from '@/types'
 
 const DIFFICULTIES = ['', 'beginner', 'intermediate', 'advanced'] as const
@@ -107,20 +108,9 @@ function Pagination({
 export default function ConceptsPage() {
   const [difficulty, setDifficulty] = useState('')
   const [search, setSearch] = useState('')
-  const [debouncedSearch, setDebouncedSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 300)
   const [page, setPage] = useState(1)
 
-  // Simple debounce
-  const handleSearch = (v: string) => {
-    setSearch(v)
-    clearTimeout((window as unknown as { _searchTimeout: ReturnType<typeof setTimeout> })._searchTimeout)
-    ;(window as unknown as { _searchTimeout: ReturnType<typeof setTimeout> })._searchTimeout = setTimeout(
-      () => setDebouncedSearch(v),
-      300
-    )
-  }
-
-  // Any filter/search change starts over from the first page.
   useEffect(() => {
     setPage(1)
   }, [difficulty, debouncedSearch])
@@ -148,8 +138,9 @@ export default function ConceptsPage() {
           type="search"
           placeholder="Search concepts..."
           value={search}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           className="input-quantum sm:max-w-xs"
+          aria-label="Search concepts"
         />
         <div className="flex gap-2 flex-wrap">
           {DIFFICULTIES.map((d) => (
