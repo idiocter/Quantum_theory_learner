@@ -192,9 +192,12 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_COOKIE": "access_token",
     "AUTH_COOKIE_REFRESH": "refresh_token",
-    "AUTH_COOKIE_SECURE": True,
+    "AUTH_COOKIE_SECURE": config("AUTH_COOKIE_SECURE", default=True, cast=bool),
     "AUTH_COOKIE_HTTP_ONLY": True,
-    "AUTH_COOKIE_SAMESITE": "Lax",
+    # Use "None" in production so cookies are sent on cross-site requests
+    # (frontend and backend on different Vercel domains). Must pair with Secure=True.
+    # Use "Lax" locally (docker-compose same-origin).
+    "AUTH_COOKIE_SAMESITE": config("AUTH_COOKIE_SAMESITE", default="Lax"),
 }
 
 # ── Celery ────────────────────────────────────────────────────────────────────
